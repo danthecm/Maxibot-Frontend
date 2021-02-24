@@ -13,19 +13,19 @@
         <div class="card row">
           <div class="card-header heading"><span style="margin-right: 30rem;">Create An Account</span> <button class="btn btn-success"><a style="color: white;" href="login.html">Login</a></button> </div>
           <div class="card-body">
-            <form class="form-horizontal" method="post" action="#">
+            <form class="form-horizontal" method="post" action="/reg">
               <div class="form-group">
-                <label for="email" class="cols-sm-2 control-label">Your Full Name:</label>
+                <label for="name" class="cols-sm-2 control-label">Your Full Name:</label>
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user fa-lg"></i></span>
-                    <input type="text" name="full_name" class="form-control" placeholder="Enter your Full Name">
+                    <input id="name" type="text" name="name" class="form-control" placeholder="Enter your Full Name" required autofocus>
                   </div>
               </div> <!-- form-group// -->
               <div class="form-group">
                 <label for="email" class="cols-sm-2 control-label">Your Email:</label>
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope fa-lg"></i></span>
-                    <input type="text" name="email" class="form-control" placeholder="Enter your Email">
+                    <input type="email" name="email" class="form-control" placeholder="Enter your Email" required>
                   </div>
               </div>
               <div class="form-group">
@@ -64,7 +64,7 @@
                   </div>
               </div>
               <div class="form-group ">
-                <button type="button" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                <button id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
               </div>
             </form>
           </div>
@@ -74,6 +74,19 @@
   </div>
 
   <script src="static/js/all.min.js"></script>
+  <script>
+    // sumbit = document.querySelector("#submit")
+
+    // sumbit.addEventListener("click", (e) => {
+    //   e.preventDefault()
+    //   full_name = document.querySelector("#name")
+    //   full_name = full_name.value
+    //   if(full_name.length < 5){
+    //     console.log("YOur full name is to short")
+    //   }
+    //   else if(full_name)
+    // })
+  </script>
 </body>
 
 </html>

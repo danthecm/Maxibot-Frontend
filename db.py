@@ -16,22 +16,39 @@ connection = mysql.connect(
     db = db
 )
 
+# cursor = connection.cursor()
 
 # CREAT TABLE
 # creat_table = """
-# create table Users (name varchar(200), email varchar(200), phone int(15), api_key varchar(200), secret_key varchar(200), password char(40))
+# create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200) NOT NULL, email varchar(200) NOT NULL UNIQUE, phone int(15) NOT NULL, api_key varchar(200) NOT NULL, secret_key varchar(200) NOT NULL, password char(40) NOT NULL, PRIMARY KEY (id))
 # """
 
 # table = cursor.execute(creat_table)
 
 def register(name, email, phone, api_key, secret_key, password):
     cur = connection.cursor()
-    cur.execute("INSERT INTO Users (name, email, phone, api_key, secret_key, password) VALUES ($s, $s, $s, $s, $s, $s)", (name, email, phone, api_key, secret_key, password))
-    cur.commit()
+    sql = "INSERT INTO `Users` (`name`, `email`, `phone`, `api_key`, `secret_key`, `password`) VALUES (%s, %s, %s, %s, %s, %s)"
+    cur.execute(sql, (name, email, phone, api_key, secret_key, password))
+    connection.commit()
 
-def login(email, password):
-    
-print(details)
+def login(email, password="adfd"):
+    cur = connection.cursor()
+    sql = ("SELECT * FROM Users")
+    cur.execute(sql)
+    users = cur.fetchall()
+    return users
+def delete():
+    cur = connection.cursor()
+    droped = cur.execute("DROP TABLE Users")
+    print(droped)
 
-
- 
+try:
+    register("Dan Test2", "dantest@gmail.com", int("2349011509080") , "EADFAASDFWfasdfqwFASDFsdaf", "EASDasdfweasdfFSFDAsdfa", "maxitest")
+except mysql.err.IntegrityError:
+    print("Opps you have a duplicate email")
+me = login("asdfasdfs@gmail.com")
+print(me)
+# if me == None:
+#     print(" YOu've entered the wrong email")
+# else:
+#     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
