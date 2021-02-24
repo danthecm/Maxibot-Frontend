@@ -19,9 +19,15 @@ connection = mysql.connect(
 cursor = connection.cursor()
 
 # CREAT TABLE
+# creat_table = """
+# create table Users (name varchar(200), email varchar(200), phone int(15), api_key varchar(200), secret_key varchar(200), password char(40))
+# """
 
+# table = cursor.execute(creat_table)
 
+cursor.execute("SELECT * FROM Users")
+details = cursor.fetchall()
+print(details)
 
-print(connection)
 
  
