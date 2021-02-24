@@ -16,7 +16,6 @@ connection = mysql.connect(
     db = db
 )
 
-cursor = connection.cursor()
 
 # CREAT TABLE
 # creat_table = """
@@ -25,8 +24,13 @@ cursor = connection.cursor()
 
 # table = cursor.execute(creat_table)
 
-cursor.execute("SELECT * FROM Users")
-details = cursor.fetchall()
+def register(name, email, phone, api_key, secret_key, password):
+    cur = connection.cursor()
+    cur.execute("INSERT INTO Users (name, email, phone, api_key, secret_key, password) VALUES ($s, $s, $s, $s, $s, $s)", (name, email, phone, api_key, secret_key, password))
+    cur.commit()
+
+def login(email, password):
+    
 print(details)
 
 
