@@ -20,7 +20,7 @@ connection = mysql.connect(
 
 # CREAT TABLE
 # creat_table = """
-# create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200) NOT NULL, email varchar(200) NOT NULL UNIQUE, phone int(15) NOT NULL, api_key varchar(200) NOT NULL, secret_key varchar(200) NOT NULL, password char(40) NOT NULL, PRIMARY KEY (id))
+# create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200) NOT NULL, email varchar(200) NOT NULL UNIQUE, phone int(15) NOT NULL, api_key varchar(200) NOT NULL UNIQUE, secret_key varchar(200) NOT NULL UNIQUE, password char(40) NOT NULL, PRIMARY KEY (id))
 # """
 
 # table = cursor.execute(creat_table)
