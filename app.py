@@ -28,7 +28,7 @@ def reg():
         except db.mysql.Error as e:
             message = "You've have already Registered with this email kindly proceed to Login"
             print(e)
-            return redirect("register.html", message=message)    
+            return render_template("register.html", message=message)    
 
     else:
         message = "Hello there"
