@@ -1,6 +1,7 @@
 attrs==20.3.0
 autobahn==21.2.1
 Automat==20.2.0
+autopep8==1.5.5
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
@@ -8,6 +9,8 @@ click==7.1.2
 constantly==15.1.0
 cryptography==3.4.6
 dateparser==1.0.0
+dnspython==2.1.0
+email-validator==1.1.2
 Flask==1.1.2
 Flask-WTF==0.14.3
 gunicorn==20.0.4
@@ -20,6 +23,7 @@ MarkupSafe==1.1.1
 passlib==1.7.4
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
+pycodestyle==2.6.0
 pycparser==2.20
 PyHamcrest==2.0.2
 PyMySQL==1.0.2
@@ -31,6 +35,7 @@ regex==2020.11.13
 requests==2.25.1
 service-identity==18.1.0
 six==1.15.0
+toml==0.10.2
 Twisted==20.3.0
 txaio==20.12.1
 tzlocal==2.1

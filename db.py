@@ -1,6 +1,8 @@
 import pymysql as mysql
 
 
+def hello():
+    print("I am hello world")
 # Data instance identifer 
 db = "MaxiBot" 
 username = "admin"
@@ -16,19 +18,21 @@ connection = mysql.connect(
     db = db
 )
 
-# cursor = connection.cursor()
+
 
 # CREAT TABLE
-# creat_table = """
-# create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200) NOT NULL, email varchar(200) NOT NULL UNIQUE, phone int(15) NOT NULL, api_key varchar(200) NOT NULL UNIQUE, secret_key varchar(200) NOT NULL UNIQUE, password char(40) NOT NULL, PRIMARY KEY (id))
-# """
-
-# table = cursor.execute(creat_table)
+def create():
+    cursor = connection.cursor()
+    creat_table = """
+    create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200), email varchar(200) UNIQUE, phone bigint(15), api_key varchar(200), secret_key varchar(200), password char(40), PRIMARY KEY (id))
+    """
+    table = cursor.execute(creat_table)
+    print("successfuly create the database")
 
 def register(name, email, phone, api_key, secret_key, password):
     cur = connection.cursor()
     sql = "INSERT INTO `Users` (`name`, `email`, `phone`, `api_key`, `secret_key`, `password`) VALUES (%s, %s, %s, %s, %s, %s)"
-    cur.execute(sql, (name, email, phone, api_key, secret_key, password))
+    cur.execute(sql, (name, email, int(phone), api_key, secret_key, password))
     connection.commit()
 
 def login(email, password="adfd"):
@@ -53,3 +57,5 @@ def email_exist(email):
 #     print(" YOu've entered the wrong email")
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
+# # create()
+# create()

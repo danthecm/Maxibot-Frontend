@@ -4,6 +4,18 @@
   <link rel="stylesheet" href="static/css/bootstrap.min.css">
   <link rel="stylesheet" href="static/css/all.css">
   <link rel="stylesheet" href="static/css/register.css">
+  <style>
+    .message {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5;
+      font-size: small;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-weight: lighter;
+      text-align: center;
+      text-decoration: italic;
+      color: yellow;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,62 +29,22 @@
           <p style="color: red;font-size: larger; font-weight: bolder; background-color: white;">{{ message }}
           </p>
           {% endif %}
+          {% from "includes/_formhelpers.html" import render_field %}
           <div class="card-body">
-            <form class="form-horizontal" method="post" action="/reg">
-              <div class="form-group">
-                <label for="name" class="cols-sm-2 control-label">Your Full Name:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-user fa-lg"></i></span>
-                  <input id="name" type="text" name="name" class="form-control" placeholder="Enter your Full Name"
-                    required autofocus>
-                </div>
-              </div> <!-- form-group// -->
-              <div class="form-group">
-                <label for="email" class="cols-sm-2 control-label">Your Email:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-envelope fa-lg"></i></span>
-                  <input type="email" name="email" class="form-control" placeholder="Enter your Email" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="email" class="cols-sm-2 control-label">Your Phone Number:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-phone fa-lg"></i></span>
-                  <input type="number" name="phone" class="form-control" placeholder="Enter your Phone Number">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="password" class="cols-sm-2 control-label">API KEY:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                  <input type="text" class="form-control" name="api_key" id="api_key"
-                    placeholder="Enter your API KEY" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="password" class="cols-sm-2 control-label">SECRET KEY:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                  <input type="text" class="form-control" name="secret_key" id="secret_key"
-                    placeholder="Enter your SECRET KEY" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="password" class="cols-sm-2 control-label">Password:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                  <input type="password" class="form-control" name="password" id="password"
-                    placeholder="Enter your Password" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="confirm" class="cols-sm-2 control-label">Confirm Password:</label>
-                <div class="input-group-prepend">
-                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                  <input type="password" class="form-control" name="confirm" id="confirm"
-                    placeholder="Confirm your Password" />
-                </div>
-              </div>
+            <form class="form-horizontal" method="post" action="/register">
+              {{render_field(form.name, "user", class="form-control", size="100", placeholder="Enter your Full Name")}}
+
+              {{render_field(form.email, "envelope", class="form-control",size="100", placeholder="Enter your Email")}}
+
+              {{render_field(form.phone, "phone", class="form-control",size="100", placeholder="Enter your Phone Number")}}
+
+              {{render_field(form.api_key, "key", class="form-control",size="100", placeholder="Enter your API KEY")}}
+
+              {{render_field(form.secret_key, "key", class="form-control",size="100", placeholder="Enter your SECRET KEY")}}
+
+              {{render_field(form.password, "lock", class="form-control",size="100", placeholder="Enter Password")}}
+
+              {{render_field(form.confirm, "lock", class="form-control",size="100", placeholder="Re-enter Password")}}
               <div class="form-group ">
                 <button id="submit" type="submit"
                   class="btn btn-primary btn-lg btn-block login-button">Register</button>
@@ -85,7 +57,6 @@
   </div>
 
   <script src="static/js/all.min.js"></script>
-  <script src="static/js/register.js"></script>
 </body>
 
 </html>
