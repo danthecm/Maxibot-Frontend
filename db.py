@@ -41,13 +41,14 @@ def delete():
     cur = connection.cursor()
     droped = cur.execute("DROP TABLE Users")
     print(droped)
-
-try:
-    register("Dan Test2", "dantest@gmail.com", int("2349011509080") , "EADFAASDFWfasdfqwFASDFsdaf", "EASDasdfweasdfFSFDAsdfa", "maxitest")
-except mysql.err.IntegrityError:
-    print("Opps you have a duplicate email")
-me = login("asdfasdfs@gmail.com")
-print(me)
+def email_exist(email):
+    pass
+# try:
+#     register("Dan Test2", "dantest@gmail.com", int("2349011509080") , "EADFAASDFWfasdfqwFASDFsdaf", "EASDasdfweasdfFSFDAsdfa", "maxitest")
+# except mysql.err.IntegrityError:
+#     print("Opps you have a duplicate email")
+# me = login("asdfasdfs@gmail.com")
+# print(me)
 # if me == None:
 #     print(" YOu've entered the wrong email")
 # else:

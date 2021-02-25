@@ -11,60 +11,71 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card row">
-          <div class="card-header heading"><span style="margin-right: 30rem;">Create An Account</span> <button class="btn btn-success"><a style="color: white;" href="login.html">Login</a></button> </div>
+          <div class="card-header heading"><span style="margin-right: 30rem;">Create An Account</span> <button
+              class="btn btn-success"><a style="color: white;" href="login.html">Login</a></button> </div>
+          {% if message %}
+          <p style="color: red;font-size: larger; font-weight: bolder; background-color: white;">{{ message }}
+          </p>
+          {% endif %}
           <div class="card-body">
             <form class="form-horizontal" method="post" action="/reg">
               <div class="form-group">
                 <label for="name" class="cols-sm-2 control-label">Your Full Name:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user fa-lg"></i></span>
-                    <input id="name" type="text" name="name" class="form-control" placeholder="Enter your Full Name" required autofocus>
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-user fa-lg"></i></span>
+                  <input id="name" type="text" name="name" class="form-control" placeholder="Enter your Full Name"
+                    required autofocus>
+                </div>
               </div> <!-- form-group// -->
               <div class="form-group">
                 <label for="email" class="cols-sm-2 control-label">Your Email:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-envelope fa-lg"></i></span>
-                    <input type="email" name="email" class="form-control" placeholder="Enter your Email" required>
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-envelope fa-lg"></i></span>
+                  <input type="email" name="email" class="form-control" placeholder="Enter your Email" required>
+                </div>
               </div>
               <div class="form-group">
                 <label for="email" class="cols-sm-2 control-label">Your Phone Number:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-phone fa-lg"></i></span>
-                    <input type="number" name="phone" class="form-control" placeholder="Enter your Phone Number">
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-phone fa-lg"></i></span>
+                  <input type="number" name="phone" class="form-control" placeholder="Enter your Phone Number">
+                </div>
               </div>
               <div class="form-group">
                 <label for="password" class="cols-sm-2 control-label">API KEY:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                    <input type="text" class="form-control" name="api_key" id="api_key" placeholder="Enter your API KEY" />
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
+                  <input type="text" class="form-control" name="api_key" id="api_key"
+                    placeholder="Enter your API KEY" />
+                </div>
               </div>
               <div class="form-group">
                 <label for="password" class="cols-sm-2 control-label">SECRET KEY:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                    <input type="text" class="form-control" name="secret_key" id="secret_key" placeholder="Enter your SECRET KEY" />
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
+                  <input type="text" class="form-control" name="secret_key" id="secret_key"
+                    placeholder="Enter your SECRET KEY" />
+                </div>
               </div>
               <div class="form-group">
                 <label for="password" class="cols-sm-2 control-label">Password:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" />
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
+                  <input type="password" class="form-control" name="password" id="password"
+                    placeholder="Enter your Password" />
+                </div>
               </div>
               <div class="form-group">
                 <label for="confirm" class="cols-sm-2 control-label">Confirm Password:</label>
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
-                    <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm your Password" />
-                  </div>
+                <div class="input-group-prepend">
+                  <span class="input-group-text"> <i class="fa fa-lock fa-lg"></i></span>
+                  <input type="password" class="form-control" name="confirm" id="confirm"
+                    placeholder="Confirm your Password" />
+                </div>
               </div>
               <div class="form-group ">
-                <button id="submit" type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                <button id="submit" type="submit"
+                  class="btn btn-primary btn-lg btn-block login-button">Register</button>
               </div>
             </form>
           </div>
@@ -74,19 +85,7 @@
   </div>
 
   <script src="static/js/all.min.js"></script>
-  <script>
-    // sumbit = document.querySelector("#submit")
-
-    // sumbit.addEventListener("click", (e) => {
-    //   e.preventDefault()
-    //   full_name = document.querySelector("#name")
-    //   full_name = full_name.value
-    //   if(full_name.length < 5){
-    //     console.log("YOur full name is to short")
-    //   }
-    //   else if(full_name)
-    // })
-  </script>
+  <script src="static/js/register.js"></script>
 </body>
 
 </html>

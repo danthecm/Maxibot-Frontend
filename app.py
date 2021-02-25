@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request, redirect
+import db
 app = Flask(__name__)
 
 
@@ -20,9 +20,19 @@ def reg():
         api_key = request.form["api_key"]
         secret_key = request.form["secret_key"]
         password = request.form["password"]
-        return f"This is a post request name {name} email {email} phone {phone} API KEY {api_key} SECRET key {secret_key} Password {password} "
+
+        try:
+            db.register(name, email, int(phone), api_key, secret_key, password) 
+            message = "You Have Successfully Registered Kindly Login"
+            return render_template("home.html", message = message)
+        except db.mysql.Error as e:
+            message = "You've have already Registered with this email kindly proceed to Login"
+            print(e)
+            return redirect("register.html", message=message)    
+
     else:
-        return "Opss you made a get request"
+        message = "Hello there"
+        return render_template("register.html", message= message)
 
 if __name__ == "__main__":
     app.run(debug=True)

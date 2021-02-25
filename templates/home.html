@@ -6,6 +6,9 @@
       <h1>MAXIBOT</h1>
       <p class="lead">Welcome to MAXIBOT.</p>
       <p>Earn More without stress and save more by using our bot</p>
+      {% if message %}
+        <p style="color: green;font-size: larger; font-weight: bolder;">{{ message }}</p>
+      {% endif %}
       <a class="btn btn-lg btn-primary" href="/register" role="button">Register</a>
       <a class="btn btn-lg btn-success" href="/login" role="button">Login</a>
     </div>
