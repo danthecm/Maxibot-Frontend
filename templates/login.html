@@ -34,7 +34,7 @@
           <div class="card-body">
             <form class="form-horizontal" method="post" action="/login">
               {{render_field(form.email, "user", class="form-control", size="100", placeholder="Enter your Email")}}
-              {{render_field(form.password, "user", class="form-control", size="100", placeholder="Enter your Password")}}
+              {{render_field(form.password, "lock", class="form-control", size="100", placeholder="Enter your Password")}}
               <div class="form-group ">
                 <button id="submit" type="submit"
                   class="btn btn-success btn-lg btn-block login-button">Login</button>
