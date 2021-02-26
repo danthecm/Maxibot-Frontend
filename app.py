@@ -48,11 +48,7 @@ def login():
         password_candidate = form.password.data
 
         # DATABASE QUERY
-        try:
-            user = db.login(email)
-        except:
-            message = "No active internet connection try again"
-            return render_template("login.html", form=form, error=message)
+        user = db.login(email)
         if user:
             password = user["password"]
             # Compare Password
