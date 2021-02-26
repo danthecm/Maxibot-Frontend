@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, logging, session
+from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
@@ -16,23 +16,24 @@ def index():
 @app.route("/register", methods=["POST", "GET"])
 def register():
     form = RegisterForm(request.form)
-
     if request.method == "POST" and form.validate():
         name = form.name.data
         email = form.email.data
         phone = form.phone.data
         api_key = form.api_key.data
         secret_key = form.secret_key.data
-        password = sha256_crypt.encrypt(form.password.data)
+        password = sha256_crypt.hash(form.password.data)
         try:
             db.register(name, email, phone, api_key, secret_key, password)
             message = "You Have Successfully Registered Kindly Login"
-            return render_template("home.html", message=message)
+            flash("You have successfully registered Login to continue", "success")
+            return redirect(url_for("login"))
         except db.mysql.Error as e:
-            message = "You've have already Registered with this email kindly proceed to Login"
+            flash("User Already Exist with this email click on Login or enter another email", "danger")
             print(e)
-            return render_template("register.html", message=message, form=form)
+            return render_template("register.html", form=form)
     elif request.method == "POST" and not form.validate():
+        flash("Please fill out all fields properly", "warning")
         return render_template("register.html", form=form)
     return render_template("register.html", form=form)
 
@@ -53,22 +54,22 @@ def login():
             password = user["password"]
             # Compare Password
             if sha256_crypt.verify(password_candidate, password):
-
                 session["logged_in"] = True
                 session["user"] = user
                 app.logger.info("PASSWORD MATCHED")
                 return redirect(url_for("dashboard"))
             else:
-                error = "Password is incorrect"
-                return render_template("login.html", form=form, error=error)
+                flash("Password is incorrect", "danger")
+                return render_template("login.html", form=form)
         else:
-            error = "No user exist kindly register"
-            return render_template("login.html", form=form, error=error)
+            flash("No user exist with this email kindly register", "warning")
+            return render_template("login.html", form=form)
     return render_template("login.html", form=form)
 
 @app.route("/logout")
 def logout():
     session.clear()
+    flash("Successfuly Logout out", "success")
     return redirect(url_for("login"))
 def login_required(f):
     @wraps(f)
@@ -83,6 +84,8 @@ def login_required(f):
 @login_required
 def dashboard():
     return render_template("dashboard.html")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

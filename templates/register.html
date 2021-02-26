@@ -23,12 +23,11 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card row">
-          <div class="card-header heading"><span style="margin-right: 30rem;">Create An Account</span> <button
-              class="btn btn-success"><a style="color: white;" href="/login">Login</a></button> </div>
-          {% if message %}
-          <p style="color: red;font-size: larger; font-weight: bolder; background-color: white;">{{ message }}
-          </p>
-          {% endif %}
+          <div class="card-header heading">
+            <span style="margin-right: 30rem;">Create An Account</span>
+            <a class="btn btn-lg btn-success" href="/login" role="button">Login</a>
+          </div>
+          {% include "includes/_messages.html" %}
           {% from "includes/_formhelpers.html" import render_field %}
           <div class="card-body">
             <form class="form-horizontal" method="post" action="/register">
@@ -36,11 +35,13 @@
 
               {{render_field(form.email, "envelope", class="form-control",size="100", placeholder="Enter your Email")}}
 
-              {{render_field(form.phone, "phone", class="form-control",size="100", placeholder="Enter your Phone Number")}}
+              {{render_field(form.phone, "phone", class="form-control",size="100", placeholder="Enter your Phone
+              Number")}}
 
               {{render_field(form.api_key, "key", class="form-control",size="100", placeholder="Enter your API KEY")}}
 
-              {{render_field(form.secret_key, "key", class="form-control",size="100", placeholder="Enter your SECRET KEY")}}
+              {{render_field(form.secret_key, "key", class="form-control",size="100", placeholder="Enter your SECRET
+              KEY")}}
 
               {{render_field(form.password, "lock", class="form-control",size="100", placeholder="Enter Password")}}
 
