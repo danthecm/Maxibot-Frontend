@@ -1,44 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, session, logging
+from flask import Flask, render_template, request, redirect, url_for, session, logging, session
 import db
-from wtforms import Form, StringField, PasswordField, IntegerField
-from wtforms import validators as v
 from passlib.hash import sha256_crypt
+from auth import RegisterForm, LoginForm
+from functools import wraps 
+
 app = Flask(__name__)
 
+app.secret_key = 'maxitest'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 @app.route("/")
 def index():
     return render_template("home.html")
-
-
-class RegisterForm(Form):
-    name = StringField(
-        'Full Name', 
-        validators=[v.input_required(), v.length(min=8, message="Length must be at least %(min)d characters long")
-        ])
-    email = StringField(
-        'Email', 
-        validators=[v.email(), v.input_required()]
-        )
-    phone = IntegerField(
-        "Phone", 
-        validators=[v.input_required()]
-        )
-    api_key = StringField(
-        "API Key", 
-        validators=[v.input_required(), v.length(min=15, message="Length must be at least %(min)d characters long")]
-        )
-    secret_key = StringField(
-        "SECRET Key", 
-        validators=[v.input_required(), v.length(min=15, message="Length must be at least %(min)d characters long")]
-        )
-    password = PasswordField(
-        'Password', 
-        validators=[v.data_required(), v.equal_to('confirm', message='Passwords must match'), v.length(min=8, message="Length must be at least %(min)d characters long")]
-        )
-    confirm = PasswordField(
-        'Confirm Password', validators=[v.input_required()])
-
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -63,6 +36,57 @@ def register():
         return render_template("register.html", form=form)
     return render_template("register.html", form=form)
 
+
+
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    form = LoginForm(request.form)
+    if request.method == "POST" and form.validate():
+        # GET FORM DATA
+        email = form.email.data
+        password_candidate = form.password.data
+
+        # DATABASE QUERY
+        try:
+            user = db.login(email)
+        except:
+            message = "No active internet connection try again"
+            return render_template("login.html", form=form, error=message)
+        if user:
+            password = user["password"]
+            # Compare Password
+            if sha256_crypt.verify(password_candidate, password):
+
+                session["logged_in"] = True
+                session["user"] = user
+                app.logger.info("PASSWORD MATCHED")
+                return redirect(url_for("dashboard"))
+            else:
+                error = "Password is incorrect"
+                return render_template("login.html", form=form, error=error)
+        else:
+            error = "No user exist kindly register"
+            return render_template("login.html", form=form, error=error)
+    return render_template("login.html", form=form)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

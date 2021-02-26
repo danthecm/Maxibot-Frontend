@@ -1,5 +1,6 @@
 body {
     background: url("../img/algo4.png") center/cover no-repeat;
+    background-size: cover;
   }
 
 .card {

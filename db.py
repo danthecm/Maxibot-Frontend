@@ -15,7 +15,8 @@ connection = mysql.connect(
     port = port,
     user = username,
     password = password,
-    db = db
+    db = db,
+    cursorclass=mysql.cursors.DictCursor
 )
 
 
@@ -24,7 +25,7 @@ connection = mysql.connect(
 def create():
     cursor = connection.cursor()
     creat_table = """
-    create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200), email varchar(200) UNIQUE, phone bigint(15), api_key varchar(200), secret_key varchar(200), password char(40), PRIMARY KEY (id))
+    create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200), email varchar(200) UNIQUE, phone bigint(15), api_key varchar(200), secret_key varchar(200), password char(225), PRIMARY KEY (id))
     """
     table = cursor.execute(creat_table)
     print("successfuly create the database")
@@ -37,10 +38,13 @@ def register(name, email, phone, api_key, secret_key, password):
 
 def login(email, password="adfd"):
     cur = connection.cursor()
-    sql = ("SELECT * FROM Users")
-    cur.execute(sql)
-    users = cur.fetchall()
-    return users
+    sql = ("SELECT * FROM Users WHERE email = %s")
+    result = cur.execute(sql, email)
+    if result > 0:
+        user = cur.fetchone()
+        return user
+    else:
+        return None
 def delete():
     cur = connection.cursor()
     droped = cur.execute("DROP TABLE Users")
@@ -58,4 +62,3 @@ def email_exist(email):
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
 # # create()
-# create()
