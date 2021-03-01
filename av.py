@@ -41,4 +41,4 @@ def get_average(api_key, secret_key):
         return average_p
     except Exception as e:
         print(e)
-        return "Your API KEY is invalid"
+        return e
