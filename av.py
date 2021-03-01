@@ -3,7 +3,11 @@ from binance.client import Client
 api_key = "kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe"
 secret_key = "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL"
 def get_average(api_key, secret_key):
-    client = Client(api_key, secret_key)
+    try:
+        client = Client(api_key, secret_key)
+    except Exception as e:
+        print(e)
+        return "Your API KEY is invalide"
     all_buy_price = []
     all_buy_qty = []
 
