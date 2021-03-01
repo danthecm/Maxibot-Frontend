@@ -36,6 +36,6 @@ def get_average(api_key, secret_key):
         print(f"{first_coin}")
         print(f"{second_coin}")
         return average
-    except:
+    except Exception as e:
         print(e)
         return "Your API KEY is invalide"
