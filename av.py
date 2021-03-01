@@ -29,12 +29,14 @@ def get_average(api_key, secret_key):
         for qty in all_buy_qty:
             total_qty += qty
         average = total_price/total_qty
+        average_p = client.get_avg_price(symbol="BNBGBP")
         print(f"The total buy amount is {total_price}")
         print(f"The total buy quantity is {total_qty}")
         print(f"The average price is {average}")
         print(f"The current price is {current_price}")
         print(f"{first_coin}")
         print(f"{second_coin}")
+        print(f"Average from binance is {average_p}")
         return average
     except Exception as e:
         print(e)
