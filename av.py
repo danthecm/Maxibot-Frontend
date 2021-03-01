@@ -37,7 +37,7 @@ def get_average(api_key, secret_key):
         print(f"{first_coin}")
         print(f"{second_coin}")
         print(f"Average from binance is {average_p}")
-        return average_p
+        return average_p["Price"]
     except Exception as e:
         print(e)
         return "Your API KEY is invalid"
