@@ -30,6 +30,7 @@ def get_average(api_key, secret_key):
             total_qty += qty
         average = total_price/total_qty
         average_p = client.get_avg_price(symbol="BNBGBP")
+        average_p = average_p["price"]
         print(f"The total buy amount is {total_price}")
         print(f"The total buy quantity is {total_qty}")
         print(f"The average price is {average}")
@@ -37,7 +38,7 @@ def get_average(api_key, secret_key):
         print(f"{first_coin}")
         print(f"{second_coin}")
         print(f"Average from binance is {average_p}")
-        return average_p["price"]
+        return average_p
     except Exception as e:
         print(e)
         return "Your API KEY is invalid"
