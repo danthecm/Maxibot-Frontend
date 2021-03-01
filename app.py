@@ -25,7 +25,6 @@ def register():
         password = sha256_crypt.hash(form.password.data)
         try:
             db.register(name, email, phone, api_key, secret_key, password)
-            message = "You Have Successfully Registered Kindly Login"
             flash("You have successfully registered Login to continue", "success")
             return redirect(url_for("login"))
         except db.mysql.Error as e:

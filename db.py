@@ -27,7 +27,7 @@ def create():
     creat_table = """
     create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200), email varchar(200) UNIQUE, phone bigint(15), api_key varchar(200), secret_key varchar(200), password char(225), PRIMARY KEY (id))
     """
-    table = cursor.execute(creat_table)
+    cursor.execute(creat_table)
     print("successfuly create the database")
 
 def register(name, email, phone, api_key, secret_key, password):
