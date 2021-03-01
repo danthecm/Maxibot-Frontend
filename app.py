@@ -2,6 +2,7 @@ from flask import Flask, flash, render_template, request, redirect, url_for, ses
 import db
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
+from av import get_average
 from functools import wraps 
 
 app = Flask(__name__)
@@ -55,7 +56,7 @@ def login():
             if sha256_crypt.verify(password_candidate, password):
                 session["logged_in"] = True
                 session["user"] = user
-                app.logger.info("PASSWORD MATCHED")
+                print("PASSWORD MATCHED")
                 return redirect(url_for("dashboard"))
             else:
                 flash("Password is incorrect", "danger")
@@ -82,7 +83,7 @@ def login_required(f):
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", av=get_average)
 
 
 

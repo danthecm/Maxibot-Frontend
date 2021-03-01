@@ -2,42 +2,36 @@ from binance.client import Client
 
 api_key = "kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe"
 secret_key = "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL"
-API_URL = 'https://api.binance.{}/api'
+def get_average(api_key, secret_key):
+    client = Client(api_key, secret_key)
+    all_buy_price = []
+    all_buy_qty = []
 
-client = Client(api_key, secret_key)
+    def buyTrades(trade):
+        if trade["side"] == "BUY" and trade["status"] == "FILLED":
+            all_buy_price.append(float(trade["price"]))
+            all_buy_qty.append(float(trade["origQty"]))
+            return True
 
-# order = client.order_limit_sell(
-#     symbol='BTCUSDT',
-#     quantity=0.02,
-#     price=47900
-#     )
-all_buy_price = []
-all_buy_qty = []
-def buyTrades(trade):
-    if trade["side"] == "BUY" and trade["status"] == "FILLED":
-        all_buy_price.append(float(trade["price"]))
-        all_buy_qty.append(float(trade["origQty"]))
-        return True
+    current_price = client.get_symbol_ticker(symbol="BNBGBP")
+    first_coin = client.get_asset_balance(asset="BNB")
+    second_coin = client.get_asset_balance(asset="GBP")
+    orders = client.get_all_orders(symbol='BNBGBP')
 
-current_price = client.get_symbol_ticker(symbol="BTCUSDT")
-btc_balance = client.get_asset_balance(asset="BTC")
-usdt_balance = client.get_asset_balance(asset="USDT")
-orders = client.get_all_orders(symbol='BTCUSDT')
-
-buy_orders = filter(buyTrades, orders)
-print(orders)
-buy_orders = list(buy_orders)
-print("OH OH OH OH \nWAIT WAIT WAIT WATIT \nokay okay")
-total_price = 0
-total_qty = 0
-for price in all_buy_price:
-    total_price += price
-for qty in all_buy_qty:
-    total_qty += qty
-average = total_price/total_qty
-print(total_price)
-print(total_qty)
-print(average)
-print(current_price)
-print(btc_balance)
-print(usdt_balance)
+    buy_orders = filter(buyTrades, orders)
+    buy_orders = list(buy_orders)
+    print(f"You've made a total of {len(orders)} orders")
+    total_price = 0
+    total_qty = 0
+    for price in all_buy_price:
+        total_price += price
+    for qty in all_buy_qty:
+        total_qty += qty
+    average = total_price/total_qty
+    print(f"The total buy amount is {total_price}")
+    print(f"The total buy quantity is {total_qty}")
+    print(f"The average price is {average}")
+    print(f"The current price is {current_price}")
+    print(f"{first_coin}")
+    print(f"{second_coin}")
+    return average
