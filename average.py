@@ -4,10 +4,11 @@ from binance.client import Client
 import time
 # Insert API and Secret key in quotation mark
 
-
+print("Hi am here")
 def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
     while True:
         try:
+            print("checking checking checking")
             client = Client(api_key, secret_key)
             print(client.API_URL)
             current_symbol = product
@@ -100,6 +101,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             continue
         break
 
+# Current("alsdfj;laskjdflaksjldfsd", "a lskjdf;lasjkd;fajs;dfl", "BNBGBP", 4, 5,"ASDFSDF", "asdf")
 # while trades <= 3:
 #     open_orders = client.get_open_orders(symbol='BTCUSDT')
 #     btc_price = client.get_symbol_ticker(symbol="BTCUSDT")
@@ -108,4 +110,4 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
 #         btc_price = float(btc_price['price'])
 #         buy_price = btc_price - (btc_price * margin_percent)
 #         print(btc_price)
-# Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2)
+# Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2, 3)
