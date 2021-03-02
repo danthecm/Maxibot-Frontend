@@ -4,17 +4,23 @@ from binance.client import Client
 import time
 # Insert API and Secret key in quotation mark
 
-print("Hi am here")
+
 def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
     while True:
         try:
-            print("checking checking checking")
             client = Client(api_key, secret_key)
-            print(client.API_URL)
-            current_symbol = product
+            first_index = 0
+            for i in range(len(product)):
+                if product[i] == "/":
+                    first_index = i
+                    break
+            second_index = first_index + 1
+            first_symbol = product[0:first_index]
+            second_symbol = product[second_index:]
+            current_symbol = f"{first_symbol}{second_symbol}"
             open_orders = client.get_open_orders(symbol=current_symbol)
-            btc_balance = client.get_asset_balance(asset="BNB")
-            usdt_balance = client.get_asset_balance(asset="GBP")
+            first_coin_balance = client.get_asset_balance(asset=first_symbol)
+            second_coin_balance = client.get_asset_balance(asset=second_symbol)
             # all_orders = client.get_all_orders(symbol=current_symbol)
 
             buy_id = []
@@ -28,11 +34,12 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             #     cancel_or = client.cancel_order(symbol=current_symbol, orderId=order["orderId"])
 
             open_orders = client.get_open_orders(symbol=current_symbol)
-            print(f"Welcome your BTC balance is {btc_balance}")
-            print(f"Your GBP balance is {usdt_balance}")
+            print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
+            print(f"Your {second_symbol} balance is {second_coin_balance}")
             print(f"You have {len(open_orders)} Open Order")
             fees = client.get_trade_fee(symbol=current_symbol)
-            print(f"the trading fee is {fees}")
+            fee = float(fees["tradeFee"][0]["taker"])
+            print(f"the trading fee is {fee}")
             while counter < trades:
                 open_orders = client.get_open_orders(symbol=current_symbol)
                 print(f"starting running counter = {counter}")
@@ -45,6 +52,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(margin_p)
                     margin_p = round(margin_p, 2)
                     buy_price = btc_price * margin_p
+                    print(f"Buy price without fee {buy_price}")
+                    buy_price = buy_price - (buy_price * fee)
                     buy_price = round(buy_price, 2)
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")
@@ -78,6 +87,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     order_price = float(order["price"])
                                     sell_p = float(sell_p / 100)
                                     sell_price = order_price + (order_price * sell_p)
+                                    sell_price = sell_price + (sell_price * fee)
                                     sell_price = round(sell_price, 2)
                                     sell_qty = float(order["origQty"])
                                     buy_order = client.order_limit_sell(
@@ -101,7 +111,6 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             continue
         break
 
-# Current("alsdfj;laskjdflaksjldfsd", "a lskjdf;lasjkd;fajs;dfl", "BNBGBP", 4, 5,"ASDFSDF", "asdf")
 # while trades <= 3:
 #     open_orders = client.get_open_orders(symbol='BTCUSDT')
 #     btc_price = client.get_symbol_ticker(symbol="BTCUSDT")
@@ -110,4 +119,4 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
 #         btc_price = float(btc_price['price'])
 #         buy_price = btc_price - (btc_price * margin_percent)
 #         print(btc_price)
-# Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2, 3)
+# Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2)
