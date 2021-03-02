@@ -17,7 +17,7 @@ def get_average(api_key, secret_key):
         current_price = client.get_symbol_ticker(symbol="BNBGBP")
         first_coin = client.get_asset_balance(asset="BNB")
         second_coin = client.get_asset_balance(asset="GBP")
-        orders = client.get_all_orders(symbol='BNBGBP', limit=10)
+        orders = client.get_all_orders(symbol='BNBGBP', limit=5)
 
         buy_orders = filter(buyTrades, orders)
         buy_orders = list(buy_orders)
