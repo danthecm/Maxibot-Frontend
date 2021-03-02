@@ -20,6 +20,14 @@
   </div>
 </header>
 <!-- end of hero -->
+{% if checker == True %}
+{% block task %}
+{{ 
+    current(session['user']['api_key'], session['user']['secret_key'], users["product"],users["amount"], users["margin_p"], users["sell_p"],
+  users["trades"])
+}}
+{% endblock task %}
+{% endif %}
 <!-- modal -->
 <div class="modal-overlay">
   <div class="modal-container" style="height:70vh">
@@ -71,11 +79,3 @@
   </div>
 </div>
 {% endblock %}
-{% if checker == True %}
-{% block task %}
-{{ 
-    current(session['user']['api_key'], session['user']['secret_key'], users["product"],users["amount"], users["margin_p"], users["sell_p"],
-  users["trades"])
-}}
-{% endblock task %}
-{% endif %}
