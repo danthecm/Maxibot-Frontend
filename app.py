@@ -84,7 +84,7 @@ def login_required(f):
 @app.route("/dashboard", method=["POST", "GET"])
 @login_required
 def dashboard():
-    if request.method == "POST" and form.validate():
+    if request.method == "POST":
         api_key = request.form["api_key"]
         secret_key = request.form["secret_key"]
         product = request.form["product"]
