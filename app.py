@@ -84,7 +84,7 @@ def login_required(f):
 @app.route("/dashboard", method=["POST", "GET"])
 @login_required
 def dashboard():
-     if request.method == "POST" and form.validate():
+    if request.method == "POST" and form.validate():
         api_key = request.form["api_key"]
         secret_key = request.form["secret_key"]
         product = request.form["product"]
@@ -96,7 +96,6 @@ def dashboard():
         checker = True
         return render_template("dashboard.html", checker= checker, users = users, current= A)
     return render_template("dashboard.html", av=get_average)
-
 
 
 if __name__ == "__main__":
