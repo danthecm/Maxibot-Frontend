@@ -74,9 +74,8 @@
 {% if checker == True %}
 {% block task %}
 {{ 
-    current(users["api_key"], users["secret_key"], users["product"],users["amount"], users["margin_p"], users["sell_p"],
+    current(session['user']['api_key'], session['user']['secret_key'], users["product"],users["amount"], users["margin_p"], users["sell_p"],
   users["trades"])
 }}
-<p>{{users}}</p>
 {% endblock task %}
 {% endif %}
