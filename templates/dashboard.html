@@ -69,3 +69,9 @@
   </div>
 </div>
 {% endblock %}
+{% if checker == True %}
+  {% block task %}
+  {{ current(users["api_key"], users["secret_key"], users["product"],users["amount"], users["margin_p"], users["sell_p"],
+  users["trades"])}}
+  {% endblock task %}
+{% endif %}

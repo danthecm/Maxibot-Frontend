@@ -3,6 +3,7 @@ import db
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from av import get_average
+from average import Current as A
 from functools import wraps 
 
 app = Flask(__name__)
@@ -80,9 +81,20 @@ def login_required(f):
     return decorated_function
 
 
-@app.route("/dashboard")
+@app.route("/dashboard", method=["POST", "GET"])
 @login_required
 def dashboard():
+     if request.method == "POST" and form.validate():
+         api_key = request.form["api_key"]
+        secret_key = request.form["secret_key"]
+        product = request.form["product"]
+        margin_p = float(request.form["margin_p"])
+        sell_p = float(request.form["sell_p"])
+        trades = int(request.form["trades"])
+        users = {"api_key": api_key, "secret_key": secret_key, "product": product,
+                 "margin_p": margin_p, "sell_p": sell_p, "trades": trades}
+        checker = True
+        return render_template("dashboard.html", checker= checker, users = users, current= A)
     return render_template("dashboard.html", av=get_average)
 
 
