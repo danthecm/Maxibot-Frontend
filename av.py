@@ -10,8 +10,11 @@ def get_average(api_key, secret_key):
 
         def buyTrades(trade):
             if trade["side"] == "BUY" and trade["status"] == "FILLED":
-                all_buy_price.append(float(trade["price"]))
-                all_buy_qty.append(float(trade["origQty"]))
+                price = float(trade["price"])
+                qty = float(trade["origQty"])
+                total_cost = price * qty
+                all_buy_price.append(total_cost)
+                all_buy_qty.append(qty)
                 return True
 
         current_price = client.get_symbol_ticker(symbol="BNBGBP")
