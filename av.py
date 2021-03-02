@@ -39,6 +39,7 @@ def get_average(api_key, secret_key):
         print(f"{first_coin}")
         print(f"{second_coin}")
         print(f"Average from binance is {average_p}")
+        print(buy_orders)
         return average
     except Exception as e:
         print(e)
