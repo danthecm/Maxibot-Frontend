@@ -10,14 +10,17 @@ def get_average(api_key, secret_key):
 
         def buyTrades(trade):
             if trade["side"] == "BUY" and trade["status"] == "FILLED":
-                all_buy_price.append(float(trade["price"]))
-                all_buy_qty.append(float(trade["origQty"]))
+                price = float(trade["price"])
+                qty = float(trade["origQty"])
+                total_cost = price * qty
+                all_buy_price.append(total_cost)
+                all_buy_qty.append(qty)
                 return True
 
         current_price = client.get_symbol_ticker(symbol="BNBGBP")
         first_coin = client.get_asset_balance(asset="BNB")
         second_coin = client.get_asset_balance(asset="GBP")
-        orders = client.get_all_orders(symbol='BNBGBP')
+        orders = client.get_all_orders(symbol='BNBGBP', limit=50)
 
         buy_orders = filter(buyTrades, orders)
         buy_orders = list(buy_orders)
@@ -33,12 +36,13 @@ def get_average(api_key, secret_key):
         average_p = average_p["price"]
         print(f"The total buy amount is {total_price}")
         print(f"The total buy quantity is {total_qty}")
+        print(f"The total buy orders filled are {len(all_buy_price)}")
         print(f"The average price is {average}")
         print(f"The current price is {current_price}")
         print(f"{first_coin}")
         print(f"{second_coin}")
         print(f"Average from binance is {average_p}")
-        return average_p
+        return average
     except Exception as e:
         print(e)
         return e
