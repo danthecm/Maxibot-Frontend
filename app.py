@@ -85,7 +85,7 @@ def login_required(f):
 @login_required
 def dashboard():
      if request.method == "POST" and form.validate():
-         api_key = request.form["api_key"]
+        api_key = request.form["api_key"]
         secret_key = request.form["secret_key"]
         product = request.form["product"]
         margin_p = float(request.form["margin_p"])
