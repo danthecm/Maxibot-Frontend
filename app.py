@@ -81,7 +81,7 @@ def login_required(f):
     return decorated_function
 
 
-@app.route("/dashboard", method=["POST", "GET"])
+@app.route("/dashboard", methods=["POST", "GET"])
 @login_required
 def dashboard():
     if request.method == "POST":
