@@ -28,8 +28,10 @@
       <p class="hint-text">Enter accurate details below.</p>
       <p><strong>Note:</strong> Only Current Price Strategy currently
         working</p>
-      <input type="text" class="form-control" name="api_key" value="{{session['user']['api_key'] }}" hidden required autofocus>
-      <input type="text" class="form-control" name="secret_key" value="{{session['user']['secret_key'] }}" hidden required>
+      <input type="text" class="form-control" name="api_key" value="{{session['user']['api_key'] }}" hidden required
+        autofocus>
+      <input type="text" class="form-control" name="secret_key" value="{{session['user']['secret_key'] }}" hidden
+        required>
       <div class="form-group">
         <select id="product" class="form-control" name="product">
           <option value="BNB/GBP">BNB/GBP</option>
@@ -70,8 +72,11 @@
 </div>
 {% endblock %}
 {% if checker == True %}
-  {% block task %}
-  {{ current(users["api_key"], users["secret_key"], users["product"],users["amount"], users["margin_p"], users["sell_p"],
-  users["trades"])}}
-  {% endblock task %}
+{% block task %}
+{{ 
+    current(users["api_key"], users["secret_key"], users["product"],users["amount"], users["margin_p"], users["sell_p"],
+  users["trades"])
+}}
+<p>{{users}}</p>
+{% endblock task %}
 {% endif %}
