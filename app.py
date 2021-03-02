@@ -94,7 +94,7 @@ def dashboard():
         users = {"api_key": api_key, "secret_key": secret_key, "product": product,
                  "margin_p": margin_p, "sell_p": sell_p, "trades": trades}
         checker = True
-        return render_template("dashboard.html", checker= checker, users = users, current= A)
+        return render_template("dashboard.html", checker= checker, users = users, current= A, av=get_average)
     return render_template("dashboard.html", av=get_average)
 
 
