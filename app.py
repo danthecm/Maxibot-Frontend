@@ -89,7 +89,7 @@ def dashboard():
         product = request.form["product"]
         margin_p = float(request.form["margin_p"])
         sell_p = float(request.form["sell_p"])
-        amount = int(request.form["amount"])
+        amount = float(request.form["amount"])
         trades = int(request.form["trades"])
         users = {"product": product, "margin_p": margin_p,"amount": amount, "sell_p": sell_p, "trades": trades}
         checker = True
