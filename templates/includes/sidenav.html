@@ -1,0 +1,49 @@
+<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+  <div class="scrollbar-inner">
+    <!-- Brand -->
+    <div class="sidenav-header  align-items-center">
+      <a class="navbar-brand" href="/">
+        <img src="/static/assets/img/brand/maxi.png" class="navbar-brand-img"
+          alt="Argon Dashboard - Flask Template Logo.">
+      </a>
+    </div>
+    <div class="navbar-inner">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <!-- Nav items -->
+        <ul class="navbar-nav">
+          <li class="nav-item mb-md-4">
+            <a class="nav-link {% if 'index' in segment %} active {% endif %}" href="/">
+              <i class="ni ni-tv-2 text-primary"></i>
+              <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item mb-md-4">
+            <a class="nav-link {% if 'profile' in segment %} active {% endif %}" href="/profile.html">
+              <i class="ni ni-single-02 text-yellow"></i>
+              <span class="nav-link-text">Profile</span>
+            </a>
+          </li>
+          <li class="nav-item mb-md-4">
+            <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="/tables.html">
+              <i class="fa fa-shield-alt text-danger"></i>
+              <span class="nav-link-text">Security</span>
+            </a>
+          </li>
+          <li class="nav-item mb-4">
+            <a class="nav-link" href="/login.html">
+              <i class="fa fa-question-circle text-primary"></i>
+              <span class="nav-link-text">Help Guide</span>
+            </a>
+          </li>
+          <li class="nav-item mb-md-4">
+            <a class="nav-link" href="/{{logout}}">
+              <i class="fa fa-sign-out-alt text-danger"></i>
+              <span class="nav-link-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

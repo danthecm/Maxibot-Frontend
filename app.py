@@ -5,6 +5,7 @@ from auth import RegisterForm, LoginForm
 from av import get_average
 from average import Current as A
 from functools import wraps 
+from functions import get_asset_balance
 
 app = Flask(__name__)
 
@@ -72,6 +73,7 @@ def logout():
     session.clear()
     flash("Successfuly Logout out", "success")
     return redirect(url_for("login"))
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -97,6 +99,10 @@ def dashboard():
         return render_template("dashboard.html", checker= checker, users = users, current= A, av=get_average)
     return render_template("dashboard.html", av=get_average)
 
+@app.route("/index")
+@login_required
+def start():
+    return render_template("index.html", balance=get_asset_balance, user = session["user"])
 
 if __name__ == "__main__":
     app.run(debug=True)

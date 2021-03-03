@@ -1,0 +1,79 @@
+<button type="button" class="btn btn-lg btn-neutral" data-toggle="modal" data-target="#modal-form">New Bot</button>
+<div class="col-md-4">
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body p-0">
+                    <div class="card bg-gradient-warning border-0 mb-0">
+                        <div class="card-header bg-transparent pb-2">
+                            <div class="text-green font-weight-bolder text-center mt-2 mb-0">Create New Bot
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <form role="form">
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-money-coins"></i></span>
+                                        </div>
+                                        <select id="product" class="form-control" name="product"
+                                            placeholder="Select Pair">
+                                            <option value="BNB/GBP">BNB/GBP</option>
+                                            <option value="BTC/USDT">BTC/USDT</option>
+                                            <option value="BTC/GBP">BTC/GBP</option>
+                                            <option value="DOGE/GBP">DOGE/GBP</option>
+                                            <option value="ETH/GBP">ETH/GBP</option>
+                                            <option value="LINK/GBP">LINK/GBP</option>
+                                            <option value="SXP/GBP">SXP/GBP</option>
+                                            <option value="XRP/GBP">XRP/GBP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="margin_p"
+                                            placeholder="Enter Buy Margin Percent" required>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-pound-sign"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" name="amount"
+                                            placeholder="Enter Amount" required>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="sell_p" placeholder="Enter Sell Percent" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-sort-amount-down"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" name="trades" placeholder="Enter Number of Trades " required>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-success my-4">Start</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

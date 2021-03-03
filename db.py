@@ -35,6 +35,7 @@ def register(name, email, phone, api_key, secret_key, password):
     sql = "INSERT INTO `Users` (`name`, `email`, `phone`, `api_key`, `secret_key`, `password`) VALUES (%s, %s, %s, %s, %s, %s)"
     cur.execute(sql, (name, email, int(phone), api_key, secret_key, password))
     connection.commit()
+    cur.close()
 
 def login(email, password="adfd"):
     cur = connection.cursor()
@@ -42,6 +43,7 @@ def login(email, password="adfd"):
     result = cur.execute(sql, email)
     if result > 0:
         user = cur.fetchone()
+        cur.close()
         return user
     else:
         return None

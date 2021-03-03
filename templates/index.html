@@ -1,0 +1,384 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+{% if checker == True %}
+{% block task %}
+{{ 
+    current(session['user']['api_key'], session['user']['secret_key'], users["product"],users["amount"], users["margin_p"], users["sell_p"],
+  users["trades"])
+}}
+{% endblock task %}
+{% endif %}
+<!-- Header -->
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Welcome</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          {% include "includes/modal.html" %}
+        </div>
+      </div>
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">GBP BALANCE</h5>
+                  <span class="h2 font-weight-bold mb-0">
+                    {{balance(user['api_key'], user["secret_key"], "GBP")}}
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape text-white rounded-circle shadow">
+                    <img height="50" width="50" src="/static/assets/img/symbols/gbp.ico">
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">BNB BALANCE</h5>
+                  <span class="h2 font-weight-bold mb-0">
+                    {{balance(user['api_key'], user["secret_key"], "BNB")}}
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape text-white rounded-circle shadow">
+                    <img height="50" width="50" src="/static/assets/img/symbols/bnb.ico">
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">BTC BALANCE</h5>
+                  <span class="h2 font-weight-bold mb-0">
+                    {{balance(user['api_key'], user["secret_key"], "BTC")}}
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape text-white rounded-circle shadow">
+                    <img height="50" width="50" src="/static/assets/img/symbols/btc.ico">
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">ETH BALANCE</h5>
+                  <span class="h2 font-weight-bold mb-0">
+                    0.002334
+                    <!-- {{balance(user['api_key'], user["secret_key"], "ETH")}} -->
+                  </span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape text-white rounded-circle shadow">
+                    <img height="50" width="50" src="/static/assets/img/symbols/eth.ico">
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-sm">
+                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                <span class="text-nowrap">Since last month</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+
+<div class="container-fluid mt--6">
+  <!-- Dark table -->
+  <div class="row">
+    <div class="col">
+      <div class="card bg-default shadow">
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">BOT HISTORY</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-dark table-flush">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col" class="sort" data-sort="name">#</th>
+                <th scope="col" class="sort" data-sort="name display-2">Pairs</th>
+                <th scope="col" class="sort" data-sort="budget">Strategy</th>
+                <th scope="col" class="sort" data-sort="budget">Quantity</th>
+                <th scope="col" class="sort" data-sort="budget">Price</th>
+                <th scope="col" class="sort" data-sort="status">Status</th>
+                <th scope="col" class="sort" data-sort="completion">Completion</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <tr>
+                <td>
+                  1
+                </td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">BNB-GBP</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  Average
+                </td>
+                <td class="budget">
+                  0.001
+                </td>
+                <td class="budget">
+                  168
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-primary"></i>
+                    <span class="status">New</span>
+                  </span>
+                </td>
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-primary"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Running</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  2
+                </td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">BNB-GBP</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  Current
+                </td>
+                <td class="budget">
+                  0.002
+                </td>
+                <td class="budget">
+                  157
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-warning"></i>
+                    <span class="status">Partially Filled</span>
+                  </span>
+                </td>
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-warning"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Running</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  3
+                </td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">BNB-GBP</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  Current
+                </td>
+                <td class="budget">
+                  0.005
+                </td>
+                <td class="budget">
+                  140
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-success"></i>
+                    <span class="status">Filled</span>
+                  </span>
+                </td>
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fa fa fa-check-circle fa-2x mr-2 text-success"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Completed</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  4
+                </td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">BTC-GBP</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  Shadow
+                </td>
+                <td class="budget">
+                  0.002
+                </td>
+                <td class="budget">
+                  157
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg bg-yellow"></i>
+                    <span class="status">Partially Filled</span>
+                  </span>
+                </td>
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-yellow"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Running</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  5
+                </td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">BNB-GBP</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  Current
+                </td>
+                <td class="budget">
+                  0.002
+                </td>
+                <td class="budget">
+                  147
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-primary"></i>
+                    <span class="status">New</span>
+                  </span>
+                </td>
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fa fa-spinner  fa-2x mr-2 text-warning"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Canceled</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+{% endblock javascripts %}

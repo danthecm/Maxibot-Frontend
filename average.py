@@ -90,7 +90,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     sell_price = sell_price + (sell_price * fee)
                                     sell_price = round(sell_price, 2)
                                     sell_qty = float(order["origQty"])
-                                    buy_order = client.order_limit_sell(
+                                    sell_order = client.order_limit_sell(
                                         symbol=current_symbol,
                                         quantity=sell_qty,
                                         price=sell_price)
