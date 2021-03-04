@@ -69,7 +69,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">BNB BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "BNB")).start()}}
+                    {{balance(user['api_key'], user["secret_key"], "BNB")}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -93,7 +93,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">BTC BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "BTC")).start()}}
+                    {{balance(user['api_key'], user["secret_key"], "BTC")}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -117,7 +117,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">ETH BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "ETH")).start()}}
+                    {{balance(user['api_key'], user["secret_key"], "ETH")}}
                   </span>
                 </div>
                 <div class="col-auto">
