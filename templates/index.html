@@ -11,8 +11,8 @@
 {% if checker == True %}
 {% block task %}
 {{ 
-    start(user['api_key'], user['secret_key'], trade["product"], trade["amount"], trade["margin_p"], trade["sell_p"],
-  trade["trades"])
+    thread(target=start, args=(user['api_key'], user['secret_key'], trade["product"], trade["amount"], trade["margin_p"], trade["sell_p"],
+  trade["trades"])).start()
 }}
 {% endblock task %}
 {% endif %}
@@ -45,7 +45,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">GBP BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{balance(user['api_key'], user["secret_key"], "GBP")}}
+                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "GBP")).start()}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -69,7 +69,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">BNB BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{balance(user['api_key'], user["secret_key"], "BNB")}}
+                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "BNB")).start()}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -93,7 +93,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">BTC BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{balance(user['api_key'], user["secret_key"], "BTC")}}
+                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "BTC")).start()}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -117,7 +117,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">ETH BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    {{balance(user['api_key'], user["secret_key"], "ETH")}}
+                    {{thread(target=balance, args=(user['api_key'], user["secret_key"], "ETH")).start()}}
                   </span>
                 </div>
                 <div class="col-auto">
