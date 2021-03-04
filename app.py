@@ -99,7 +99,7 @@ def dashboard():
         users = {"product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
         checker = True
         print(users)
-        return render_template("index.html", user = session["user"], checker= checker, trade = users, current= A, balance=get_asset_balance)
+        return render_template("index.html", user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
     return render_template("index.html", user = session["user"], balance=get_asset_balance)
 
 
