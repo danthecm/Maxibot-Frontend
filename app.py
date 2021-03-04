@@ -101,7 +101,7 @@ def dashboard():
         checker = True
         print(users)
         return render_template("index.html", thread= Thread, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
-    return render_template("index.html", user = session["user"], balance=get_asset_balance)
+    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance)
 
 
 if __name__ == "__main__":
