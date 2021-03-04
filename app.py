@@ -52,7 +52,7 @@ def login():
 
         # DATABASE QUERY
         user = db.login(email)
-        if user:
+        if user != None and user != "Connection Error":
             password = user["password"]
             # Compare Password
             if sha256_crypt.verify(password_candidate, password):
@@ -63,6 +63,9 @@ def login():
             else:
                 flash("Password is incorrect", "danger")
                 return render_template("login.html", form=form)
+        elif user == "Connection Error":
+            flash("No internet Connection check your network and try again")
+            return render_template("login.html", form=form)
         else:
             flash("No user exist with this email kindly register", "warning")
             return render_template("login.html", form=form)
@@ -96,13 +99,9 @@ def dashboard():
         users = {"product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
         checker = True
         print(users)
-        return render_template("dashboard.html", checker= checker, users = users, current= A, av=get_average)
-    return render_template("dashboard.html", av=get_average)
+        return render_template("index.html", user = session["user"], checker= checker, trade = users, current= A, balance=get_asset_balance)
+    return render_template("index.html", user = session["user"], balance=get_asset_balance)
 
-@app.route("/index")
-@login_required
-def start():
-    return render_template("index.html", balance=get_asset_balance, user = session["user"])
 
 if __name__ == "__main__":
     app.run(debug=True)

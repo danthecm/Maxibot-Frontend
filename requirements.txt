@@ -58,6 +58,7 @@ requests==2.25.1
 service-identity==18.1.0
 six==1.15.0
 sortedcontainers==2.3.0
+subprocess.run==0.0.8
 toml==0.10.2
 Twisted==20.3.0
 txaio==20.12.1

@@ -30,23 +30,43 @@ def create():
     cursor.execute(creat_table)
     print("successfuly create the database")
 
+def createTable():
+    try:
+        cursor = connection.cursor()
+        creat_table = """
+        create table Users (id int(11) NOT NULL AUTO_INCREMENT, User_id varchar(200), Order_id varchar(200) UNIQUE, PRIMARY KEY (id))
+        """
+        cursor.execute(creat_table)
+        print("successfuly create the database")
+    except Exception as e:
+        print(e)
+
 def register(name, email, phone, api_key, secret_key, password):
-    cur = connection.cursor()
-    sql = "INSERT INTO `Users` (`name`, `email`, `phone`, `api_key`, `secret_key`, `password`) VALUES (%s, %s, %s, %s, %s, %s)"
-    cur.execute(sql, (name, email, int(phone), api_key, secret_key, password))
-    connection.commit()
-    cur.close()
+    try:
+        cur = connection.cursor()
+        sql = "INSERT INTO `Users` (`name`, `email`, `phone`, `api_key`, `secret_key`, `password`) VALUES (%s, %s, %s, %s, %s, %s)"
+        cur.execute(sql, (name, email, int(phone), api_key, secret_key, password))
+        connection.commit()
+        cur.close()
+        return True
+    except Exception as e:
+        print(e)
+        return "There was an error"
 
 def login(email, password="adfd"):
-    cur = connection.cursor()
-    sql = ("SELECT * FROM Users WHERE email = %s")
-    result = cur.execute(sql, email)
-    if result > 0:
-        user = cur.fetchone()
-        cur.close()
-        return user
-    else:
-        return None
+    try:
+        cur = connection.cursor()
+        sql = ("SELECT * FROM Users WHERE email = %s")
+        result = cur.execute(sql, email)
+        if result > 0:
+            user = cur.fetchone()
+            cur.close()
+            return user
+        else:
+            return None
+    except Exception as e:
+        print(e)
+        return "Connection Error"
 def delete():
     cur = connection.cursor()
     droped = cur.execute("DROP TABLE Users")

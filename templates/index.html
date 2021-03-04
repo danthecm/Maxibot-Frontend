@@ -11,8 +11,8 @@
 {% if checker == True %}
 {% block task %}
 {{ 
-    current(session['user']['api_key'], session['user']['secret_key'], users["product"],users["amount"], users["margin_p"], users["sell_p"],
-  users["trades"])
+    current(user['api_key'], user['secret_key'], trade["product"], trade["amount"], trade["margin_p"], trade["sell_p"],
+  trade["trades"])
 }}
 {% endblock task %}
 {% endif %}
@@ -117,8 +117,7 @@
                 <div class="col">
                   <h5 class="card-title text-uppercase text-muted mb-0">ETH BALANCE</h5>
                   <span class="h2 font-weight-bold mb-0">
-                    0.002334
-                    <!-- {{balance(user['api_key'], user["secret_key"], "ETH")}} -->
+                    {{balance(user['api_key'], user["secret_key"], "ETH")}}
                   </span>
                 </div>
                 <div class="col-auto">
@@ -234,7 +233,7 @@
                 <td>
                   <span class="badge badge-dot mr-4">
                     <i class="bg-warning"></i>
-                    <span class="status">Partially Filled</span>
+                    <span class="status">Partial Fill</span>
                   </span>
                 </td>
                 <td>
@@ -320,7 +319,7 @@
                 <td>
                   <span class="badge badge-dot mr-4">
                     <i class="bg bg-yellow"></i>
-                    <span class="status">Partially Filled</span>
+                    <span class="status">Partial Fill</span>
                   </span>
                 </td>
                 <td>
