@@ -59,7 +59,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
                     quantity = float(amount/buy_price)
-                    quantity = round(quantity, 3)
+                    quantity = round(quantity, 7)
                     print(f"Quantity Entered {quantity}")
                     print(f"Buy price is {buy_price} and current price is {btc_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
