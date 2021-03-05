@@ -106,7 +106,6 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     print(sell_id)
                                     print(f"Successfully Placed Sell order for {sell_qty} of {product} at {sell_price} you bought it at {buy_price}")
                                     message = "All succesful"
-                                    return message 
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
