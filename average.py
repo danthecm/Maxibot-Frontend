@@ -70,7 +70,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     quantity = float(amount/buy_price)
                     quantity = round(quantity, 6)
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
-                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,2})")
+                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1})")
                     matches = pattern.match(str(quantity))
                     quantity = float(matches.group())
 
