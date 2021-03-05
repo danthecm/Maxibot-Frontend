@@ -69,9 +69,9 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"Amount Entered {amount}")
                     quantity = float(amount/buy_price)
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
-                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,6})")
+                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,2})")
                     matches = pattern.match(str(quantity))
-                    quantity = "{:.1f}".format(float(matches.group()))
+                    quantity = float(matches.group())
 
                     print(f"Quantity Entered {quantity}")
                     print(f"Buy price is {buy_price} and current price is {btc_price}")
