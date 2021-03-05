@@ -63,7 +63,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     margin_p = round(margin_p, 2)
                     buy_price = btc_price * margin_p
                     buy_price = buy_price - (buy_price * fee)
-                    buy_price = round(buy_price, 3)
+                    buy_price = round(buy_price, 2)
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
