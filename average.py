@@ -26,19 +26,19 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
         print(f"Your {second_symbol} balance is {second_coin_balance}")
         open_orders = client.get_open_orders(symbol=current_symbol)
         print(f"You have {len(open_orders)} Open Order")
+
+        buy_id = []
+        sell_id = []
+
+        retries = 0
     except Exception as e:
         print(e)
         print("Cound not connect")
     while True:
         try:
             # all_orders = client.get_all_orders(symbol=current_symbol)
-
-            buy_id = []
-            sell_id = []
-
             counter = 0
 
-            retries = 0
             # for order in open_orders:
             #     cancel_or = client.cancel_order(symbol=current_symbol, orderId=order["orderId"])
 
