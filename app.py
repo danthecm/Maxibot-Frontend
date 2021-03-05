@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
 from threading import Thread
+from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from av import get_average
@@ -100,8 +101,8 @@ def dashboard():
         users = {"product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
         checker = True
         print(users)
-        return render_template("index.html", thread= Thread, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
-    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance)
+        return render_template("index.html", process= Process, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
+    return render_template("index.html",process= Process, user = session["user"], balance=get_asset_balance)
 
 
 if __name__ == "__main__":
