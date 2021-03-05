@@ -2,6 +2,7 @@ from binance.client import Client
 # from settings import api_key_new, api_secret_new
 # import settings as s
 import time
+import re
 # Insert API and Secret key in quotation mark
 
 
@@ -69,7 +70,12 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
                     quantity = float(amount/buy_price)
-                    quantity = round(quantity, 4)
+                    # FORMAT QUANTITY USING REGULAR EXPRESSION
+                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,2})")
+                    matches = pattern.match(quantity)
+                    quantity = float(matches.group())
+
+                    
                     print(f"Quantity Entered {quantity}")
                     print(f"Buy price is {buy_price} and current price is {btc_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
