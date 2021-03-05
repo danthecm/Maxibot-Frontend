@@ -6,21 +6,30 @@ import time
 
 
 def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
-    while True:
-        try:
-            client = Client(api_key, secret_key)
+    try:
+        client = Client(api_key, secret_key)
             first_index = 0
             for i in range(len(product)):
                 if product[i] == "/":
                     first_index = i
                     break
-            second_index = first_index + 1
-            first_symbol = product[0:first_index]
-            second_symbol = product[second_index:]
-            current_symbol = f"{first_symbol}{second_symbol}"
-            open_orders = client.get_open_orders(symbol=current_symbol)
-            first_coin_balance = client.get_asset_balance(asset=first_symbol)
-            second_coin_balance = client.get_asset_balance(asset=second_symbol)
+        second_index = first_index + 1
+        first_symbol = product[0:first_index]
+        second_symbol = product[second_index:]
+        current_symbol = f"{first_symbol}{second_symbol}"
+        open_orders = client.get_open_orders(symbol=current_symbol)
+        first_coin_balance = client.get_asset_balance(asset=first_symbol)
+        second_coin_balance = client.get_asset_balance(asset=second_symbol)
+
+        print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
+        print(f"Your {second_symbol} balance is {second_coin_balance}")
+        open_orders = client.get_open_orders(symbol=current_symbol)
+        print(f"You have {len(open_orders)} Open Order")
+    except Exception as e:
+        print(e)
+        print("Cound not connect")
+    while True:
+        try:
             # all_orders = client.get_all_orders(symbol=current_symbol)
 
             buy_id = []
@@ -32,13 +41,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             # for order in open_orders:
             #     cancel_or = client.cancel_order(symbol=current_symbol, orderId=order["orderId"])
 
-            open_orders = client.get_open_orders(symbol=current_symbol)
-            print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
-            print(f"Your {second_symbol} balance is {second_coin_balance}")
-            print(f"You have {len(open_orders)} Open Order")
             fees = client.get_trade_fee(symbol=current_symbol)
             fee = float(fees["tradeFee"][0]["taker"])
-            print(f"the trading fee is {fee}")
             while counter < trades:
                 open_orders = client.get_open_orders(symbol=current_symbol)
                 print(f"starting running counter = {counter}")
@@ -46,7 +50,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                 btc_price = float(btc_price["price"])
 
                 # STOP INFINATE RETRIES
-                if retries > 10 and len(buy_id) == 0:
+                if retries > 5 and len(buy_id) == 0:
                     message = "There was an error"
                     break
 
