@@ -27,9 +27,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             sell_id = []
 
             counter = 0
-            print(len(open_orders))
-            print(open_orders)
 
+            retries = 0
             # for order in open_orders:
             #     cancel_or = client.cancel_order(symbol=current_symbol, orderId=order["orderId"])
 
@@ -45,6 +44,12 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                 print(f"starting running counter = {counter}")
                 btc_price = client.get_symbol_ticker(symbol=current_symbol)
                 btc_price = float(btc_price["price"])
+
+                # STOP INFINATE RETRIES
+                if retries > 100 and len(buy_id) == 0:
+                    break
+
+                # CHECK BUY ORDER AND PLACE ORDER
                 if len(open_orders) < 100 and len(buy_id) < 1:
                     print(f"The current price is {btc_price}")
                     print(f"Started calculating buy order \n number of trade currently at {counter}")
@@ -73,6 +78,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
                     print(buy_id)
                     continue
+                
                 if len(buy_id) > 0:
                     print("Initing sell order")
                     for id in buy_id:
@@ -101,12 +107,14 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
+                                retries += 1
                                 continue
                             time.sleep(5)
 
                     break
         except Exception as e:
             print(f"{e} \n There was an error retryin ASAP")
+            retries += 1
             time.sleep(10)
             continue
         break
