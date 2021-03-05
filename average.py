@@ -68,9 +68,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
                     quantity = float(amount/buy_price)
-                    quantity = round(quantity, 6)
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
-                    pattern = re.compile(r"\d*\.\d+")
+                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,6})")
                     matches = pattern.match(str(quantity))
                     quantity = "{:.1f}".format(float(matches.group()))
 
