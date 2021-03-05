@@ -8,11 +8,11 @@ import time
 def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
     try:
         client = Client(api_key, secret_key)
-            first_index = 0
-            for i in range(len(product)):
-                if product[i] == "/":
-                    first_index = i
-                    break
+        first_index = 0
+        for i in range(len(product)):
+            if product[i] == "/":
+                first_index = i
+                break
         second_index = first_index + 1
         first_symbol = product[0:first_index]
         second_symbol = product[second_index:]
@@ -64,7 +64,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     buy_price = btc_price * margin_p
                     print(f"Buy price without fee {buy_price}")
                     buy_price = buy_price - (buy_price * fee)
-                    buy_price = round(buy_price, 2)
+                    buy_price = round(buy_price, 3)
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
