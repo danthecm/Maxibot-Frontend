@@ -46,7 +46,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                 btc_price = float(btc_price["price"])
 
                 # STOP INFINATE RETRIES
-                if retries > 100 and len(buy_id) == 0:
+                if retries > 20 and len(buy_id) == 0:
+                    flash("There was an error")
                     break
 
                 # CHECK BUY ORDER AND PLACE ORDER
