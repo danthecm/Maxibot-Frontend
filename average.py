@@ -54,16 +54,14 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                 if retries > 5 and len(buy_id) == 0:
                     message = "There was an error"
                     break
-
+                print(f"Retry currently at {retries} ")
                 # CHECK BUY ORDER AND PLACE ORDER
                 if len(open_orders) < 100 and len(buy_id) < 1:
                     print(f"The current price is {btc_price}")
-                    print(f"Started calculating buy order \n number of trade currently at {counter}")
                     margin_p = 1 - float(margin_p / 100)
                     print(margin_p)
                     margin_p = round(margin_p, 2)
                     buy_price = btc_price * margin_p
-                    print(f"Buy price without fee {buy_price}")
                     buy_price = buy_price - (buy_price * fee)
                     buy_price = round(buy_price, 3)
                     amount = float(amount)
