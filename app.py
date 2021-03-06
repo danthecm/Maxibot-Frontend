@@ -6,7 +6,7 @@ from auth import RegisterForm, LoginForm
 from av import get_average
 from average import Current as A
 from functools import wraps 
-from functions import get_asset_balance
+from functions import get_asset_balance, get_assest_details
 
 app = Flask(__name__)
 
@@ -101,7 +101,7 @@ def dashboard():
         checker = True
         print(users)
         return render_template("index.html", thread= Thread, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
-    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance)
+    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance, details = get_assest_details)
 
 
 if __name__ == "__main__":
