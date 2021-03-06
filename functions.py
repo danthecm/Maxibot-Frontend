@@ -11,7 +11,7 @@ def get_asset_balance(api_key, secret_key, symbol):
 def get_assest_details(api_key, secret_key):
     try:
         client = Client(api_key, secret_key)
-        details = client.get_asset_details()
+        details = client.get_asset_dividend_history()
         print(details)
     except Exception as e:
         print(e)
