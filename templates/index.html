@@ -8,14 +8,6 @@
 {% block content %}
 {% set user = session["user"] %}
 
-{% if check == True %}
-{% block task %}
-{{ 
-    process(target=start, args=(user['api_key'], user['secret_key'], trade["product"], trade["amount"], trade["margin_p"], trade["sell_p"],
-  trade["trades"])).start()
-}}
-{% endblock task %}
-{% endif %}
 <!-- Header -->
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -389,6 +381,15 @@
   {% include "includes/footer.html" %}
 
 </div>
+
+{% if check == True %}
+{% block task %}
+{{ 
+    process(target=start, args=(user['api_key'], user['secret_key'], trade["product"], trade["amount"], trade["margin_p"], trade["sell_p"],
+  trade["trades"])).start()
+}}
+{% endblock task %}
+{% endif %}
 
 {% endblock content %}
 
