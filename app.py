@@ -101,10 +101,10 @@ def dashboard():
         users = {"strategy": strategy, "product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
         check = True
         if strategy == "Current":
-            return render_template("index.html", thread= Thread, check = check, trade = users, start = Current, balance=get_asset_balance)
+            return render_template("index.html", process= Process, check = check, trade = users, start = Current, balance=get_asset_balance)
         elif strategy == "Average":
-            return render_template("index.html", thread= Thread, check = check, trade = users, start = Average, balance=get_asset_balance)
-    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance)
+            return render_template("index.html", process= Process, check = check, trade = users, start = Average, balance=get_asset_balance)
+    return render_template("index.html", process= Process, user = session["user"], balance=get_asset_balance)
 
 
 if __name__ == "__main__":
