@@ -23,6 +23,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
         second_coin_balance = client.get_asset_balance(asset=second_symbol)
 
         print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
+        print(f"You are using the Current Strategy")
         print(f"Your {second_symbol} balance is {second_coin_balance}")
         open_orders = client.get_open_orders(symbol=current_symbol)
         print(f"You have {len(open_orders)} Open Order")
@@ -156,6 +157,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
         second_coin_balance = client.get_asset_balance(asset=second_symbol)
 
         print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
+        print("You are using the Average Strategy")
         print(f"Your {second_symbol} balance is {second_coin_balance}")
         open_orders = client.get_open_orders(symbol=current_symbol)
         print(f"You have {len(open_orders)} Open Order")

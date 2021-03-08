@@ -4,10 +4,9 @@ from threading import Thread
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
-from av import get_average
-from average import Current as A
+from strategy import Current, Average
 from functools import wraps 
-from functions import get_asset_balance, get_assest_details
+from functions import get_asset_balance
 
 app = Flask(__name__)
 
@@ -100,9 +99,12 @@ def dashboard():
         amount = float(request.form["amount"])
         trades = int(request.form["trades"])
         users = {"strategy": strategy, "product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
-        checker = True
-        return render_template("index.html", thread= Thread, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
-    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance, details = get_assest_details)
+        check = True
+        if strategy == "Current":
+            return render_template("index.html", thread= Thread, check = check, trade = users, start = Current, balance=get_asset_balance)
+        elif strategy == "Average":
+            return render_template("index.html", thread= Thread, check = check, trade = users, start = Average, balance=get_asset_balance)
+    return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance)
 
 
 if __name__ == "__main__":
