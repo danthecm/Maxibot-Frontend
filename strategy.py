@@ -222,6 +222,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")
                     print(f"Amount Entered {amount}")
+                    print(f"the buy price is {buy_price}")
                     quantity = float(amount/buy_price)
                     quantity = round(quantity, 5)
 
