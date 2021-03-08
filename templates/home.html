@@ -1,21 +1,14 @@
 {% extends "layout.html" %}
 
 {% block body %}
+{% set me = "MAXIBOT" %}
 <main role="main" class="container">
   <div class="jumbotron">
     <h1>MAXIBOT</h1>
-    <p class="lead">Welcome to MAXIBOT.</p>
+    <p class="lead">Welcome to {{me}}.</p>
     <p>Earn More without stress and save more by using our bot</p>
-    {% if message %}
-    <div class="alert alert-success">{{ message }}</div>
-    {% endif %}
-    {% if variable %}
-    <p style="color: green;font-size: larger; font-weight: bolder;">{{ variable }}</p>
-    {% endif %}
-    {% set me = "Hello" %}
     <a class="btn btn-lg btn-primary" href="/register" role="button">Register</a>
     <a class="btn btn-lg btn-success" href="/login" role="button">Login</a>
-    <h3>{{me}}</h3>
   </div>
 </main>
 

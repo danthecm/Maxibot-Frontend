@@ -93,14 +93,14 @@ def login_required(f):
 def dashboard():
     if request.method == "POST":
         print("Hi am here testing things out")
+        strategy = request.form["strategy"]
         product = request.form["product"]
         margin_p = float(request.form["margin_p"])
         sell_p = float(request.form["sell_p"])
         amount = float(request.form["amount"])
         trades = int(request.form["trades"])
-        users = {"product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
+        users = {"strategy": strategy, "product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
         checker = True
-        print(users)
         return render_template("index.html", thread= Thread, user = session["user"], checker = checker, trade = users, start = A, balance=get_asset_balance)
     return render_template("index.html",thread= Thread, user = session["user"], balance=get_asset_balance, details = get_assest_details)
 
