@@ -78,7 +78,7 @@ def get_order(id):
     else:
         return None
 
-def login(email, password):
+def login(email):
     try:
         cur = connection.cursor()
         sql = ("SELECT * FROM Users WHERE email = %s")
