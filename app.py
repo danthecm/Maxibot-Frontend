@@ -91,7 +91,6 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
-        print("Hi am here testing things out")
         strategy = request.form["strategy"]
         product = request.form["product"]
         margin_p = float(request.form["margin_p"])

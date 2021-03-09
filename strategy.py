@@ -1,4 +1,5 @@
 from binance.client import Client
+from db import order
 # from settings import api_key_new, api_secret_new
 # import settings as s
 import time
@@ -6,7 +7,7 @@ import re
 # Insert API and Secret key in quotation mark
 
 
-def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
+def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, trades):
     try:
         client = Client(api_key, secret_key)
         first_index = 0
@@ -84,6 +85,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
+                    order(user_id, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -111,6 +113,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                         symbol=current_symbol,
                                         quantity=sell_qty,
                                         price=sell_price)
+                                    order(user_id, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
@@ -140,7 +143,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
 #         print(first_coin_price)
 # Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2)
 
-def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
+def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, trades):
     try:
         client = Client(api_key, secret_key)
         first_index = 0
@@ -242,6 +245,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
+                    order(user_id, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -269,6 +273,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                         symbol=current_symbol,
                                         quantity=sell_qty,
                                         price=sell_price)
+                                    order(user_id, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
