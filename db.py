@@ -60,7 +60,7 @@ def new_order(user_id, order_id, time):
         cur = connection.cursor()
         sql = "INSERT INTO `Orders` (`user_id`, `order_id`, `time`) VALUES(%s, %s, %s)"
         cur.execute(sql, (user_id, order_id, time))
-        cur.commit()
+        connection.commit()
         cur.close
         return True
     except Exception as e:
