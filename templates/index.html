@@ -174,10 +174,10 @@
                   {{ this_order["side"] }}
                 </td>
                 <td class="budget">
-                  {{ round(this_order["origQty"], 2) }}
+                  {{ round(float(this_order["origQty"]), 2) }}
                 </td>
                 <td class="budget">
-                  {{ round(this_order["price"], 2) }}
+                  {{ round(float(this_order["price"]), 2) }}
                 </td>
                 <td>
                   <span class="badge badge-dot mr-4">
