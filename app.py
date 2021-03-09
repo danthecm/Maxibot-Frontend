@@ -104,7 +104,7 @@ def dashboard():
             return render_template("index.html", process= Process, round=round, float=float, orders = db.get_order, order= get_order, check = check, trade = users, start = Current, balance=get_asset_balance)
         elif strategy == "Average":
             flash("The bot is running, You selected the Average Strategy", "success")
-            return render_template("index.html", process= Process, round= round, float=float orders = db.get_order, order= get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
+            return render_template("index.html", process= Process, round= round, float=float, orders = db.get_order, order= get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
     return render_template("index.html", process= Process, round=round, float=float, balance=get_asset_balance, orders = db.get_order, order= get_order)
 
 
