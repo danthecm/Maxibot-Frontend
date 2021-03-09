@@ -6,7 +6,7 @@ from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from strategy import Current, Average
 from functools import wraps 
-from functions import get_asset_balance
+from functions import get_asset_balance, get_order
 
 app = Flask(__name__)
 
@@ -101,11 +101,11 @@ def dashboard():
         check = True
         if strategy == "Current":
             flash("The bot is running, You selected the Current Strategy", "success")
-            return render_template("index.html", process= Process,user = session["user"], check = check, trade = users, start = Current, balance=get_asset_balance)
+            return render_template("index.html", process= Process,user = session["user"],orders = db.get_order, check = check, trade = users, start = Current, balance=get_asset_balance)
         elif strategy == "Average":
             flash("The bot is running, You selected the Average Strategy", "success")
-            return render_template("index.html", process= Process,user = session["user"], check = check, trade = users, start = Average, balance=get_asset_balance)
-    return render_template("index.html", process= Process, user = session["user"], balance=get_asset_balance, orders = db.get_order)
+            return render_template("index.html", process= Process,user = session["user"], orders = db.get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
+    return render_template("index.html", process= Process, user = session["user"], balance=get_asset_balance, orders = db.get_order, order= get_order)
 
 
 if __name__ == "__main__":

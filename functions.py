@@ -1,5 +1,6 @@
 from binance.client import Client
 
+
 def get_asset_balance(api_key, secret_key, symbol):
     try:
         client = Client(api_key, secret_key)
@@ -8,10 +9,14 @@ def get_asset_balance(api_key, secret_key, symbol):
     except Exception as e:
         print(e)
         return "not found"
-def get_assest_details(api_key, secret_key):
+
+
+def get_order(api_key, secret_key, pairs, order_id):
     try:
         client = Client(api_key, secret_key)
-        details = client.get_asset_dividend_history()
-        print(details)
+        order = client.get_order(
+            symbol=pairs,
+            orderId=order_id)
+        return order
     except Exception as e:
         print(e)

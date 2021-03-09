@@ -98,6 +98,7 @@ def delete():
     cur = connection.cursor()
     droped = cur.execute("DROP TABLE Orders")
     print(droped)
+    cur.close()
 
 
 def email_exist(email):
