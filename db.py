@@ -22,7 +22,7 @@ connection = mysql.connect(
 
 
 # CREAT TABLE
-def create():
+def createUsers():
     cursor = connection.cursor()
     creat_table = """
     create table Users (id int(11) NOT NULL AUTO_INCREMENT, name varchar(200), email varchar(200) UNIQUE, phone bigint(15), api_key varchar(200), secret_key varchar(200), password char(225), PRIMARY KEY (id))
@@ -30,11 +30,11 @@ def create():
     cursor.execute(creat_table)
     print("successfuly create the database")
 
-def createTable():
+def createOrders():
     try:
         cursor = connection.cursor()
         creat_table = """
-        create table Users (id int(11) NOT NULL AUTO_INCREMENT, User_id varchar(200), Order_id varchar(200) UNIQUE, PRIMARY KEY (id))
+        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, User_id varchar(200), Order_id varchar(200) UNIQUE, Time varchar(200) UNIQUE, PRIMARY KEY (id))
         """
         cursor.execute(creat_table)
         print("successfuly create the database")

@@ -48,8 +48,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             while counter < trades:
                 open_orders = client.get_open_orders(symbol=current_symbol)
                 print(f"starting running counter = {counter}")
-                first_coin_pirce = client.get_symbol_ticker(symbol=current_symbol)
-                first_coin_pirce = float(first_coin_pirce["price"])
+                first_coin_price = client.get_symbol_ticker(symbol=current_symbol)
+                first_coin_price = float(first_coin_price["price"])
 
                 # STOP INFINATE RETRIES
                 if retries > 5 and len(buy_id) == 0:
@@ -59,11 +59,11 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                 print(f"Retry currently at {retries} ")
                 # CHECK BUY ORDER AND PLACE ORDER
                 if len(open_orders) < 100 and len(buy_id) < 1:
-                    print(f"The current price is {first_coin_pirce}")
+                    print(f"The current price is {first_coin_price}")
                     margin_p = 1 - float(margin_p / 100)
                     print(margin_p)
                     margin_p = round(margin_p, 2)
-                    buy_price = first_coin_pirce * margin_p
+                    buy_price = first_coin_price * margin_p
                     buy_price = buy_price - (buy_price * fee)
                     buy_price = round(buy_price, 2)
                     amount = float(amount)
@@ -72,12 +72,12 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     quantity = float(amount/buy_price)
                     quantity = round(quantity, 5)
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
-                    pattern = re.compile(r"([0-9]{1}[.]+[0]+[1-9]{1,2})")
+                    pattern = re.compile(r"([0-9]{1,}[.][0]{,5}[1-9]{1,2})")
                     matches = pattern.match(str(quantity))
                     quantity = float(matches.group())
 
                     print(f"Quantity Entered {quantity}")
-                    print(f"Buy price is {buy_price} and current price is {first_coin_pirce}")
+                    print(f"Buy price is {buy_price} and current price is {first_coin_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
                     buy_order = client.order_limit_buy(
                         symbol=current_symbol,
@@ -119,9 +119,8 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
-                                retries += 1
                                 continue
-                            time.sleep(5)
+                            time.sleep(30)
                     break
         except Exception as e:
             print(f"{e} \n There was an error retryin ASAP")
@@ -132,12 +131,12 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
 
 # while trades <= 3:
 #     open_orders = client.get_open_orders(symbol='BTCUSDT')
-#     first_coin_pirce = client.get_symbol_ticker(symbol="BTCUSDT")
+#     first_coin_price = client.get_symbol_ticker(symbol="BTCUSDT")
 #     btc_bal = client.get_asset_balance(asset="BTC")
 #     if len(open_orders) < 3:
-#         first_coin_pirce = float(first_coin_pirce['price'])
-#         buy_price = first_coin_pirce - (first_coin_pirce * margin_percent)
-#         print(first_coin_pirce)
+#         first_coin_price = float(first_coin_price['price'])
+#         buy_price = first_coin_price - (first_coin_price * margin_percent)
+#         print(first_coin_price)
 # Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2)
 
 def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
@@ -190,8 +189,8 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
             while counter < trades:
                 open_orders = client.get_open_orders(symbol=current_symbol)
                 print(f"starting running counter = {counter}")
-                first_coin_pirce = client.get_symbol_ticker(symbol=current_symbol)
-                first_coin_pirce = float(first_coin_pirce["price"])
+                first_coin_price = client.get_symbol_ticker(symbol=current_symbol)
+                first_coin_price = float(first_coin_price["price"])
 
                 # STOP INFINATE RETRIES
                 if retries > 5 and len(buy_id) == 0:
@@ -216,6 +215,8 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f"The average price is {average}")
                     margin_p = 1 - float(margin_p / 100)
                     margin_p = round(margin_p, 2)
+                    if average > first_coin_price:
+                        average = first_coin_price
                     buy_price = average * margin_p
                     buy_price = buy_price - (buy_price * fee)
                     buy_price = round(buy_price, 2)
@@ -233,7 +234,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     quantity = float(matches.group())
 
                     print(f"Quantity Entered {quantity}")
-                    print(f"Buy price is {buy_price} and current price is {first_coin_pirce}")
+                    print(f"Buy price is {buy_price} and current price is {first_coin_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
                     buy_order = client.order_limit_buy(
                         symbol=current_symbol,
@@ -275,9 +276,8 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
-                                retries += 1
                                 continue
-                            time.sleep(5)
+                            time.sleep(30)
                     break
         except Exception as e:
             print(f"{e} \n There was an error retryin ASAP")
