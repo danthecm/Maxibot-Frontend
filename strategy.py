@@ -119,6 +119,7 @@ def Current(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
+                                retries += 1
                                 continue
                             time.sleep(30)
                     break
@@ -276,6 +277,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                                     break
                             except Exception:
                                 print("There was an error retrying soon ")
+                                retries += 1
                                 continue
                             time.sleep(30)
                     break
