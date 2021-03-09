@@ -156,6 +156,8 @@
               </tr>
             </thead>
             <tbody class="list">
+              {{ set my_order = orders(user["id"]) }}
+              <h2>{{ my_order }}</h2>
               <tr>
                 <td>
                   1
