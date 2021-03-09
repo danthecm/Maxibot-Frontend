@@ -157,6 +157,32 @@
               </tr>
             </thead>
             <tbody class="list">
+              {% for orders in my_order %}
+              <tr>
+                <td>{{ orders["id"]}}</td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="budget">
+                  orders["strategy"]
+                </td>
+                {% set this_order = order(orders["pairs"], orders["order_id"]) %}
+                <td class="budget">
+                  {{ this_order["side"] }}
+                </td>
+                <td class="budget">
+                  {{this_order["origQty"]}}
+                </td>
+                <td class="budget">
+                  {{ this_order["price"] }}
+                </td>
+              </tr>
+              {% endfor %}
+
               <tr>
                 <td>
                   1
@@ -381,7 +407,6 @@
   </div>
 
   {% include "includes/footer.html" %}
-  {{ this_order }}
 
 </div>
 
