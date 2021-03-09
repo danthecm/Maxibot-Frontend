@@ -185,6 +185,21 @@
                     <span class="status">{{ this_order["status"] }}</span>
                   </span>
                 </td>
+                {% if this_order["status"] == "NEW"%}
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-primary"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Running</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+                {% endif %}
               </tr>
               {% endfor %}
 
