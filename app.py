@@ -101,10 +101,10 @@ def dashboard():
         check = True
         if strategy == "Current":
             flash("The bot is running, You selected the Current Strategy", "success")
-            return render_template("index.html", process= Process,user = session["user"],orders = db.get_order, check = check, trade = users, start = Current, balance=get_asset_balance)
+            return render_template("index.html", process= Process,user = session["user"],orders = db.get_order, order= get_order, check = check, trade = users, start = Current, balance=get_asset_balance)
         elif strategy == "Average":
             flash("The bot is running, You selected the Average Strategy", "success")
-            return render_template("index.html", process= Process,user = session["user"], orders = db.get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
+            return render_template("index.html", process= Process,user = session["user"], orders = db.get_order, order= get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
     return render_template("index.html", process= Process, user = session["user"], balance=get_asset_balance, orders = db.get_order, order= get_order)
 
 
