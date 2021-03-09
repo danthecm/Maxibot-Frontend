@@ -171,6 +171,16 @@
                   <td class="budget">
                     orders["strategy"]
                   </td>
+                  {% set this_order = order(orders["pairs"], orders["order_id"]) %}
+                  <td class="budget">
+                    {{ this_order["side"] }}
+                  </td>
+                  <td class="budget">
+                    {{this_order["origQty"]}}
+                  </td>
+                  <td class="budget">
+                    {{ this_order["price"] }}
+                  </td>
                 </tr>
                 {% endfor %}
               {% endif %}
