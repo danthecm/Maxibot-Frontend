@@ -168,7 +168,7 @@
                   </div>
                 </td>
                 <td class="budget">
-                  orders["strategy"]
+                  {{ orders["strategy"] }}
                 </td>
                 {% set this_order = order(user["api_key"], user["secret_key"], orders["pairs"], orders["order_id"]) %}
                 <td class="budget">
