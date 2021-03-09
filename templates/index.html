@@ -157,18 +157,23 @@
             </thead>
             <tbody class="list">
               {% set my_order = orders(user["id"]) %}
-              {% for orders in my_order %}
-              <tr>
-                <td>{{ orders["id"]}}</td>
-                <td scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
+              {% if my_order != None %}
+                {% for orders in my_order %}
+                <tr>
+                  <td>{{ orders["id"]}}</td>
+                  <td scope="row">
+                    <div class="media align-items-center">
+                      <div class="media-body">
+                        <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
+                      </div>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
+                  </td>
+                  <td class="budget">
+                    orders["strategy"]
+                  </td>
+                </tr>
+                {% endfor %}
+              {% endif %}
               <tr>
                 <td>
                   1
