@@ -74,6 +74,7 @@ def get_order(id):
     if result > 0:
         order = cur.fetchall()
         cur.close
+        return order
     else:
         return None
 
