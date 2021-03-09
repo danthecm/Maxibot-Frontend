@@ -7,7 +7,7 @@
 
 {% block content %}
 {% set user = session["user"] %}
-
+{% set my_order = orders(user["id"]) %}
 <!-- Header -->
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -139,6 +139,7 @@
       <div class="card bg-default shadow">
         <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0">BOT TRANSACTIONS</h3>
+          <h2>{{ my_order }}</h2>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">
@@ -156,9 +157,7 @@
               </tr>
             </thead>
             <tbody class="list">
-              {% set my_order = orders(user["id"]) %}
-              {% if my_order != None %}
-                {% for orders in my_order %}
+                <!-- {% for orders in my_order %}
                 <tr>
                   <td>{{ orders["id"]}}</td>
                   <td scope="row">
@@ -182,8 +181,7 @@
                     {{ this_order["price"] }}
                   </td>
                 </tr>
-                {% endfor %}
-              {% endif %}
+                {% endfor %} -->
               <tr>
                 <td>
                   1
