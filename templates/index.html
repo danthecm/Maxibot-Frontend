@@ -157,7 +157,18 @@
             </thead>
             <tbody class="list">
               {% set my_order = orders(user["id"]) %}
-              <h2>{{ my_order }}</h2>
+              {% for orders in my_order %}
+              <tr>
+                <td>{{ orders["id"]}}</td>
+                <td scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
               <tr>
                 <td>
                   1

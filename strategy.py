@@ -8,6 +8,7 @@ import re
 
 
 def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, trades):
+    strategy = "Current"
     try:
         client = Client(api_key, secret_key)
         first_index = 0
@@ -85,7 +86,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    new_order(user_id, pairs, buy_order["orderId"], time.time())
+                    new_order(user_id, strategy, pairs, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -113,7 +114,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                         symbol=pairs,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    new_order(user_id, pairs, sell_order["orderId"], time.time())
+                                    new_order(user_id, strategy, pairs, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
@@ -144,6 +145,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
 # Current("kYxAXqc5F1q6WKdwCgn6erWaWo2sAf2k8iK8xawEIVPOel2oBmTTisjwf6DavQRe", "LqLDBStDa1BPACEQ1Dryml1zQTWS8YMmnsvkLDoUhPNpjPHtoptaBPrbDTFgQHCL", "BTCUSDT", 0.02, 0.04, 2)
 
 def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, trades):
+    strategy = "Average"
     try:
         client = Client(api_key, secret_key)
         first_index = 0
@@ -245,7 +247,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    new_order(user_id, pairs, buy_order["orderId"], time.time())
+                    new_order(user_id, strategy, pairs, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -273,7 +275,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                         symbol=pairs,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    new_order(user_id, pairs, sell_order["orderId"], time.time())
+                                    new_order(user_id, strategy, pairs, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
