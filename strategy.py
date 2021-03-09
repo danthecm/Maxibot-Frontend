@@ -1,5 +1,5 @@
 from binance.client import Client
-from db import order
+from db import new_order
 # from settings import api_key_new, api_secret_new
 # import settings as s
 import time
@@ -85,7 +85,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    order(user_id, buy_order["orderId"], time.time())
+                    new_order(user_id, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -113,7 +113,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                         symbol=current_symbol,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    order(user_id, sell_order["orderId"], time.time())
+                                    new_order(user_id, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
@@ -245,7 +245,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    order(user_id, buy_order["orderId"], time.time())
+                    new_order(user_id, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -273,7 +273,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                         symbol=current_symbol,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    order(user_id, sell_order["orderId"], time.time())
+                                    new_order(user_id, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)

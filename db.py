@@ -55,7 +55,7 @@ def register(name, email, phone, api_key, secret_key, password):
         return "There was an error"
 
 
-def order(user_id, order_id, time):
+def new_order(user_id, order_id, time):
     try:
         cur = connection.cursor()
         sql = "INSERT INTO `Orders` (`user_id`, `order_id`, `time`) VALUES(%s, %s, %s)"
