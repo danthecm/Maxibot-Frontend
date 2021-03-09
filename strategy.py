@@ -18,15 +18,15 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
         second_index = first_index + 1
         first_symbol = product[0:first_index]
         second_symbol = product[second_index:]
-        current_symbol = f"{first_symbol}{second_symbol}"
-        open_orders = client.get_open_orders(symbol=current_symbol)
+        pairs = f"{first_symbol}{second_symbol}"
+        open_orders = client.get_open_orders(symbol=pairs)
         first_coin_balance = client.get_asset_balance(asset=first_symbol)
         second_coin_balance = client.get_asset_balance(asset=second_symbol)
 
         print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
         print(f"You are using the Current Strategy")
         print(f"Your {second_symbol} balance is {second_coin_balance}")
-        open_orders = client.get_open_orders(symbol=current_symbol)
+        open_orders = client.get_open_orders(symbol=pairs)
         print(f"You have {len(open_orders)} Open Order")
 
         buy_id = []
@@ -38,18 +38,18 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
         print("Cound not connect")
     while True:
         try:
-            # all_orders = client.get_all_orders(symbol=current_symbol)
+            # all_orders = client.get_all_orders(symbol=pairs)
             counter = 0
 
             # for order in open_orders:
-            #     cancel_or = client.cancel_order(symbol=current_symbol, orderId=order["orderId"])
+            #     cancel_or = client.cancel_order(symbol=pairs, orderId=order["orderId"])
 
-            fees = client.get_trade_fee(symbol=current_symbol)
+            fees = client.get_trade_fee(symbol=pairs)
             fee = float(fees["tradeFee"][0]["taker"])
             while counter < trades:
-                open_orders = client.get_open_orders(symbol=current_symbol)
+                open_orders = client.get_open_orders(symbol=pairs)
                 print(f"starting running counter = {counter}")
-                first_coin_price = client.get_symbol_ticker(symbol=current_symbol)
+                first_coin_price = client.get_symbol_ticker(symbol=pairs)
                 first_coin_price = float(first_coin_price["price"])
 
                 # STOP INFINATE RETRIES
@@ -81,11 +81,11 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print(f"Buy price is {buy_price} and current price is {first_coin_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
                     buy_order = client.order_limit_buy(
-                        symbol=current_symbol,
+                        symbol=pairs,
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    new_order(user_id, buy_order["orderId"], time.time())
+                    new_order(user_id, pairs, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -96,10 +96,10 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print("Initing sell order")
                     for id in buy_id:
                         print("Looping through buy order id")
-                        order = client.get_order(symbol=current_symbol, orderId=id)
+                        order = client.get_order(symbol=pairs, orderId=id)
                         while True:
                             try:
-                                order = client.get_order(symbol=current_symbol, orderId=id)
+                                order = client.get_order(symbol=pairs, orderId=id)
                                 print("check buy order status ")
                                 if order['status'] == "FILLED":
                                     print(f"Calculating Sell Price")
@@ -110,10 +110,10 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                     sell_price = round(sell_price, 2)
                                     sell_qty = float(order["origQty"])
                                     sell_order = client.order_limit_sell(
-                                        symbol=current_symbol,
+                                        symbol=pairs,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    new_order(user_id, sell_order["orderId"], time.time())
+                                    new_order(user_id, pairs, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)
@@ -154,15 +154,15 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
         second_index = first_index + 1
         first_symbol = product[0:first_index]
         second_symbol = product[second_index:]
-        current_symbol = f"{first_symbol}{second_symbol}"
-        open_orders = client.get_open_orders(symbol=current_symbol)
+        pairs = f"{first_symbol}{second_symbol}"
+        open_orders = client.get_open_orders(symbol=pairs)
         first_coin_balance = client.get_asset_balance(asset=first_symbol)
         second_coin_balance = client.get_asset_balance(asset=second_symbol)
 
         print(f"Welcome your {first_symbol} balance is {first_coin_balance}")
         print("You are using the Average Strategy")
         print(f"Your {second_symbol} balance is {second_coin_balance}")
-        open_orders = client.get_open_orders(symbol=current_symbol)
+        open_orders = client.get_open_orders(symbol=pairs)
         print(f"You have {len(open_orders)} Open Order")
 
         buy_id = []
@@ -188,12 +188,12 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
             counter = 0
             total_price = 0
             total_qty = 0
-            fees = client.get_trade_fee(symbol=current_symbol)
+            fees = client.get_trade_fee(symbol=pairs)
             fee = float(fees["tradeFee"][0]["taker"])
             while counter < trades:
-                open_orders = client.get_open_orders(symbol=current_symbol)
+                open_orders = client.get_open_orders(symbol=pairs)
                 print(f"starting running counter = {counter}")
-                first_coin_price = client.get_symbol_ticker(symbol=current_symbol)
+                first_coin_price = client.get_symbol_ticker(symbol=pairs)
                 first_coin_price = float(first_coin_price["price"])
 
                 # STOP INFINATE RETRIES
@@ -206,7 +206,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                 if len(open_orders) < 100 and len(buy_id) < 3:
 
                     # CALCULATE AVERAGE PRICE
-                    orders = client.get_all_orders(symbol=current_symbol, limit=50)
+                    orders = client.get_all_orders(symbol=pairs, limit=50)
                     buy_orders = filter(buyTrades, orders)
                     buy_orders = list(buy_orders)
                     for price in all_buy_price:
@@ -241,11 +241,11 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print(f"Buy price is {buy_price} and current price is {first_coin_price}")
                     print(f"ABOUT TO PLACE BUY ORDER")
                     buy_order = client.order_limit_buy(
-                        symbol=current_symbol,
+                        symbol=pairs,
                         quantity=quantity,
                         price=buy_price)
                     print(f"{buy_price}")
-                    new_order(user_id, buy_order["orderId"], time.time())
+                    new_order(user_id, pairs, buy_order["orderId"], time.time())
                     buy_id.append(buy_order['orderId'])
                     counter += 1
                     print(f"Successfully Placed Buy Order for {quantity} of {product} at {buy_price}")
@@ -256,10 +256,10 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print("Initing sell order")
                     for id in buy_id:
                         print("Looping through buy order id")
-                        order = client.get_order(symbol=current_symbol, orderId=id)
+                        order = client.get_order(symbol=pairs, orderId=id)
                         while True:
                             try:
-                                order = client.get_order(symbol=current_symbol, orderId=id)
+                                order = client.get_order(symbol=pairs, orderId=id)
                                 print("check buy order status ")
                                 if order['status'] == "FILLED":
                                     print(f"Calculating Sell Price")
@@ -270,10 +270,10 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                                     sell_price = round(sell_price, 2)
                                     sell_qty = float(order["origQty"])
                                     sell_order = client.order_limit_sell(
-                                        symbol=current_symbol,
+                                        symbol=pairs,
                                         quantity=sell_qty,
                                         price=sell_price)
-                                    new_order(user_id, sell_order["orderId"], time.time())
+                                    new_order(user_id, pairs, sell_order["orderId"], time.time())
                                     sell_id.append(sell_order["orderId"])
                                     counter += 1
                                     print(sell_id)

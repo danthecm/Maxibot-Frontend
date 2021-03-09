@@ -32,7 +32,7 @@ def createOrders():
     try:
         cursor = connection.cursor()
         creat_table = """
-        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
         """
         cursor.execute(creat_table)
         print("successfuly create the database")
@@ -55,11 +55,11 @@ def register(name, email, phone, api_key, secret_key, password):
         return "There was an error"
 
 
-def new_order(user_id, order_id, time):
+def new_order(user_id, pairs, order_id, time):
     try:
         cur = connection.cursor()
-        sql = "INSERT INTO `Orders` (`user_id`, `order_id`, `time`) VALUES(%s, %s, %s)"
-        cur.execute(sql, (user_id, order_id, time))
+        sql = "INSERT INTO `Orders` (`user_id`, `pairs`, `order_id`, `time`) VALUES(%s, %s, %s, %s)"
+        cur.execute(sql, (user_id, pairs, order_id, time))
         connection.commit()
         cur.close
         return True
