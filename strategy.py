@@ -73,6 +73,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print(f"Amount Entered {amount}")
                     quantity = float(amount/buy_price)
                     quantity = round(quantity, 5)
+                    print(f"quantity without regular express is {quantity} ")
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
                     pattern = re.compile(r"([0-9]{1,}[.][0]{,5}[1-9]{1,2})")
                     matches = pattern.match(str(quantity))
