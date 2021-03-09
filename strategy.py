@@ -228,7 +228,7 @@ def Average(api_key, secret_key, product, amount, margin_p, sell_p, trades):
                     print(f'Quantity without regex formating {quantity} ')
 
                     # FORMAT QUANTITY USING REGULAR EXPRESSION
-                    pattern = re.compile(r"([0-9]{1,}[.]+[0]+[1-9]{1,2})")
+                    pattern = re.compile(r"([0-9]{1,}[.][0]{,5}[1-9]{1,2})")
                     matches = pattern.match(str(quantity))
                     quantity = float(matches.group())
 
