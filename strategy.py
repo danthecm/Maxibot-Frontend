@@ -59,7 +59,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     break
                 print(f"Retry currently at {retries} ")
                 # CHECK BUY ORDER AND PLACE ORDER
-                if len(open_orders) < 100 and len(buy_id) < 1:
+                if len(open_orders) < 100 and len(buy_id) < 3:
                     print(f"The current price is {first_coin_price}")
                     margin_p = 1 - float(margin_p / 100)
                     print(margin_p)
@@ -203,7 +203,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     break
                 print(f"Retry currently at {retries} ")
                 # CHECK BUY ORDER AND PLACE ORDER
-                if len(open_orders) < 100 and len(buy_id) < 1:
+                if len(open_orders) < 100 and len(buy_id) < 3:
 
                     # CALCULATE AVERAGE PRICE
                     orders = client.get_all_orders(symbol=current_symbol, limit=50)
