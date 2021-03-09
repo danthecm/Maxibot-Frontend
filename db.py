@@ -59,7 +59,7 @@ def new_order(user_id, strategy, pairs, order_id, time):
     try:
         cur = connection.cursor()
         sql = "INSERT INTO `Orders` (`user_id`, `strategy`, `pairs`,  `order_id`, `time`) VALUES(%s, %s, %s, %s, %s)"
-        cur.execute(sql, (user_id, pairs, order_id, time))
+        cur.execute(sql, (user_id, strategy, pairs, order_id, time))
         connection.commit()
         cur.close
         return True
