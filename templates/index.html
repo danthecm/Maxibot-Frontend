@@ -180,6 +180,12 @@
                 <td class="budget">
                   {{ this_order["price"] }}
                 </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-primary"></i>
+                    <span class="status">{{ this_order["status"] }}</span>
+                  </span>
+                </td>
               </tr>
               {% endfor %}
 
