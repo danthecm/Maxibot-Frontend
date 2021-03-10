@@ -156,6 +156,7 @@
               </tr>
             </thead>
             <tbody class="list">
+              {%if orders != None %}
               {% for orders in my_order %}
               <tr>
                 <td>{{ orders["id"]}}</td>
@@ -202,6 +203,7 @@
                 {% endif %}
               </tr>
               {% endfor %}
+              {% endif %}
 
               <!-- <tr>
                 <td>
