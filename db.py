@@ -35,11 +35,23 @@ def createOrders():
         create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
         """
         cursor.execute(creat_table)
-        print("successfuly create the database")
+        print("successfuly create the table")
         cursor.close()
     except Exception as e:
         print(e)
 
+
+def createTrades():
+    try:
+        cur = connection.cursor()
+        create_table = """ 
+        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), PRIMARY KEY (id))
+         """
+        cur.execute(create_table)
+        print("Successfully created the table")
+        cur.close()
+    except Exception as e:
+        print(e)
 
 def register(name, email, phone, api_key, secret_key, password):
     try:
