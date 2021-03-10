@@ -1,6 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
-import time
+import time as t
 from threading import Thread
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
@@ -100,7 +100,7 @@ def dashboard():
         sell_p = float(request.form["sell_p"])
         trades = int(request.form["trades"])
         status = "NEW"
-        time = time.time()
+        time = t.time()
 
         # START THE PROCESS
         process = Process(target=db.new_trade, args=(user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
