@@ -45,7 +45,7 @@ def createTrades():
     try:
         cur = connection.cursor()
         create_table = """ 
-        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), status varchar(200), time float(25) UNIQUE, PRIMARY KEY (id))
          """
         cur.execute(create_table)
         print("Successfully created the table")
@@ -65,6 +65,18 @@ def register(name, email, phone, api_key, secret_key, password):
     except Exception as e:
         print(e)
         return "There was an error"
+
+
+def new_trade(user_id, strategy, pairs, margin_percent, amount, sell_percent, trades, status, time):
+    try:
+        cur = connection.cursor()
+        sql = "INSERT INTO `Orders` (`user_id`, `strategy`, `pairs`,  `margin_percent`,`amount`, `sell_percent`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cur.execute(sql, (user_id, strategy, pairs, margin_percent, amount, sell_percent, trades, status, time))
+        connection.commit()
+        cur.close
+        return True
+    except Exception as e:
+        print(e)
 
 
 def new_order(user_id, strategy, pairs, order_id, time):
