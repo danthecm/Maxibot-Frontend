@@ -66,7 +66,7 @@ def Current(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     print(margin_p)
                     margin_p = round(margin_p, 2)
                     buy_price = first_coin_price * margin_p
-                    buy_price = buy_price - (buy_price * fee)
+                    buy_price = buy_price + (buy_price * fee)
                     buy_price = round(buy_price, 2)
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")
@@ -225,7 +225,7 @@ def Average(user_id, api_key, secret_key, product, amount, margin_p, sell_p, tra
                     if average > first_coin_price:
                         average = first_coin_price
                     buy_price = average * margin_p
-                    buy_price = buy_price - (buy_price * fee)
+                    buy_price = buy_price + (buy_price * fee)
                     buy_price = round(buy_price, 2)
                     amount = float(amount)
                     print(f"Margin Percent Entered {margin_p}")

@@ -45,7 +45,7 @@ def createTrades():
     try:
         cur = connection.cursor()
         create_table = """ 
-        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), PRIMARY KEY (id))
+        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), time float(25) UNIQUE, PRIMARY KEY (id))
          """
         cur.execute(create_table)
         print("Successfully created the table")
@@ -127,5 +127,5 @@ def email_exist(email):
 #     print(" YOu've entered the wrong email")
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
-# createOrders()
+# createTrades()
 # delete()
