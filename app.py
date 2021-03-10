@@ -1,5 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
+import time
 from threading import Thread
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
@@ -91,21 +92,23 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
+        user_id = session["user"]["id"]
         strategy = request.form["strategy"]
-        product = request.form["product"]
+        pairs = request.form["pairs"]
         margin_p = float(request.form["margin_p"])
-        sell_p = float(request.form["sell_p"])
         amount = float(request.form["amount"])
+        sell_p = float(request.form["sell_p"])
         trades = int(request.form["trades"])
-        users = {"strategy": strategy, "product": product, "margin_p": margin_p, "amount": amount, "sell_p": sell_p, "trades": trades}
-        check = True
-        if strategy == "Current":
-            flash("The bot is running, You selected the Current Strategy", "success")
-            return render_template("index.html", process= Process, round=round, float=float, orders = db.get_order, order= get_order, check = check, trade = users, start = Current, balance=get_asset_balance)
-        elif strategy == "Average":
-            flash("The bot is running, You selected the Average Strategy", "success")
-            return render_template("index.html", process= Process, round= round, float=float, orders = db.get_order, order= get_order, check = check, trade = users, start = Average, balance=get_asset_balance)
-    return render_template("index.html", process= Process, round=round, float=float, balance=get_asset_balance, orders = db.get_order, order= get_order)
+        status = "NEW"
+        time = time.time()
+
+        # START THE PROCESS
+        process = Process(target=db.new_trade, args=(user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
+
+        process.start()
+        flash(f"The bot is successfully scheduled to run with {strategy} strategy", "success")
+        return render_template("index.html", round = round, float = float, orders = db.get_order, order= get_order, balance=get_asset_balance)
+    return render_template("index.html", round = round, float = float, balance = get_asset_balance, orders = db.get_order, order= get_order)
 
 
 if __name__ == "__main__":
