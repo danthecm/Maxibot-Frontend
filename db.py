@@ -153,7 +153,7 @@ def email_exist(email):
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
 # createTrades()
 # delete()
-me = result(20)
-answer = pickle.loads(me["result"])
+# me = result(20)
+# answer = pickle.loads(me["result"])
 
-print(answer)
+# print(answer)
