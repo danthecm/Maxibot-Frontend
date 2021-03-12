@@ -19,17 +19,16 @@ app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw
 app.config['CELERY_BROKER_URL'] = "amqps://wwbcioqn:Wrs1zKw7legb6ISqBKNbRBkXmII4Y6Sf@woodpecker.rmq.cloudamqp.com/wwbcioqn"
 
 
-celery = make_celery(app)
-
-# celery.conf.beat_schedule = {
+# app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
-#         'task': 'my_test.my_task',
-#         'schedule': 30.0,
-#         'args': ("woooooooo")
+#         'task': 'tasks.my_test.my_task',
+#         'schedule': timedelta(seconds=5),
+#         'args': ("woooooooo"),
+#         "maxinterval": 2
 #     },
 # }
-# celery.conf.timezone = 'UTC'
 
+celery = make_celery(app)
 
 @app.route("/")
 def index():
@@ -38,16 +37,26 @@ def index():
 
 @app.route("/celery")
 def check():
-    my_task.delay("ooooo boy eh")
-
+    my_task.delay("This is me starting")
+    print("working on the task")
     return "I sent a request"
 
 @celery.task(name="my_test.my_task")
 def my_task(word):
     print("Hi am the background celery task")
-    t.sleep(5)
+    t.sleep(10)
     print("just finish sleeping")
     return f"Done {word}"
+
+celery.conf.beat_schedule = {
+ "run-me-every-ten-seconds": {
+        'task': 'tasks.my_test.my_task',
+        'schedule': timedelta(seconds=5),
+        'args': (("woooooooo",))
+
+ }
+}
+
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
