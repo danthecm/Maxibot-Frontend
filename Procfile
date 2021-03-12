@@ -1,3 +1,3 @@
 web: gunicorn app:app
-worker: celery -A app.celery worker -l INFO
-worker: celery -A app.celery beat -l INFO
+worker: app.celery celery worker --loglevel=info
+celery_beat: app.celery celery beat --loglevel=info
