@@ -21,14 +21,14 @@ app.config['CELERY_BROKER_URL'] = "amqps://wwbcioqn:Wrs1zKw7legb6ISqBKNbRBkXmII4
 
 celery = make_celery(app)
 
-celery.conf.beat_schedule = {
-    'add-every-30-seconds': {
-        'task': 'my_test.my_task',
-        'schedule': 30.0,
-        'args': ("woooooooo")
-    },
-}
-celery.conf.timezone = 'UTC'
+# celery.conf.beat_schedule = {
+#     'add-every-30-seconds': {
+#         'task': 'my_test.my_task',
+#         'schedule': 30.0,
+#         'args': ("woooooooo")
+#     },
+# }
+# celery.conf.timezone = 'UTC'
 
 
 @app.route("/")
