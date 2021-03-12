@@ -5,6 +5,7 @@ autobahn==21.2.1
 Automat==20.2.0
 autopep8==1.5.5
 bitcoin-price-api==0.0.4
+celery==5.0.5
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0

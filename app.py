@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
 import time as t
+from datetime import timedelta
 from threading import Thread
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
@@ -8,15 +9,45 @@ from auth import RegisterForm, LoginForm
 from strategy import Current, Average
 from functools import wraps 
 from functions import get_asset_balance, get_order
+from my_celery import make_celery
 
 app = Flask(__name__)
 
 app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
+app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
+app.config['CELERY_BROKER_URL'] = "amqps://wwbcioqn:Wrs1zKw7legb6ISqBKNbRBkXmII4Y6Sf@woodpecker.rmq.cloudamqp.com/wwbcioqn"
+
+
+celery = make_celery(app)
+
+celery.conf.beat_schedule = {
+    'add-every-30-seconds': {
+        'task': 'my_test.my_task',
+        'schedule': 30.0,
+        'args': ("woooooooo")
+    },
+}
+celery.conf.timezone = 'UTC'
+
 
 @app.route("/")
 def index():
     return render_template("home.html")
+
+
+@app.route("/celery")
+def check():
+    my_task.delay("ooooo boy eh")
+
+    return "I sent a request"
+
+@celery.task(name="my_test.my_task")
+def my_task(word):
+    print("Hi am the background celery task")
+    t.sleep(5)
+    print("just finish sleeping")
+    return f"Done {word}"
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
