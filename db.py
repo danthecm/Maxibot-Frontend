@@ -1,4 +1,6 @@
 import pymysql as mysql
+import base64
+import pickle
 
 # Data instance identifer
 db = "MaxiBot"
@@ -101,6 +103,16 @@ def get_order(id):
         return order
     else:
         return None
+def result(id):
+    cur = connection.cursor()
+    sql = ("SELECT result FROM celery_taskmeta WHERE id = %s")
+    result = cur.execute(sql, id)
+    if result > 0:
+        order = cur.fetchone()
+        cur.close
+        return order
+    else:
+        return None
 
 def login(email):
     try:
@@ -141,3 +153,7 @@ def email_exist(email):
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
 # createTrades()
 # delete()
+me = result(20)
+answer = pickle.loads(me["result"])
+
+print(answer)

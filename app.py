@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
-app.config['CELERY_BROKER_URL'] = "amqps://wwbcioqn:Wrs1zKw7legb6ISqBKNbRBkXmII4Y6Sf@woodpecker.rmq.cloudamqp.com/wwbcioqn"
+app.config['CELERY_BROKER_URL'] = "amqps://wrombhgt:zZyzwmcqhoPenQ_-AmdZQoCmWYM9EDFJ@toad.rmq.cloudamqp.com/wrombhgt"
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
@@ -37,22 +37,21 @@ def index():
 
 @app.route("/celery")
 def check():
-    my_task.delay("This is me starting")
+    my_task.delay()
     print("working on the task")
     return "I sent a request"
 
-@celery.task(name="my_test.my_task")
-def my_task(word):
+@celery.task(name="my_task")
+def my_task():
     print("Hi am the background celery task")
     t.sleep(10)
     print("just finish sleeping")
-    return f"Done {word}"
+    return "hahahahahah"
 
 celery.conf.beat_schedule = {
  "run-me-every-ten-seconds": {
-        'task': 'tasks.my_test.my_task',
-        'schedule': timedelta(seconds=5),
-        'args': (("woooooooo",))
+        'task': 'my_task',
+        'schedule': timedelta(minutes=1)
 
  }
 }
