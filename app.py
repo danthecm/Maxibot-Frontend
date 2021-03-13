@@ -47,6 +47,12 @@ app.config['CELERY_BROKER_URL'] = broker_url
 
 celery = make_celery(app)
 
+celery.conf.beat_schedule = {
+        "Get all trades": {
+            'task': 'my_task',
+            'schedule': timedelta(minutes=1)
+        }
+    }
 
 @app.route("/")
 def index():
@@ -61,12 +67,13 @@ def check():
 
 
 @celery.task(name="my_task")
-def my_task(name):
+def my_task():
+    all = db.get_all_trades()
     print("Hi am the background celery task")
-    print(f"WELCOME  {name} ")
+    print(f"WELCOME ALL TRADES is {all}")
     t.sleep(10)
-    print(f"just finish sleeping {name}")
-    return name
+    print(f"just finish sleeping")
+    return all
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -143,15 +150,6 @@ def login_required(f):
 @app.route("/dashboard", methods=["POST", "GET"])
 @login_required
 def dashboard():
-    celery.conf.beat_schedule = {
-        "run-me-every-ten-seconds": {
-            'task': 'my_task',
-            'schedule': timedelta(minutes=1),
-            'args': (session["user"]["name"])
-
-        }
-    }
-
     if request.method == "POST":
         user_id = session["user"]["id"]
         strategy = request.form["strategy"]

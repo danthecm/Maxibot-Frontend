@@ -103,6 +103,18 @@ def get_order(id):
         return order
     else:
         return None
+
+def get_all_trades():
+    cur = connection.cursor()
+    sql = ("SELECT * FROM Trades WHERE status = %s")
+    result = cur.execute(sql, "NEW")
+    if result > 0:
+        trades = cur.fetchall()
+        cur.close
+        return trades
+    else:
+        return None
+
 def result(id):
     cur = connection.cursor()
     sql = ("SELECT result FROM celery_taskmeta WHERE id = %s")
