@@ -147,7 +147,7 @@ def dashboard():
         "run-me-every-ten-seconds": {
             'task': 'my_task',
             'schedule': timedelta(minutes=5)
-            'args': (session["user"]["name"],)
+            'args': (session["user"]["name"])
 
         }
     }
