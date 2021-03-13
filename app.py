@@ -164,7 +164,6 @@ def dashboard():
 @celery.task(name="my_task")
 def my_task():
     all = db.get_all_trades()
-    print(session['user'])
     for trades in all:
         print("Hi am the background celery task")
         print(f"WELCOME ALL TRADES is {trades}")
