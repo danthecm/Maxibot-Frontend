@@ -69,10 +69,11 @@ def check():
 @celery.task(name="my_task")
 def my_task():
     all = db.get_all_trades()
-    print("Hi am the background celery task")
-    print(f"WELCOME ALL TRADES is {all}")
-    t.sleep(10)
-    print(f"just finish sleeping")
+    for trades in all:
+        print("Hi am the background celery task")
+        print(f"WELCOME ALL TRADES is {trades}")
+        t.sleep(5)
+        print(f"just finish sleeping")
     return all
 
 
