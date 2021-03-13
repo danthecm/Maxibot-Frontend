@@ -8,22 +8,26 @@ from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from strategy import Current, Average
-from functools import wraps 
+from functools import wraps
 from functions import get_asset_balance, get_order
 from my_celery import make_celery
 
 app = Flask(__name__)
 
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
-broker_url = os.environ.get('CLOUDAMQP_URL', "amqps://wrombhgt:zZyzwmcqhoPenQ_-AmdZQoCmWYM9EDFJ@toad.rmq.cloudamqp.com/wrombhgt")
-broker_pool_limit = 1 # Will decrease connection usage
-broker_heartbeat = None # We're using TCP keep-alive instead
-broker_connection_timeout = 30 # May require a long timeout due to Linux DNS timeouts etc
-result_backend = None # AMQP is not recommended as result backend as it creates thousands of queues
-event_queue_expires = 240 # Will delete all celeryev. queues without consumers after 1 minute.
-worker_prefetch_multiplier = 1 # Disable prefetching, it's causes problems and doesn't help performance
+broker_url = os.environ.get(
+    'CLOUDAMQP_URL', "amqps://wrombhgt:zZyzwmcqhoPenQ_-AmdZQoCmWYM9EDFJ@toad.rmq.cloudamqp.com/wrombhgt")
+broker_pool_limit = 1  # Will decrease connection usage
+broker_heartbeat = None  # We're using TCP keep-alive instead
+# May require a long timeout due to Linux DNS timeouts etc
+broker_connection_timeout = 30
+# AMQP is not recommended as result backend as it creates thousands of queues
+result_backend = None
+# Will delete all celeryev. queues without consumers after 1 minute.
+event_queue_expires = 240
+# Disable prefetching, it's causes problems and doesn't help performance
+worker_prefetch_multiplier = 1
 worker_concurrency = 10
-
 
 
 app.secret_key = 'maxitest'
@@ -43,6 +47,7 @@ app.config['CELERY_BROKER_URL'] = broker_url
 
 celery = make_celery(app)
 
+
 @app.route("/")
 def index():
     return render_template("home.html")
@@ -54,20 +59,14 @@ def check():
     print("working on the task")
     return "I sent a request"
 
+
 @celery.task(name="my_task")
-def my_task():
+def my_task(name):
     print("Hi am the background celery task")
+    print(f"WELCOME  {name} ")
     t.sleep(10)
-    print("just finish sleeping")
-    return "hahahahahah"
-
-celery.conf.beat_schedule = {
- "run-me-every-ten-seconds": {
-        'task': 'my_task',
-        'schedule': timedelta(minutes=5)
-
- }
-}
+    print(f"just finish sleeping {name}")
+    return name
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -85,15 +84,14 @@ def register():
             flash("You have successfully registered Login to continue", "success")
             return redirect(url_for("login"))
         except db.mysql.Error as e:
-            flash("User Already Exist with this email click on Login or enter another email", "danger")
+            flash(
+                "User Already Exist with this email click on Login or enter another email", "danger")
             print(e)
             return render_template("register.html", form=form)
     elif request.method == "POST" and not form.validate():
         flash("Please fill out all fields properly", "warning")
         return render_template("register.html", form=form)
     return render_template("register.html", form=form)
-
-
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -125,11 +123,13 @@ def login():
             return render_template("login.html", form=form)
     return render_template("login.html", form=form)
 
+
 @app.route("/logout")
 def logout():
     session.clear()
     flash("Successfuly Logout out", "success")
     return redirect(url_for("login"))
+
 
 def login_required(f):
     @wraps(f)
@@ -143,6 +143,15 @@ def login_required(f):
 @app.route("/dashboard", methods=["POST", "GET"])
 @login_required
 def dashboard():
+    celery.conf.beat_schedule = {
+        "run-me-every-ten-seconds": {
+            'task': 'my_task',
+            'schedule': timedelta(minutes=5)
+            'args': (session["user"]["name"],)
+
+        }
+    }
+
     if request.method == "POST":
         user_id = session["user"]["id"]
         strategy = request.form["strategy"]
@@ -155,12 +164,14 @@ def dashboard():
         time = t.time()
 
         # START THE PROCESS
-        process = Process(target=db.new_trade, args=(user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
+        process = Process(target=db.new_trade, args=(
+            user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
 
         process.start()
-        flash(f"The bot is successfully scheduled to run with {strategy} strategy", "success")
-        return render_template("index.html", round = round, float = float, orders = db.get_order, order= get_order, balance=get_asset_balance)
-    return render_template("index.html", round = round, float = float, balance = get_asset_balance, orders = db.get_order, order= get_order)
+        flash(
+            f"The bot is successfully scheduled to run with {strategy} strategy", "success")
+        return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
+    return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.get_order, order=get_order)
 
 
 if __name__ == "__main__":
