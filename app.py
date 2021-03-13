@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
 import db
 import time as t
+import os
 from datetime import timedelta
 from threading import Thread
 from multiprocessing import Process
@@ -13,10 +14,24 @@ from my_celery import make_celery
 
 app = Flask(__name__)
 
+# Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
+broker_url = os.environ.get('CLOUDAMQP_URL', "amqps://wrombhgt:zZyzwmcqhoPenQ_-AmdZQoCmWYM9EDFJ@toad.rmq.cloudamqp.com/wrombhgt")
+broker_pool_limit = 1 # Will decrease connection usage
+broker_heartbeat = None # We're using TCP keep-alive instead
+broker_connection_timeout = 30 # May require a long timeout due to Linux DNS timeouts etc
+result_backend = None # AMQP is not recommended as result backend as it creates thousands of queues
+event_queue_expires = 60 # Will delete all celeryev. queues without consumers after 1 minute.
+worker_prefetch_multiplier = 1 # Disable prefetching, it's causes problems and doesn't help performance
+worker_concurrency = 50
+
+
+
 app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
-app.config['CELERY_BROKER_URL'] = "amqps://wrombhgt:zZyzwmcqhoPenQ_-AmdZQoCmWYM9EDFJ@toad.rmq.cloudamqp.com/wrombhgt"
+app.config['CELERY_BROKER_URL'] = broker_url
+
+print(broker_url)
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
