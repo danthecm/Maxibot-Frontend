@@ -20,9 +20,9 @@ broker_pool_limit = 1 # Will decrease connection usage
 broker_heartbeat = None # We're using TCP keep-alive instead
 broker_connection_timeout = 30 # May require a long timeout due to Linux DNS timeouts etc
 result_backend = None # AMQP is not recommended as result backend as it creates thousands of queues
-event_queue_expires = 60 # Will delete all celeryev. queues without consumers after 1 minute.
+event_queue_expires = 240 # Will delete all celeryev. queues without consumers after 1 minute.
 worker_prefetch_multiplier = 1 # Disable prefetching, it's causes problems and doesn't help performance
-worker_concurrency = 50
+worker_concurrency = 10
 
 
 
@@ -30,8 +30,6 @@ app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
-
-print(broker_url)
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
@@ -66,7 +64,7 @@ def my_task():
 celery.conf.beat_schedule = {
  "run-me-every-ten-seconds": {
         'task': 'my_task',
-        'schedule': timedelta(minutes=1)
+        'schedule': timedelta(minutes=5)
 
  }
 }
