@@ -146,7 +146,7 @@ def dashboard():
     celery.conf.beat_schedule = {
         "run-me-every-ten-seconds": {
             'task': 'my_task',
-            'schedule': timedelta(minutes=5)
+            'schedule': timedelta(minutes=1),
             'args': (session["user"]["name"])
 
         }
