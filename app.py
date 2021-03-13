@@ -162,7 +162,6 @@ def dashboard():
 
 
 @celery.task(name="my_task")
-@login_required
 def my_task():
     all = db.get_all_trades()
     print(session['user'])
