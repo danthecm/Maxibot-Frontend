@@ -2,9 +2,6 @@ from flask import Flask, flash, render_template, request, redirect, url_for, ses
 import db
 import time as t
 import os
-from datetime import timedelta
-from threading import Thread
-from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from strategy import Current, Average
@@ -46,13 +43,6 @@ app.config['CELERY_BROKER_URL'] = broker_url
 # }
 
 celery = make_celery(app)
-
-celery.conf.beat_schedule = {
-        "Get all trades": {
-            'task': 'my_task',
-            'schedule': timedelta(minutes=1)
-        }
-    }
 
 @app.route("/")
 def index():
