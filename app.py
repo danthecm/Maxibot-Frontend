@@ -2,6 +2,7 @@ from flask import Flask, flash, render_template, request, redirect, url_for, ses
 import db
 import time as t
 import os
+from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from strategy import Current, Average
@@ -141,6 +142,10 @@ def dashboard():
         time = t.time()
 
         # START THE PROCESS
+        process = Process(target=db.new_trade, args=(
+            user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
+
+        process.start()
         flash(
             f"The bot is successfully scheduled to run with {strategy} strategy", "success")
         return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
