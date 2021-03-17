@@ -97,7 +97,6 @@ def login():
             if sha256_crypt.verify(password_candidate, password):
                 session["logged_in"] = True
                 session["user"] = user
-                print("PASSWORD MATCHED")
                 return redirect(url_for("dashboard"))
             else:
                 flash("Password is incorrect", "danger")
