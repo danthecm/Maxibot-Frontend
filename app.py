@@ -147,8 +147,8 @@ def dashboard():
         process.start()
         flash(
             f"The bot is successfully scheduled to run with {strategy} strategy", "success")
-        return render_template("index.html", round=round, float=float, orders=db.order, order=get_order, balance=get_asset_balance)
-    return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.order, order=get_order)
+        return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
+    return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.get_order, order=get_order)
 
 
 @celery.task(name="my_task")
