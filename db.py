@@ -104,10 +104,10 @@ def get_order(id):
     else:
         return None
 
-def get_all_trades():
+def get_all_trades(id):
     cur = connection.cursor()
     sql = ("SELECT * FROM Trades WHERE status = %s")
-    result = cur.execute(sql, "NEW")
+    result = cur.execute(sql, id)
     if result > 0:
         trades = cur.fetchall()
         cur.close
