@@ -34,7 +34,7 @@ def createOrders():
     try:
         cursor = connection.cursor()
         creat_table = """
-        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), trade_id varchar(200), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
         """
         cursor.execute(creat_table)
         print("successfuly create the table")
@@ -143,10 +143,13 @@ def login(email):
 
 
 def delete():
-    cur = connection.cursor()
-    droped = cur.execute("DROP TABLE Trades")
-    print(droped)
-    cur.close()
+    try:
+        cur = connection.cursor()
+        droped = cur.execute("DROP TABLE Trades")
+        print(droped)
+        cur.close()
+    except Exception as e:
+        print(e)
 
 
 def email_exist(email):
@@ -164,6 +167,7 @@ def email_exist(email):
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
 # createTrades()
+# createOrders()
 # delete()
 # me = result(20)
 # answer = pickle.loads(me["result"])

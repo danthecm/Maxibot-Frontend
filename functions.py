@@ -20,3 +20,12 @@ def get_order(api_key, secret_key, pairs, order_id):
         return order
     except Exception as e:
         print(e)
+
+def get_all_order(api_key, secret_key):
+    try:
+        client = Client(api_key, secret_key)
+        order = client.get_all_orders(symbol="CHZGBP")
+        print(order)
+        return order
+    except Exception as e:
+        print(e)
