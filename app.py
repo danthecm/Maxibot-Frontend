@@ -149,7 +149,7 @@ def dashboard():
         my_pair = f"{first_symbol}{second_symbol}"
         current_price = client.get_symbol_ticker(symbol=my_pair)
         current_price = float(current_price["price"])
-        
+
         average_m = request.form["average_m"]
         current_m = request.form["current_m"]
         amount = float(request.form["amount"])
@@ -164,7 +164,7 @@ def dashboard():
 
         process.start()
         flash(
-            f"The bot is successfully scheduled to run with {strategy} strategy", "success")
+            f"The bot is successfully scheduled to run ", "success")
         return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
     return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.get_order, order=get_order)
 
