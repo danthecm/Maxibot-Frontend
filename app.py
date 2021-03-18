@@ -138,25 +138,28 @@ def dashboard():
         pairs = request.form["pairs"]
         my_pair = request.form["pairs"]
 
-        # FORMAT THE PAIRS
-        for i in range(len(my_pair)):
-            if my_pair[i] == "/":
-                first_index = i
-                break
-        second_index = first_index + 1
-        first_symbol = my_pair[0:first_index]
-        second_symbol = my_pair[second_index:]
-        my_pair = f"{first_symbol}{second_symbol}"
-        current_price = client.get_symbol_ticker(symbol=my_pair)
-        current_price = float(current_price["price"])
+        try:
+            # FORMAT THE PAIRS
+            for i in range(len(my_pair)):
+                if my_pair[i] == "/":
+                    first_index = i
+                    break
+            second_index = first_index + 1
+            first_symbol = my_pair[0:first_index]
+            second_symbol = my_pair[second_index:]
+            my_pair = f"{first_symbol}{second_symbol}"
+            current_price = client.get_symbol_ticker(symbol=my_pair)
+            current_price = float(current_price["price"])
 
-        average_m = request.form["average_m"]
-        current_m = request.form["current_m"]
-        amount = float(request.form["amount"])
-        sell_m = float(request.form["sell_m"])
-        trades = int(request.form["trades"])
-        status = "NEW"
-        time = t.time()
+            average_m = request.form["average_m"]
+            current_m = request.form["current_m"]
+            amount = float(request.form["amount"])
+            sell_m = float(request.form["sell_m"])
+            trades = int(request.form["trades"])
+            status = "NEW"
+            time = t.time()
+        except Exception as e:
+            print(e)
 
         # START THE PROCESS
         process = Process(target=db.new_trade, args=(

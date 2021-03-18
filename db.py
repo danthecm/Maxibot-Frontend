@@ -72,7 +72,7 @@ def register(name, email, phone, api_key, secret_key, password):
 def new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time):
     try:
         cur = connection.cursor()
-        sql = "INSERT INTO `Trades` (`user_id`, `pairs`, `current_price` `average_margin`, `current_margin`, `amount`, `sell_margin`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO `Trades` (`user_id`, `pairs`, `current_price` `average_margin`, `current_margin`, `amount`, `sell_margin`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cur.execute(sql, (user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time))
         connection.commit()
         cur.close
