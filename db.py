@@ -34,7 +34,7 @@ def createOrders():
     try:
         cursor = connection.cursor()
         creat_table = """
-        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Orders (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50), order_id varchar(200) UNIQUE, time float(25) UNIQUE, PRIMARY KEY (id))
         """
         cursor.execute(creat_table)
         print("successfuly create the table")
@@ -47,7 +47,7 @@ def createTrades():
     try:
         cur = connection.cursor()
         create_table = """ 
-        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), strategy varchar(100), pairs varchar(50), margin_percent float(25), amount float(50), sell_percent float(25), trades int(11), status varchar(200), time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50), average_margin float(25), current_margin float(25), amount float(50), sell_margin float(25), trades int(11), status varchar(200), time float(25) UNIQUE, PRIMARY KEY (id))
          """
         cur.execute(create_table)
         print("Successfully created the table")
@@ -69,11 +69,11 @@ def register(name, email, phone, api_key, secret_key, password):
         return "There was an error"
 
 
-def new_trade(user_id, strategy, pairs, margin_percent, amount, sell_percent, trades, status, time):
+def new_trade(user_id, pairs, average_m, current_m, amount, sell_m, trades, status, time):
     try:
         cur = connection.cursor()
-        sql = "INSERT INTO `Trades` (`user_id`, `strategy`, `pairs`,  `margin_percent`,`amount`, `sell_percent`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cur.execute(sql, (user_id, strategy, pairs, margin_percent, amount, sell_percent, trades, status, time))
+        sql = "INSERT INTO `Trades` (`user_id`, `pairs`, `average_margin`, `current_margin`, `amount`, `sell_margin`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cur.execute(sql, (user_id, pairs, average_m, current_m, amount, sell_m, trades, status, time))
         connection.commit()
         cur.close
         return True
@@ -81,11 +81,11 @@ def new_trade(user_id, strategy, pairs, margin_percent, amount, sell_percent, tr
         print(e)
 
 
-def new_order(user_id, strategy, pairs, order_id, time):
+def new_order(user_id, pairs, order_id, time):
     try:
         cur = connection.cursor()
-        sql = "INSERT INTO `Orders` (`user_id`, `strategy`, `pairs`,  `order_id`, `time`) VALUES(%s, %s, %s, %s, %s)"
-        cur.execute(sql, (user_id, strategy, pairs, order_id, time))
+        sql = "INSERT INTO `Orders` (`user_id`, `pairs`,  `order_id`, `time`) VALUES(%s, %s, %s, %s, %s)"
+        cur.execute(sql, (user_id, pairs, order_id, time))
         connection.commit()
         cur.close
         return True
@@ -144,7 +144,7 @@ def login(email):
 
 def delete():
     cur = connection.cursor()
-    droped = cur.execute("DROP TABLE Orders")
+    droped = cur.execute("DROP TABLE Trades")
     print(droped)
     cur.close()
 
@@ -163,7 +163,7 @@ def email_exist(email):
 #     print(" YOu've entered the wrong email")
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
-# createTrades()
+# createOrders()
 # delete()
 # me = result(20)
 # answer = pickle.loads(me["result"])

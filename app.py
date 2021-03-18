@@ -131,18 +131,18 @@ def login_required(f):
 def dashboard():
     if request.method == "POST":
         user_id = session["user"]["id"]
-        strategy = request.form["strategy"]
         pairs = request.form["pairs"]
-        margin_p = float(request.form["margin_p"])
+        average_m = request.form["average_m"]
+        current_m = request.form["current_m"]
         amount = float(request.form["amount"])
-        sell_p = float(request.form["sell_p"])
+        sell_m = float(request.form["sell_m"])
         trades = int(request.form["trades"])
         status = "NEW"
         time = t.time()
 
         # START THE PROCESS
         process = Process(target=db.new_trade, args=(
-            user_id, strategy, pairs, margin_p, amount, sell_p, trades, status, time))
+            user_id, pairs, average_m, current_m, amount, sell_m, trades, status, time))
 
         process.start()
         flash(

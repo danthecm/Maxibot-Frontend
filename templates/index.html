@@ -7,7 +7,6 @@
 
 {% block content %}
 {% set user = session["user"] %}
-{% set my_order = orders(user["id"]) %}
 <!-- Header -->
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -156,7 +155,7 @@
               </tr>
             </thead>
             <tbody class="list">
-              {% if my_order %}
+              {% if my_order != None %}
               {% for orders in my_order %}
               <tr>
                 <td>{{ orders["id"]}}</td>
