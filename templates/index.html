@@ -7,6 +7,7 @@
 
 {% block content %}
 {% set user = session["user"] %}
+{% set my_order = orders %}
 <!-- Header -->
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -145,7 +146,6 @@
               <tr>
                 <th scope="col" class="sort" data-sort="name">#</th>
                 <th scope="col" class="sort" data-sort="name display-2">Pairs</th>
-                <th scope="col" class="sort" data-sort="budget">Margin</th>
                 <th scope="col" class="sort" data-sort="budget">Side</th>
                 <th scope="col" class="sort" data-sort="budget">Qty</th>
                 <th scope="col" class="sort" data-sort="budget">Price</th>
@@ -165,9 +165,6 @@
                       <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
                     </div>
                   </div>
-                </td>
-                <td class="budget">
-                  {{ orders["pairs"] }}
                 </td>
                 {% set this_order = order(user["api_key"], user["secret_key"], orders["pairs"], orders["order_id"]) %}
                 <td class="budget">
