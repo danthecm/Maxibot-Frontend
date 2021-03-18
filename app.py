@@ -9,6 +9,7 @@ from strategy import Current, Average
 from functools import wraps
 from functions import get_asset_balance, get_order
 from my_celery import make_celery
+from binance.client import Client
 
 app = Flask(__name__)
 
@@ -45,6 +46,7 @@ app.config['CELERY_BROKER_URL'] = broker_url
 
 celery = make_celery(app)
 
+
 @app.route("/")
 def index():
     return render_template("home.html")
@@ -55,6 +57,7 @@ def check():
     my_task.delay()
     print("working on the task")
     return "I sent a request"
+
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -130,8 +133,23 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
+        client = Client()
         user_id = session["user"]["id"]
         pairs = request.form["pairs"]
+        my_pair = request.form["pairs"]
+
+        # FORMAT THE PAIRS
+        for i in range(len(my_pair)):
+            if my_pair[i] == "/":
+                first_index = i
+                break
+        second_index = first_index + 1
+        first_symbol = my_pair[0:first_index]
+        second_symbol = my_pair[second_index:]
+        my_pair = f"{first_symbol}{second_symbol}"
+        current_price = client.get_symbol_ticker(symbol=my_pair)
+        current_price = float(current_price["price"])
+        
         average_m = request.form["average_m"]
         current_m = request.form["current_m"]
         amount = float(request.form["amount"])
@@ -142,7 +160,7 @@ def dashboard():
 
         # START THE PROCESS
         process = Process(target=db.new_trade, args=(
-            user_id, pairs, average_m, current_m, amount, sell_m, trades, status, time))
+            user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time))
 
         process.start()
         flash(
