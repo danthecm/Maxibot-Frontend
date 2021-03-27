@@ -156,6 +156,7 @@ def dashboard():
             amount = float(request.form["amount"])
             sell_m = float(request.form["sell_m"])
             trades = int(request.form["trades"])
+            renew = 0
             status = "NEW"
             time = t.time()
         except Exception as e:
@@ -163,7 +164,7 @@ def dashboard():
 
         # START THE PROCESS
         process = Process(target=db.new_trade, args=(
-            user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time))
+            user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time))
 
         process.start()
         flash(

@@ -47,7 +47,7 @@ def createTrades():
     try:
         cur = connection.cursor()
         create_table = """ 
-        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50),current_price float(25), average_margin float(25), current_margin float(25), amount float(50), sell_margin float(25), trades int(11), status varchar(200), time float(25) UNIQUE, PRIMARY KEY (id))
+        create table Trades (id int(11) NOT NULL AUTO_INCREMENT, user_id varchar(200), pairs varchar(50),current_price float(25), average_margin float(25), current_margin float(25), amount float(50), sell_margin float(25), trades int(11), renew int(11), status varchar(200), time float(25) UNIQUE, PRIMARY KEY (id))
          """
         cur.execute(create_table)
         print("Successfully created the table")
@@ -69,11 +69,11 @@ def register(name, email, phone, api_key, secret_key, password):
         return "There was an error"
 
 
-def new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time):
+def new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time):
     try:
         cur = connection.cursor()
-        sql = "INSERT INTO `Trades` (`user_id`, `pairs`, `current_price`, `average_margin`, `current_margin`, `amount`, `sell_margin`, `trades`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cur.execute(sql, (user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, status, time))
+        sql = "INSERT INTO `Trades` (`user_id`, `pairs`, `current_price`, `average_margin`, `current_margin`, `amount`, `sell_margin`, `trades`, `renew`, `status`, `time`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cur.execute(sql, (user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time))
         connection.commit()
         cur.close
         return True
@@ -166,8 +166,8 @@ def email_exist(email):
 #     print(" YOu've entered the wrong email")
 # else:
 #     print(f"WELCOME {me[1]} your email address is {me[2]} and your phone number is {me[3]} all other information are secret bro ")
-# createTrades()
-# createOrders()
+createTrades()
+createOrders()
 # delete()
 # me = result(20)
 # answer = pickle.loads(me["result"])
