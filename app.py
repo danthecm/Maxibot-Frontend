@@ -163,27 +163,11 @@ def dashboard():
             print(e)
 
         # START THE PROCESS
-        process = Process(target=db.new_trade, args=(
-            user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time))
-
-        process.start()
+        db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
         flash(
             f"The bot is successfully scheduled to run ", "success")
         return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
     return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.get_order, order=get_order)
-
-
-@celery.task(name="my_task")
-def my_task():
-    all = db.get_all_trades()
-    for trades in all:
-        print("Hi am the background celery task")
-        print(f"WELCOME ALL TRADES is {trades}")
-        t.sleep(5)
-        print(f"just finish sleeping")
-    return all
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
