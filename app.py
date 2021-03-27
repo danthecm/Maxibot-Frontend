@@ -163,7 +163,10 @@ def dashboard():
             print(e)
 
         # START THE PROCESS
-        db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
+        try:
+            db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
+        except Exception as e:
+            print(e)
         flash(
             f"The bot is successfully scheduled to run ", "success")
         return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
