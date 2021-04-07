@@ -35,9 +35,7 @@ app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
-maxi_backend = "https://maxibot-backend.herokuapp.com"
-temp_backend = "http://127.0.0.1:5001"
-
+maxi_backend = os.environ.get("MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -79,7 +77,7 @@ def register():
         print(my_form)
         try:
             req = requests.post(
-                f"{temp_backend}/api/v1/register", data=my_form)
+                f"{maxi_backend}register", data=my_form)
             print(req.status_code)
             response = req.content
             response = response.decode("UTF-8")
@@ -120,7 +118,7 @@ def login():
         password_candidate = form.password.data
 
         # DATABASE QUERY
-        req = requests.get(f"{temp_backend}/api/v1/login", data=email)
+        req = requests.get(f"{maxi_backend}login", data=email)
         response = req.content
         response = response.decode("UTF-8")
         if req.status_code == 200 and response != "No Email":
@@ -222,7 +220,7 @@ def dashboard():
         try:
             my_form = json.dumps(my_form)
             print(my_form)
-            req = requests.post(f"{temp_backend}/api/v1/new_trade", data=my_form)
+            req = requests.post(f"{maxi_backend}ew_trade", data=my_form)
             response = req.content
             response = response.decode("UTF-8")
             print(response)
