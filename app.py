@@ -175,10 +175,20 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
-        # client = Client()
+        client = Client()
         user_id = session["user"]["id"]
         pairs = request.form["pairs"]
         my_pair = request.form["pairs"]
+        for i in range(len(my_pair)):
+                if my_pair[i] == "/":
+                    first_index = i
+                    break
+        second_index = first_index + 1
+        first_symbol = my_pair[0:first_index]
+        second_symbol = my_pair[second_index:]
+        my_pair = f"{first_symbol}{second_symbol}"
+        current_price = client.get_symbol_ticker(symbol=my_pair)
+        current_price = float(current_price["price"])
         average_m = float(request.form["average_m"])
         current_m = float(request.form["current_m"])
         amount = float(request.form["amount"])
@@ -190,6 +200,7 @@ def dashboard():
         my_form = {
                     "user_id": user_id, 
                     "pairs": pairs, 
+                    "current_price": current_price,
                     "average_margin": average_m,
                     "current_margin": current_m, 
                     "amount": amount, 
