@@ -11,7 +11,7 @@
                             </div>
                         </div>
                         <div class="card-body px-lg-5 py-lg-5">
-                            <form role="form" method="POST" action="dashboard">
+                            <form role="form" method="POST" action="/dashboard">
                                 <div class="form-group mb-2">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend">
@@ -35,6 +35,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                <input type="hidden" value="{{user['id']}}" name="user" >
                                 <div class="form-group mb-2">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend">

@@ -1,11 +1,13 @@
 from flask import Flask, flash, render_template, request, redirect, url_for, session, logging, session
-import db
+# import db
 import time as t
 import os
+import json
+import requests
+import ast
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
-from strategy import Current, Average
 from functools import wraps
 from functions import get_asset_balance, get_order
 from my_celery import make_celery
@@ -33,6 +35,7 @@ app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
+maxi_backend = "http://127.0.0.1:5001"
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
@@ -69,15 +72,36 @@ def register():
         api_key = form.api_key.data
         secret_key = form.secret_key.data
         password = sha256_crypt.hash(form.password.data)
+        my_form = {"name": name, "email": email, "phone": phone,"api_key": api_key, "secret_key": secret_key, "password": password}
+        my_form = json.dumps(my_form)
+        print(my_form)
         try:
-            db.register(name, email, phone, api_key, secret_key, password)
-            flash("You have successfully registered Login to continue", "success")
-            return redirect(url_for("login"))
-        except db.mysql.Error as e:
-            flash(
-                "User Already Exist with this email click on Login or enter another email", "danger")
-            print(e)
+            req = requests.post(f"{maxi_backend}/api/v1/register", data = my_form)
+            print(req.status_code)
+            response = req.content
+            response = response.decode("UTF-8")
+            print(response)
+            if req.status_code == 200 and response == "Success":
+                flash("You were successfully registered kindly login", "success")
+                return redirect(url_for("login"))
+            elif response == "Email Error":
+                flash("Email Already in use kindly use another email", "warning")
+            elif response == "API Error":
+                flash("Your API key already exist kindly use another one", "danger")
             return render_template("register.html", form=form)
+        except Exception as e:
+            print(e)
+            flash("Email address or Api key already exist", "warning")
+            return render_template("register.html", form=form)
+        # try:
+        #     db.register(name, email, phone, api_key, secret_key, password)
+        #     flash("You have successfully registered Login to continue", "success")
+        #     return redirect(url_for("login"))
+        # except db.mysql.Error as e:
+        #     flash(
+        #         "User Already Exist with this email click on Login or enter another email", "danger")
+        #     print(e)
+        #     return render_template("register.html", form=form)
     elif request.method == "POST" and not form.validate():
         flash("Please fill out all fields properly", "warning")
         return render_template("register.html", form=form)
@@ -93,23 +117,40 @@ def login():
         password_candidate = form.password.data
 
         # DATABASE QUERY
-        user = db.login(email)
-        if user != None and user != "Connection Error":
-            password = user["password"]
-            # Compare Password
+        req = requests.get(f"{maxi_backend}/api/v1/login", data = email)
+        response = req.content
+        response = response.decode("UTF-8")
+        if req.status_code == 200 and response != "No Email":
+            user = req.content
+            user = user.decode("UTF-8")
+            user = ast.literal_eval(user)
+            password = user['password']
             if sha256_crypt.verify(password_candidate, password):
                 session["logged_in"] = True
                 session["user"] = user
                 return redirect(url_for("dashboard"))
             else:
                 flash("Password is incorrect", "danger")
-                return render_template("login.html", form=form)
-        elif user == "Connection Error":
-            flash("No internet Connection check your network and try again")
+                return render_template("login.html", form=form)     
+        elif response == "No Email":
+            flash("No user found with this email kindly register", "warning")
             return render_template("login.html", form=form)
-        else:
-            flash("No user exist with this email kindly register", "warning")
-            return render_template("login.html", form=form)
+        # if user != None and user != "Connection Error":
+        #     password = user["password"]
+        #     # Compare Password
+        #     if sha256_crypt.verify(password_candidate, password):
+        #         session["logged_in"] = True
+        #         session["user"] = user
+        #         return redirect(url_for("dashboard"))
+        #     else:
+        #         flash("Password is incorrect", "danger")
+        #         return render_template("login.html", form=form)
+        # elif user == "Connection Error":
+        #     flash("No internet Connection check your network and try again")
+        #     return render_template("login.html", form=form)
+        # else:
+        #     flash("No user exist with this email kindly register", "warning")
+        #     return render_template("login.html", form=form)
     return render_template("login.html", form=form)
 
 
@@ -163,14 +204,14 @@ def dashboard():
             print(e)
 
         # START THE PROCESS
-        try:
-            db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
-        except Exception as e:
-            print(e)
+        # try:
+        #     db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
+        # except Exception as e:
+        #     print(e)
         flash(
             f"The bot is successfully scheduled to run ", "success")
-        return render_template("index.html", round=round, float=float, orders=db.get_order, order=get_order, balance=get_asset_balance)
-    return render_template("index.html", round=round, float=float, balance=get_asset_balance, orders=db.get_order, order=get_order)
+        return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+    return render_template("index.html", round=round, float=float, balance=get_asset_balance)
 
 if __name__ == "__main__":
     app.run(debug=True)
