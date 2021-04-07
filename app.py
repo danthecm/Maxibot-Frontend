@@ -231,7 +231,7 @@ def dashboard():
         try:
             my_form = json.dumps(my_form)
             print(my_form)
-            req = requests.post(f"{maxi_backend}ew_trade", data=my_form)
+            req = requests.post(f"{maxi_backend}new_trade", data=my_form)
             response = req.content
             response = response.decode("UTF-8")
             print(response)
