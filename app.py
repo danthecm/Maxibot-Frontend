@@ -35,7 +35,7 @@ app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
-maxi_backend = "http://127.0.0.1:5001"
+maxi_backend = "https://maxibot-backend.herokuapp.com"
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
