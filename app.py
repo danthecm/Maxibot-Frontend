@@ -36,6 +36,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = "https://maxibot-backend.herokuapp.com"
+temp_backend = "http://127.0.0.1:5001"
 
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
@@ -72,11 +73,13 @@ def register():
         api_key = form.api_key.data
         secret_key = form.secret_key.data
         password = sha256_crypt.hash(form.password.data)
-        my_form = {"name": name, "email": email, "phone": phone,"api_key": api_key, "secret_key": secret_key, "password": password}
+        my_form = {"name": name, "email": email, "phone": phone,
+                   "api_key": api_key, "secret_key": secret_key, "password": password}
         my_form = json.dumps(my_form)
         print(my_form)
         try:
-            req = requests.post(f"{maxi_backend}/api/v1/register", data = my_form)
+            req = requests.post(
+                f"{temp_backend}/api/v1/register", data=my_form)
             print(req.status_code)
             response = req.content
             response = response.decode("UTF-8")
@@ -117,7 +120,7 @@ def login():
         password_candidate = form.password.data
 
         # DATABASE QUERY
-        req = requests.get(f"{maxi_backend}/api/v1/login", data = email)
+        req = requests.get(f"{temp_backend}/api/v1/login", data=email)
         response = req.content
         response = response.decode("UTF-8")
         if req.status_code == 200 and response != "No Email":
@@ -131,7 +134,7 @@ def login():
                 return redirect(url_for("dashboard"))
             else:
                 flash("Password is incorrect", "danger")
-                return render_template("login.html", form=form)     
+                return render_template("login.html", form=form)
         elif response == "No Email":
             flash("No user found with this email kindly register", "warning")
             return render_template("login.html", form=form)
@@ -174,44 +177,65 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
-        client = Client()
+        # client = Client()
         user_id = session["user"]["id"]
         pairs = request.form["pairs"]
         my_pair = request.form["pairs"]
-
-        try:
-            # FORMAT THE PAIRS
-            for i in range(len(my_pair)):
-                if my_pair[i] == "/":
-                    first_index = i
-                    break
-            second_index = first_index + 1
-            first_symbol = my_pair[0:first_index]
-            second_symbol = my_pair[second_index:]
-            my_pair = f"{first_symbol}{second_symbol}"
-            current_price = client.get_symbol_ticker(symbol=my_pair)
-            current_price = float(current_price["price"])
-
-            average_m = request.form["average_m"]
-            current_m = request.form["current_m"]
-            amount = float(request.form["amount"])
-            sell_m = float(request.form["sell_m"])
-            trades = int(request.form["trades"])
-            renew = 0
-            status = "NEW"
-            time = t.time()
-        except Exception as e:
-            print(e)
-
-        # START THE PROCESS
+        average_m = float(request.form["average_m"])
+        current_m = float(request.form["current_m"])
+        amount = float(request.form["amount"])
+        sell_m = float(request.form["sell_m"])
+        trades = int(request.form["trades"])
+        renew = 0
+        status = "NEW"
+        time = t.time()
+        my_form = {
+                    "user_id": user_id, 
+                    "pairs": pairs, 
+                    "average_margin": average_m,
+                    "current_margin": current_m, 
+                    "amount": amount, 
+                    "sell_margin": sell_m,
+                    "trades": trades,
+                    "renew": renew,
+                    "status": status,
+                    "time": time
+                    }
         # try:
-        #     db.new_trade(user_id, pairs, current_price, average_m, current_m, amount, sell_m, trades, renew, status, time)
+        #     # FORMAT THE PAIRS
+        #     for i in range(len(my_pair)):
+        #         if my_pair[i] == "/":
+        #             first_index = i
+        #             break
+        #     second_index = first_index + 1
+        #     first_symbol = my_pair[0:first_index]
+        #     second_symbol = my_pair[second_index:]
+        #     my_pair = f"{first_symbol}{second_symbol}"
+        #     # current_price = client.get_symbol_ticker(symbol=my_pair)
+        #     # current_price = float(current_price["price"])
         # except Exception as e:
         #     print(e)
-        flash(
-            f"The bot is successfully scheduled to run ", "success")
-        return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+
+        #########################################################################
+        ############ INSERT DETAILS INTO THE TRADE TABLE OF SQLITE ##############
+        #########################################################################
+        try:
+            my_form = json.dumps(my_form)
+            print(my_form)
+            req = requests.post(f"{temp_backend}/api/v1/new_trade", data=my_form)
+            response = req.content
+            response = response.decode("UTF-8")
+            print(response)
+            if req.status_code == 200 and response == "Success":
+                flash(f"The bot is successfully scheduled to run ", "success")
+                return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+            else:
+                flash(f"There was an error sending your trade", "danger")
+                return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+        except Exception as e:
+            print(e)
     return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
