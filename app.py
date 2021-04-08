@@ -35,7 +35,8 @@ app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
-maxi_backend = os.environ.get("MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
+maxi_backend = os.environ.get(
+    "MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -121,9 +122,9 @@ def login():
         req = requests.get(f"{maxi_backend}login", data=email)
         response = req.content
         response = response.decode("UTF-8")
+        print(req.status_code)
         if req.status_code == 200 and response != "No Email":
-            user = req.content
-            user = user.decode("UTF-8")
+            user = response
             user = ast.literal_eval(user)
             password = user['password']
             if sha256_crypt.verify(password_candidate, password):
@@ -175,20 +176,23 @@ def login_required(f):
 @login_required
 def dashboard():
     if request.method == "POST":
-        client = Client()
         user_id = session["user"]["id"]
         pairs = request.form["pairs"]
         my_pair = request.form["pairs"]
         for i in range(len(my_pair)):
-                if my_pair[i] == "/":
-                    first_index = i
-                    break
+            if my_pair[i] == "/":
+                first_index = i
+                break
         second_index = first_index + 1
         first_symbol = my_pair[0:first_index]
         second_symbol = my_pair[second_index:]
         my_pair = f"{first_symbol}{second_symbol}"
-        current_price = client.get_symbol_ticker(symbol=my_pair)
-        current_price = float(current_price["price"])
+        try:
+            client = Client()
+            current_price = client.get_symbol_ticker(symbol=my_pair)
+            current_price = float(current_price["price"])
+        except Exception as e:
+            current_price = 3489.34343
         average_m = float(request.form["average_m"])
         current_m = float(request.form["current_m"])
         amount = float(request.form["amount"])
@@ -198,18 +202,18 @@ def dashboard():
         status = "NEW"
         time = t.time()
         my_form = {
-                    "user_id": user_id, 
-                    "pairs": pairs, 
-                    "current_price": current_price,
-                    "average_margin": average_m,
-                    "current_margin": current_m, 
-                    "amount": amount, 
-                    "sell_margin": sell_m,
-                    "trades": trades,
-                    "renew": renew,
-                    "status": status,
-                    "time": time
-                    }
+            "user_id": user_id,
+            "pairs": pairs,
+            "current_price": current_price,
+            "average_margin": average_m,
+            "current_margin": current_m,
+            "amount": amount,
+            "sell_margin": sell_m,
+            "trades": trades,
+            "renew": renew,
+            "status": status,
+            "time": time
+        }
         # try:
         #     # FORMAT THE PAIRS
         #     for i in range(len(my_pair)):
@@ -234,6 +238,7 @@ def dashboard():
             req = requests.post(f"{maxi_backend}new_trade", data=my_form)
             response = req.content
             response = response.decode("UTF-8")
+            print(req.status_code)
             print(response)
             if req.status_code == 200 and response == "Success":
                 flash(f"The bot is successfully scheduled to run ", "success")
