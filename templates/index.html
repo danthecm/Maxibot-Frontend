@@ -6,7 +6,7 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-{% set user = session["user"] %}
+{% set user = this_user %}
 <!-- Header -->
 <div class="header bg-primary pb-6">
   <div class="container-fluid">
@@ -143,76 +143,43 @@
           <table class="table align-items-center table-dark table-flush">
             <thead class="thead-dark">
               <tr>
-                <th scope="col" class="sort" data-sort="name">#</th>
                 <th scope="col" class="sort" data-sort="name display-2">Pairs</th>
-                <th scope="col" class="sort" data-sort="budget">Side</th>
-                <th scope="col" class="sort" data-sort="budget">Qty</th>
-                <th scope="col" class="sort" data-sort="budget">Price</th>
-                <th scope="col" class="sort" data-sort="status">Status</th>
-                <th scope="col" class="sort" data-sort="completion">Completion</th>
+                <th scope="col" class="sort" data-sort="budget">C Price</th>
+                <th scope="col" class="sort" data-sort="budget">A Marg</th>
+                <th scope="col" class="sort" data-sort="budget">C Marg</th>
+                <th scope="col" class="sort" data-sort="status">Amount</th>
+                <th scope="col" class="sort" data-sort="completion">Status</th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody class="list">
-              {% if my_order != None %}
-              {% for orders in my_order %}
+              {% if user.trades != None %}
+              {% for trade in user.trades %}
               <tr>
-                <td>{{ orders["id"]}}</td>
-                <td scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">{{ orders["pairs"] }}</span>
-                    </div>
-                  </div>
-                </td>
-                {% set this_order = order(user["api_key"], user["secret_key"], orders["pairs"], orders["order_id"]) %}
-                <td class="budget">
-                  {{ this_order["side"] }}
-                </td>
-                <td class="budget">
-                  {{ round(float(this_order["origQty"]), 2) }}
-                </td>
-                <td class="budget">
-                  {{ round(float(this_order["price"]), 2) }}
+                <td>
+                  {{ trade["pairs"] }}
                 </td>
                 <td>
-                  <span class="badge badge-dot mr-4">
-                    <i class="bg-primary"></i>
-                    <span class="status">{{ this_order["status"] }}</span>
-                  </span>
+                  {{ trade["current_price"] }}
                 </td>
-                {% if this_order["status"] == "NEW"%}
                 <td>
-                  <div class="media align-items-center">
-                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-primary"></i>
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">Running</span>
-                    </div>
-                  </div>
+                  {{ trade["average_margin"] }}
                 </td>
-                <td class="text-right">
-                  <div class="col-lg-6 col-5 text-right">
-                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
-                  </div>
-                </td>
-                {% elif this_order["status"] == "COMPLETED" %}
                 <td>
-                  <div class="media align-items-center">
-                    <i class="fa fa fa-check-circle fa-2x mr-2 text-success"></i>
-                    <div class="media-body">
-                      <span class="name mb-0 text-sm">Completed</span>
-                    </div>
-                  </div>
+                  {{ trade["current_margin"] }}
                 </td>
-                <td class="text-right">
-                  <div class="col-lg-6 col-5 text-right">
-                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
-                  </div>
+                <td>
+                  {{ trade["amount"] }}
                 </td>
-                {% else %}
-                {% endif %}
+                <td>
+                  {{ trade["status"] }}
+                </td>
               </tr>
               {% endfor %}
+              {% else %}
+              <tr>
+                <td>NO TRADE DETAILS KINDLY CREATE ONE</td>
+              </tr>
               {% endif %}
 
               <!-- <tr>
@@ -437,18 +404,9 @@
     </div>
   </div>
 
-  {% include "includes/footer.html" %}
+{% include "includes/footer.html" %}
 
 </div>
-
-{% if check == True %}
-{{
-process(target=start, args=(user['id'], user['api_key'], user['secret_key'], trade["product"], trade["amount"],
-trade["margin_p"], trade["sell_p"],
-trade["trades"])).start()
-}}
-{% endif %}
-
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->

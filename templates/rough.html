@@ -1,0 +1,46 @@
+{% set this_order = order(user["api_key"], user["secret_key"], orders["pairs"], orders["order_id"]) %}
+                <td class="budget">
+                  {{ this_order["side"] }}
+                </td>
+                <td class="budget">
+                  {{ round(float(this_order["origQty"]), 2) }}
+                </td>
+                <td class="budget">
+                  {{ round(float(this_order["price"]), 2) }}
+                </td>
+                <td>
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-primary"></i>
+                    <span class="status">{{ this_order["status"] }}</span>
+                  </span>
+                </td>
+                {% if this_order["status"] == "NEW"%}
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fas fa-spinner fa-pulse fa-2x mr-2 text-primary"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Running</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+                {% elif this_order["status"] == "COMPLETED" %}
+                <td>
+                  <div class="media align-items-center">
+                    <i class="fa fa fa-check-circle fa-2x mr-2 text-success"></i>
+                    <div class="media-body">
+                      <span class="name mb-0 text-sm">Completed</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-right">
+                  <div class="col-lg-6 col-5 text-right">
+                    <a href="#" class="btn btn-sm btn-danger">Cancel</a>
+                  </div>
+                </td>
+                {% else %}
+                {% endif %}

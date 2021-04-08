@@ -175,6 +175,23 @@ def login_required(f):
 @app.route("/dashboard", methods=["POST", "GET"])
 @login_required
 def dashboard():
+    #############################################
+    ############ GET USER DETAILS ###############
+    #############################################
+    try:
+        req = requests.get(f"{maxi_backend}users")
+        response = req.content
+        response = response.decode("UTF-8")
+        response = ast.literal_eval(response)
+        for user in response:
+            # print(user)
+            if user["id"] == session["user"]["id"]:
+                this_user = user
+                break
+        print(req.status_code)
+    except Exception as e:
+        print(e)
+
     if request.method == "POST":
         user_id = session["user"]["id"]
         pairs = request.form["pairs"]
@@ -242,13 +259,13 @@ def dashboard():
             print(response)
             if req.status_code == 200 and response == "Success":
                 flash(f"The bot is successfully scheduled to run ", "success")
-                return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+                return redirect(url_for("dashboard"))
             else:
                 flash(f"There was an error sending your trade", "danger")
-                return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+                return redirect(url_for("dashboard"))
         except Exception as e:
             print(e)
-    return render_template("index.html", round=round, float=float, balance=get_asset_balance)
+    return render_template("index.html",this_user= this_user, round=round, float=float, balance=get_asset_balance)
 
 
 if __name__ == "__main__":
