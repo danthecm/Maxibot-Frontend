@@ -36,7 +36,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
+    "MAXIBOT_BACKEND", "https://maxibot-backend.herokuapp.com/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -180,15 +180,11 @@ def dashboard():
     ############ GET USER DETAILS ###############
     #############################################
     try:
-        req = requests.get(f"{maxi_backend}users")
+        req = requests.get(f"{maxi_backend}user", data = str(session["user"]["id"]))
         response = req.content
         response = response.decode("UTF-8")
         response = ast.literal_eval(response)
-        for user in response:
-            # print(user)
-            if user["id"] == session["user"]["id"]:
-                this_user = user
-                break
+        this_user = response
         print(req.status_code)
     except Exception as e:
         print(e)
