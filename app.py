@@ -72,8 +72,9 @@ def register():
         api_key = form.api_key.data
         secret_key = form.secret_key.data
         password = sha256_crypt.hash(form.password.data)
+        status = "Activated"
         my_form = {"name": name, "email": email, "phone": phone,
-                   "api_key": api_key, "secret_key": secret_key, "password": password}
+                   "api_key": api_key, "secret_key": secret_key, "password": password, "status": status}
         my_form = json.dumps(my_form)
         print(my_form)
         try:
