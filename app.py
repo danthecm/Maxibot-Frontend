@@ -36,7 +36,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "https://maxibot-backend.herokuapp.com/api/v1/")
+    "MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -87,6 +87,9 @@ def register():
             if req.status_code == 200 and response == "Success":
                 flash("You were successfully registered kindly login", "success")
                 return redirect(url_for("login"))
+            elif req.status_code == 503:
+                flash("Server is currently down")
+                return render_template("register.html", form=form)
             elif response == "Email Error":
                 flash("Email Already in use kindly use another email", "warning")
             elif response == "API Error":
