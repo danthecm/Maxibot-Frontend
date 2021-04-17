@@ -46,9 +46,6 @@ maxi_backend = os.environ.get(
 #     },
 # }
 
-celery = make_celery(app)
-
-
 @app.route("/")
 def index():
     return render_template("home.html")
