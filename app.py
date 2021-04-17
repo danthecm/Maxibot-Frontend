@@ -10,7 +10,6 @@ from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
 from functools import wraps
 from functions import get_asset_balance, get_order
-from my_celery import make_celery
 from binance.client import Client
 
 app = Flask(__name__)
