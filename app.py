@@ -33,8 +33,8 @@ worker_concurrency = 10
 
 app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
-app.config['CELERY_BROKER_URL'] = broker_url
+# app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
+# app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
     "MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
 
