@@ -186,7 +186,9 @@ def dashboard():
         this_user = response
         print(req.status_code)
     except Exception as e:
-        print(e)
+        print(f"There was an error {e}")
+        flash("There is an error in the application just give us some time to fix it")
+        redirect(url_for("login"))
 
     if request.method == "POST":
         user_id = session["user"]["id"]
