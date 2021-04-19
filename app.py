@@ -189,7 +189,7 @@ def dashboard():
         print(this_user)
     except Exception as e:
         print(f"There was an error {e}")
-        flash("There is an error in the application just give us some time to fix it")
+        flash("There is an error in the application just give us some time to fix it", "danger")
         redirect(url_for("login"))
 
     if request.method == "POST":
