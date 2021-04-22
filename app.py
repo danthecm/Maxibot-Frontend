@@ -131,7 +131,7 @@ def login():
                 session["logged_in"] = True
                 user_id = user["id"]
                 session["user_id"] = user_id
-                print(f"Weclome {user}")
+                print(f"Weclome User with id of {user_id}")
                 return redirect(url_for("dashboard"))
             else:
                 flash("Password is incorrect", "danger")
