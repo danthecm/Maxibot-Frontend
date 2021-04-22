@@ -187,8 +187,6 @@ def dashboard():
         response = ast.literal_eval(response)
         this_user = response
         print(req.status_code)
-        print(response)
-        print(this_user)
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
