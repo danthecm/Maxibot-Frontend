@@ -195,7 +195,7 @@ def dashboard():
         redirect(url_for("login"))
 
     if request.method == "POST":
-        user_id = session["user"]["id"]
+        user_id = session["user_id"]
         pairs = request.form["pairs"]
         my_pair = request.form["pairs"]
         for i in range(len(my_pair)):
