@@ -129,6 +129,7 @@ def login():
             password = user['password']
             if sha256_crypt.verify(password_candidate, password):
                 session["logged_in"] = True
+                user = {"name": user["name"], "api_key": user["api_key"], "secret_key": user["secret_key"], "phone": user["phone"]}
                 session["user"] = user
                 print(f"Weclome {user}")
                 return redirect(url_for("dashboard"))
