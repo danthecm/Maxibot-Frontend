@@ -26,11 +26,8 @@
       <div class="col-md-8">
         <div class="card row">
           <div class="card-header">
-            <span style="margin-right: 30rem;">LOGIN</span> 
+            <span style="margin-right: auto;">LOGIN</span> 
             <a class="btn btn-lg btn-primary" href="/register" role="button">Register</a> </div>
-          {% if error %}
-          <div class="alert alert-danger">{{ error }}</div>
-          {% endif %}
           {% include "includes/_messages.html" %}
           {% from "includes/_formhelpers.html" import render_field %}
           <div class="card-body">
