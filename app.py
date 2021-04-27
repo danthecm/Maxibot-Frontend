@@ -184,8 +184,7 @@ def dashboard():
         req = requests.get(f"{maxi_backend}user", data = str(session["user_id"]))
         response = req.content
         response = response.decode("UTF-8")
-        response = ast.literal_eval(response)
-        this_user = response
+        this_user = ast.literal_eval(response)
         print(req.status_code)
     except Exception as e:
         print(f"There was an error {e}")
