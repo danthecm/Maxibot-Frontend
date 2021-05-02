@@ -173,11 +173,15 @@ def dashboard():
     ############ GET USER DETAILS ###############
     #############################################
     try:
-        req = requests.get(f"{maxi_backend}user", data = str(session["user_id"]))
-        response = req.content
-        response = response.decode("UTF-8")
-        this_user = ast.literal_eval(response)
-        print(req.status_code)
+        user_req = requests.get(f"{maxi_backend}user", data = str(session["user_id"]))
+        user = user_req.content
+        user = user.decode("UTF-8")
+        user = ast.literal_eval(user)
+        print(user_req.status_code)
+        trade_req = requests.get(f"{maxi_backend}trades", data=str(session["user_id"]))
+        trades = trade_req.content
+        trades = trades.decode("UTF-8")
+        trades = ast.literal_eval(trades)
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
@@ -256,7 +260,7 @@ def dashboard():
                 return redirect(url_for("dashboard"))
         except Exception as e:
             print(e)
-    return render_template("index.html",this_user= this_user, round=round, float=float, balance=get_asset_balance)
+    return render_template("index.html",this_user= user, trades=trades, round=round, float=float, balance=get_asset_balance)
 
 
 if __name__ == "__main__":

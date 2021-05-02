@@ -153,8 +153,8 @@
               </tr>
             </thead>
             <tbody class="list">
-              {% if user.trades != None %}
-              {% for trade in user.trades %}
+              {% if trades != None %}
+              {% for trade in trades %}
               <tr>
                 <td>
                   {{ trade["pairs"] }}
