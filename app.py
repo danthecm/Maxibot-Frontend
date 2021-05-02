@@ -179,6 +179,7 @@ def dashboard(page_num=1):
         print(user_req.status_code)
         data = [session["user_id"], str(page_num)]
         trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
+        print(f"the trade request return a status of {trade_req.status_code}")
         trades = trade_req.content
         trades = trades.decode("UTF-8")
         trades = ast.literal_eval(trades)
