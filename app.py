@@ -165,7 +165,7 @@ def login_required(f):
     return decorated_function
 
 
-@app.route("/dashboard/<page_num>", methods=["POST", "GET"])
+@app.route("/dashboard/<int:page_num>", methods=["POST", "GET"])
 @login_required
 def dashboard(page_num=1):
     #############################################
