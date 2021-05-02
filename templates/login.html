@@ -6,28 +6,15 @@
   <link rel="stylesheet" href="static/css/register.css">
   <meta name="viewport" content="width=device-width">
   <title>LOGIN</title>
-  <style>
-    .message {
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 5;
-      font-size: small;
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-      font-weight: lighter;
-      text-align: center;
-      text-decoration: italic;
-      color: yellow;
-    }
-  </style>
 </head>
-
 <body>
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
         <div class="card row">
           <div class="card-header">
-            <span style="margin-right: auto;">LOGIN</span> 
-            <a class="btn btn-lg btn-primary" href="/register" role="button">Register</a> </div>
+            <span>LOGIN</span> 
+            <a class="btn btn-lg btn-primary" style="float: right;" href="/register" role="button">Register</a> </div>
           {% include "includes/_messages.html" %}
           {% from "includes/_formhelpers.html" import render_field %}
           <div class="card-body">
