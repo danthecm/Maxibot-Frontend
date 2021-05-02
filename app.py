@@ -177,7 +177,7 @@ def dashboard(page_num=1):
         user = user.decode("UTF-8")
         user = ast.literal_eval(user)
         print(user_req.status_code)
-        data = [session["user_id"], page_num]
+        data = [session["user_id"], str(page_num)]
         trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
         trades = trade_req.content
         trades = trades.decode("UTF-8")
