@@ -11,8 +11,6 @@ from auth import RegisterForm, LoginForm
 from functools import wraps
 from functions import get_asset_balance, get_order
 from binance.client import Client
-from flask_paginate import Pagination
-
 app = Flask(__name__)
 
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
@@ -167,9 +165,9 @@ def login_required(f):
     return decorated_function
 
 
-@app.route("/dashboard", methods=["POST", "GET"])
+@app.route("/dashboard/<page_num>", methods=["POST", "GET"])
 @login_required
-def dashboard():
+def dashboard(page_num=1):
     #############################################
     ############ GET USER DETAILS ###############
     #############################################
@@ -179,7 +177,8 @@ def dashboard():
         user = user.decode("UTF-8")
         user = ast.literal_eval(user)
         print(user_req.status_code)
-        trade_req = requests.get(f"{maxi_backend}my_trades", data=str(session["user_id"]))
+        data = [session["user_id"], page_num]
+        trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
         trades = trade_req.content
         trades = trades.decode("UTF-8")
         trades = ast.literal_eval(trades)
@@ -194,7 +193,7 @@ def dashboard():
             page = 1
         pagination = Pagination(page=page,per_page="5", total=len(trades), search=search, record_name='trades')
         print(f"The pagination is {pagination.total_pages} ")
-        for items in pagination:
+        for items in pagination.page:
             print(f"This item is in pagination and is {items}")
     except Exception as e:
         print(f"There was an error {e}")
