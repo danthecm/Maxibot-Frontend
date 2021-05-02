@@ -174,12 +174,13 @@
                 <td>
                   {{ trade["status"] }}
                 </td>
+                {% if trade["status"] == "BUY" trade["status"] or == "NEW" %}
                 <td class="text-right">
                   <div class="col-lg-6 col-5 text-right">
-                    {% if trade["status"] == "BUY" trade["status"] or == "NEW" %}
                     <a href="#" class="btn btn-sm btn-danger">STOP</a>
                   </div>
                 </td>
+                {% endif %}
               </tr>
               {% endfor %}
               {% else %}
