@@ -11,6 +11,7 @@ from auth import RegisterForm, LoginForm
 from functools import wraps
 from functions import get_asset_balance, get_order
 from binance.client import Client
+from flask_paginate import Pagination
 
 app = Flask(__name__)
 
