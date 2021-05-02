@@ -193,6 +193,7 @@ def dashboard():
         except ValueError:
             page = 1
         pagination = Pagination(page=page,per_page="5", total=len(trades), search=search, record_name='trades')
+        print(f"The pagination is {pagination} ")
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
