@@ -50,14 +50,6 @@ maxi_backend = os.environ.get(
 def index():
     return render_template("home.html")
 
-
-@app.route("/celery")
-def check():
-    my_task.delay()
-    print("working on the task")
-    return "I sent a request"
-
-
 @app.route("/register", methods=["POST", "GET"])
 def register():
     form = RegisterForm(request.form)
