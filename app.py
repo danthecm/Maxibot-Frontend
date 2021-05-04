@@ -264,7 +264,7 @@ def dashboard(page_num=1):
                 return redirect(url_for("dashboard"))
         except Exception as e:
             print(e)
-    return render_template("index.html",this_user= user, trades=trades, round=round, float=float, balance=get_asset_balance)
+    return render_template("index.html",this_user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
 
 
 if __name__ == "__main__":
