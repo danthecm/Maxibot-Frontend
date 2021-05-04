@@ -4,7 +4,6 @@ import time as t
 import os
 import json
 import requests
-import ast
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
