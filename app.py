@@ -183,7 +183,10 @@ def dashboard(page_num=1):
         print(f"the trade request return a status of {trade_req.status_code}")
         trades_res = trade_req.content
         trades_res = trades_res.decode("UTF-8")
+        print(type(trades_res))
         trades_res = ast.literal_eval(trades_res)
+        print(type(trades_res))
+        print(trades_res)
         trades = trades_res[0]
         page_iter = trades_res[1]
     except Exception as e:
