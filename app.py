@@ -116,7 +116,7 @@ def login():
         print(req.status_code)
         if req.status_code == 200 and response != "No Email":
             user = response
-            user = ast.literal_eval(user)
+            user = json.loads(user)
             password = user['password']
             if sha256_crypt.verify(password_candidate, password):
                 session["logged_in"] = True
@@ -175,7 +175,7 @@ def dashboard(page_num=1):
         user_req = requests.get(f"{maxi_backend}user", data = str(session["user_id"]))
         user = user_req.content
         user = user.decode("UTF-8")
-        user = ast.literal_eval(user)
+        user = json.loads(user)
         print(user_req.status_code)
         data = [session["user_id"],page_num]
         data = json.dumps(data)
