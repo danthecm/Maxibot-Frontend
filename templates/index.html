@@ -406,17 +406,17 @@
               </tr> -->
             </tbody>
           </table>
-          <div class="float-right">
-            <p class="text-right d-inline">Pages</p>
-            {% for page in page_iter %}
-              {% if page %}
-                <a href="{{url_for('dashboard', page_num=page)}}"> {{ page }} </a>
-              {% else %}
-                ...
-              {% endif %}
-            
-            {% endfor %}
-          </div>
+        </div>
+        <div class="float-right">
+          <p class="text-right d-inline">Pages</p>
+          {% for page in page_iter %}
+            {% if page %}
+              <a href="{{url_for('dashboard', page_num=page)}}"> {{ page }} </a>
+            {% else %}
+              ...
+            {% endif %}
+          
+          {% endfor %}
         </div>
       </div>
     </div>
