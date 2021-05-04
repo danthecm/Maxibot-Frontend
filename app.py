@@ -181,9 +181,11 @@ def dashboard(page_num=1):
         data = json.dumps(data)
         trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
         print(f"the trade request return a status of {trade_req.status_code}")
-        trades = trade_req.content
-        trades = trades.decode("UTF-8")
-        trades = ast.literal_eval(trades)
+        trades_res = trade_req.content
+        trades_res = trades.decode("UTF-8")
+        trades_res = ast.literal_eval(trades)
+        trades = trades_res[0]
+        page_iter = trades_res[1]
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
