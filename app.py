@@ -184,11 +184,11 @@ def dashboard(page_num=1):
         trades_res = trade_req.content
         trades_res = trades_res.decode("UTF-8")
         print(type(trades_res))
-        trades_res = ast.literal_eval(trades_res)
-        print(type(trades_res))
-        print(trades_res)
-        trades = trades_res[0]
-        page_iter = trades_res[1]
+        data = json.loads(trades_res)
+        print(type(dat))
+        print(data)
+        trades = data[0]
+        page_iter = data[1]
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
