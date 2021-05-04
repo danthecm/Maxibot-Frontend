@@ -182,7 +182,7 @@ def dashboard(page_num=1):
         trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
         print(f"the trade request return a status of {trade_req.status_code}")
         trades_res = trade_req.content
-        trades_res = trades.decode("UTF-8")
+        trades_res = trades_res.decode("UTF-8")
         trades_res = ast.literal_eval(trades)
         trades = trades_res[0]
         page_iter = trades_res[1]
