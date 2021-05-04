@@ -407,7 +407,7 @@
             </tbody>
           </table>
           <div class="float-right">
-            <p>Pages </p>
+            <h6 class="text-white mb-0">BOT TRANSACTIONS
             {% for page in page_iter %}
               {% if page %}
                 <a href="{{url_for('dashboard', page_num=page)}}"> {{ page }} </a>
@@ -416,6 +416,7 @@
               {% endif %}
             
             {% endfor %}
+            </h6>
           </div>
         </div>
       </div>
