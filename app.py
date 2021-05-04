@@ -185,7 +185,7 @@ def dashboard(page_num=1):
         trades_res = trades_res.decode("UTF-8")
         print(type(trades_res))
         data = json.loads(trades_res)
-        print(type(dat))
+        print(type(data))
         print(data)
         trades = data[0]
         page_iter = data[1]
