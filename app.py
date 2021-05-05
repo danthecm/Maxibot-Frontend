@@ -193,14 +193,10 @@ def dashboard(page_num=1):
     if request.method == "POST":
         user_id = session["user_id"]
         pairs = request.form["pairs"]
-        my_pair = request.form["pairs"]
-        for i in range(len(my_pair)):
-            if my_pair[i] == "/":
-                first_index = i
-                break
-        second_index = first_index + 1
-        first_symbol = my_pair[0:first_index]
-        second_symbol = my_pair[second_index:]
+        strategy = request.form["strategy"]
+        my_pair = pairs.split("/")
+        first_symbol = my_pair[0]
+        second_symbol = my_pair[1]
         my_pair = f"{first_symbol}{second_symbol}"
         try:
             client = Client()
@@ -208,18 +204,30 @@ def dashboard(page_num=1):
             current_price = float(current_price["price"])
         except Exception as e:
             current_price = 3489.34343
-        average_m = float(request.form["average_m"])
-        current_m = float(request.form["current_m"])
+        if strategy == "AC":
+            first_grid = 0
+            grid_percent = 0
+            average_m = float(request.form["average_m"])
+            current_m = float(request.form["current_m"])
+            trades = int(request.form["trades"])
+        else:
+            average_m = 0
+            current_m = 0
+            trades = 0
+            first_grid = float(request.form["first_grid"])
+            grid_percent = float(request.form["grid_percent"])
         amount = float(request.form["amount"])
         sell_m = float(request.form["sell_m"])
-        trades = int(request.form["trades"])
         renew = 0
         status = "NEW"
         time = t.time()
         my_form = {
             "user_id": user_id,
             "pairs": pairs,
+            "strategy": strategy,
             "current_price": current_price,
+            "first_grid": first_grid,
+            "gird_percent": grid_percent,
             "average_margin": average_m,
             "current_margin": current_m,
             "amount": amount,
@@ -229,23 +237,9 @@ def dashboard(page_num=1):
             "status": status,
             "time": time
         }
-        # try:
-        #     # FORMAT THE PAIRS
-        #     for i in range(len(my_pair)):
-        #         if my_pair[i] == "/":
-        #             first_index = i
-        #             break
-        #     second_index = first_index + 1
-        #     first_symbol = my_pair[0:first_index]
-        #     second_symbol = my_pair[second_index:]
-        #     my_pair = f"{first_symbol}{second_symbol}"
-        #     # current_price = client.get_symbol_ticker(symbol=my_pair)
-        #     # current_price = float(current_price["price"])
-        # except Exception as e:
-        #     print(e)
 
         #########################################################################
-        ############ INSERT DETAILS INTO THE TRADE TABLE OF SQLITE ##############
+        ############ SEND DETAILS TO THE BACKEND TRADE TABLE ####################
         #########################################################################
         try:
             my_form = json.dumps(my_form)
