@@ -191,6 +191,7 @@ def dashboard(page_num=1):
         redirect(url_for("login"))
 
     if request.method == "POST":
+        print("This request is a post request")
         user_id = session["user_id"]
         pairs = request.form["pairs"]
         strategy = request.form["strategy"]
