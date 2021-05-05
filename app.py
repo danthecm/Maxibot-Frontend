@@ -202,6 +202,7 @@ def new_trade():
     user_id = session["user_id"]
     pairs = request.form["pairs"]
     strategy = request.form["strategy"]
+    print(user_id, pairs, strategy)
     my_pair = pairs.split("/")
     first_symbol = my_pair[0]
     second_symbol = my_pair[1]
