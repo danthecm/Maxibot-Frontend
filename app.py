@@ -198,6 +198,7 @@ def dashboard(page_num=1):
 @app.route("/new_trade", methods=["POST"])
 @login_required
 def new_trade():
+    print("welcome to new trade ")
     user_id = session["user_id"]
     pairs = request.form["pairs"]
     strategy = request.form["strategy"]
