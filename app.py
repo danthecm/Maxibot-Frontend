@@ -33,7 +33,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 # app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://127.0.0.1:5001/api/v1/")
+    "MAXIBOT_BACKEND", "https://maxibot-backend.herokuapp.com/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -163,8 +163,8 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@app.route("/dashboard", methods=["POST", "GET"])
-@app.route("/dashboard/<int:page_num>", methods=["POST", "GET"])
+@app.route("/dashboard")
+@app.route("/dashboard/<int:page_num>")
 @login_required
 def dashboard(page_num=1):
     #############################################
@@ -192,74 +192,78 @@ def dashboard(page_num=1):
 
     if request.method == "POST":
         print("This request is a post request")
-        user_id = session["user_id"]
-        pairs = request.form["pairs"]
-        strategy = request.form["strategy"]
-        my_pair = pairs.split("/")
-        first_symbol = my_pair[0]
-        second_symbol = my_pair[1]
-        my_pair = f"{first_symbol}{second_symbol}"
-        try:
-            client = Client()
-            current_price = client.get_symbol_ticker(symbol=my_pair)
-            current_price = float(current_price["price"])
-        except Exception as e:
-            current_price = 3489.34343
-        if strategy == "AC":
-            first_grid = 0
-            grid_int = 0
-            average_m = float(request.form["average_m"])
-            current_m = float(request.form["current_m"])
-            trades = int(request.form["trades"])
-        else:
-            average_m = 0
-            current_m = 0
-            trades = 0
-            first_grid = float(request.form["first_grid"])
-            grid_int = float(request.form["grid_int"])
-        amount = float(request.form["amount"])
-        sell_m = float(request.form["sell_m"])
-        renew = 0
-        status = "NEW"
-        time = t.time()
-        my_form = {
-            "user_id": user_id,
-            "pairs": pairs,
-            "strategy": strategy,
-            "current_price": current_price,
-            "first_grid": first_grid,
-            "grid_int": grid_int,
-            "average_margin": average_m,
-            "current_margin": current_m,
-            "amount": amount,
-            "sell_margin": sell_m,
-            "trades": trades,
-            "renew": renew,
-            "status": status,
-            "time": time
-        }
-
-        #########################################################################
-        ############ SEND DETAILS TO THE BACKEND TRADE TABLE ####################
-        #########################################################################
-        try:
-            my_form = json.dumps(my_form)
-            print(my_form)
-            req = requests.post(f"{maxi_backend}new_trade", data=my_form)
-            response = req.content
-            response = response.decode("UTF-8")
-            print(req.status_code)
-            print(response)
-            if req.status_code == 200 and response == "Success":
-                flash(f"The bot is successfully scheduled to run ", "success")
-                return redirect(url_for("dashboard"))
-            else:
-                flash(f"There was an error sending your trade", "danger")
-                return redirect(url_for("dashboard"))
-        except Exception as e:
-            print(e)
+        
     return render_template("index.html",this_user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
 
+@app.route("/new_trade", methods=["POST"])
+@login_required
+def new_trade():
+    user_id = session["user_id"]
+    pairs = request.form["pairs"]
+    strategy = request.form["strategy"]
+    my_pair = pairs.split("/")
+    first_symbol = my_pair[0]
+    second_symbol = my_pair[1]
+    my_pair = f"{first_symbol}{second_symbol}"
+    try:
+        client = Client()
+        current_price = client.get_symbol_ticker(symbol=my_pair)
+        current_price = float(current_price["price"])
+    except Exception as e:
+        current_price = 3489.34343
+    if strategy == "AC":
+        first_grid = 0
+        grid_int = 0
+        average_m = float(request.form["average_m"])
+        current_m = float(request.form["current_m"])
+        trades = int(request.form["trades"])
+    else:
+        average_m = 0
+        current_m = 0
+        trades = 0
+        first_grid = float(request.form["first_grid"])
+        grid_int = float(request.form["grid_int"])
+    amount = float(request.form["amount"])
+    sell_m = float(request.form["sell_m"])
+    renew = 0
+    status = "NEW"
+    time = t.time()
+    my_form = {
+        "user_id": user_id,
+        "pairs": pairs,
+        "strategy": strategy,
+        "current_price": current_price,
+        "first_grid": first_grid,
+        "grid_int": grid_int,
+        "average_margin": average_m,
+        "current_margin": current_m,
+        "amount": amount,
+        "sell_margin": sell_m,
+        "trades": trades,
+        "renew": renew,
+        "status": status,
+        "time": time
+    }
+
+    #########################################################################
+    ############ SEND DETAILS TO THE BACKEND TRADE TABLE ####################
+    #########################################################################
+    try:
+        my_form = json.dumps(my_form)
+        print(my_form)
+        req = requests.post(f"{maxi_backend}new_trade", data=my_form)
+        response = req.content
+        response = response.decode("UTF-8")
+        print(req.status_code)
+        print(response)
+        if req.status_code == 200 and response == "Success":
+            flash(f"The bot is successfully scheduled to run ", "success")
+            return redirect(url_for("dashboard"))
+        else:
+            flash(f"There was an error sending your trade", "danger")
+            return redirect(url_for("dashboard"))
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     app.run(debug=True)
