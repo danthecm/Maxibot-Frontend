@@ -199,6 +199,7 @@ def dashboard(page_num=1):
 @login_required
 def new_trade():
     print("welcome to new trade ")
+    print(request)
     user_id = session["user_id"]
     pairs = request.form["pairs"]
     strategy = request.form["strategy"]
