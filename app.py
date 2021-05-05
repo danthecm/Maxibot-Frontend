@@ -206,7 +206,7 @@ def dashboard(page_num=1):
             current_price = 3489.34343
         if strategy == "AC":
             first_grid = 0
-            grid_percent = 0
+            grid_int = 0
             average_m = float(request.form["average_m"])
             current_m = float(request.form["current_m"])
             trades = int(request.form["trades"])
@@ -215,7 +215,7 @@ def dashboard(page_num=1):
             current_m = 0
             trades = 0
             first_grid = float(request.form["first_grid"])
-            grid_percent = float(request.form["grid_percent"])
+            grid_int = float(request.form["grid_int"])
         amount = float(request.form["amount"])
         sell_m = float(request.form["sell_m"])
         renew = 0
@@ -227,7 +227,7 @@ def dashboard(page_num=1):
             "strategy": strategy,
             "current_price": current_price,
             "first_grid": first_grid,
-            "gird_percent": grid_percent,
+            "grid_int": grid_int,
             "average_margin": average_m,
             "current_margin": current_m,
             "amount": amount,
