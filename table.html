@@ -1,0 +1,65 @@
+<div class="table-responsive">
+    <table class="table align-items-center table-dark table-flush">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="sort" data-sort="name display-2">Strategy</th>
+                <th scope="col" class="sort" data-sort="budget">Pairs</th>
+                <th scope="col" class="sort" data-sort="budget">C Price</th>
+                <th scope="col" class="sort" data-sort="budget">Amount</th>
+                <th scope="col" class="sort" data-sort="status">Sell P</th>
+                <th scope="col" class="sort" data-sort="completion">Status</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+            {% if trades != None %}
+            {% for trade in trades %}
+            <tr>
+                <td>
+                    {{ trade["strategy"] }}
+                </td>
+                <td>
+                    {{ trade["pairs"] }}
+                </td>
+                <td>
+                    {{ trade["current_price"] }}
+                </td>
+                <td>
+                    {{ trade["amount"] }}
+                </td>
+                <td>
+                    {{ trade["sell_percent"] }}
+                </td>
+                <td>
+                    {{ trade["status"] }}
+                </td>
+                {% if trade["status"] == "BUY" or trade["status"] == "NEW" %}
+                <td class="text-right">
+                    <div class="col-lg-6 col-5 text-right">
+                        <a href="#" class="btn btn-sm btn-danger">STOP</a>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td>NO TRADE DETAILS KINDLY CREATE ONE</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if page_iter %}
+    <div class="float-right">
+        <p class="d-inline text-white font-weight-bold mr-2">Pages</p>
+        {% for page in page_iter %}
+        {% if page %}
+        <a class="mr-1" href="{{url_for('dashboard', page_num=page)}}"> {{ page }} </a>
+        {% else %}
+        ...
+        {% endif %}
+
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
