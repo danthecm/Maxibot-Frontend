@@ -266,5 +266,17 @@ def new_trade():
     except Exception as e:
         print(e)
 
+@app.route("/stop_trade/<int:id>")
+@login_required
+def stop_trade(id):
+    req = requests.patch(f"{maxi_backend}stop_trade/{id}")
+    response = req.content
+    if req.status_code == 200 and response == "Success":
+        flash("Trade was successfully stoped", "success")
+    else:
+        flash("There was an error stopping this trade")
+    return redirect(url_for("dashboard"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
