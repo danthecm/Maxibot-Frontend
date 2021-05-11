@@ -274,7 +274,7 @@ def stop_trade(id):
     if req.status_code == 200 and response == "Success":
         flash("Trade was successfully stoped", "success")
     else:
-        flash("There was an error stopping this trade")
+        flash("There was an error stopping this trade", "danger")
     return redirect(url_for("dashboard"))
 
 
