@@ -266,10 +266,10 @@ def new_trade():
     except Exception as e:
         print(e)
 
-@app.route("/stop_trade/<int:id>")
+@app.route("/stop_trade/<int:_id>")
 @login_required
-def stop_trade(id):
-    req = requests.patch(f"{maxi_backend}stop_trade/{id}")
+def stop_trade(_id):
+    req = requests.patch(f"{maxi_backend}stop_trade/{_id}")
     response = req.content
     if req.status_code == 200 and response == "Success":
         flash("Trade was successfully stoped", "success")
