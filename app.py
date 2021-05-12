@@ -189,11 +189,8 @@ def dashboard(page_num=1):
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
         redirect(url_for("login"))
-
-    if request.method == "POST":
-        print("This request is a post request")
-        
-    return render_template("index.html",this_user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
+    else:
+        return render_template("index.html",this_user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
 
 @app.route("/new_trade", methods=["POST"])
 @login_required
