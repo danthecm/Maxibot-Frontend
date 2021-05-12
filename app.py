@@ -269,6 +269,7 @@ def stop_trade(_id):
     print(f"The entered trade id is {_id}")
     req = requests.patch(f"{maxi_backend}stop_trade/{_id}")
     response = req.content
+    response = response.decode("UTF-8")
     print(f"The trade responsed with {response}")
     if req.status_code == 200 and response == "Success":
         flash("Trade was successfully stoped", "success")
