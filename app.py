@@ -266,7 +266,7 @@ def new_trade():
     except Exception as e:
         print(e)
 
-@app.route("/stop_trade/<int:_id>")
+@app.route("/stop_trade/<_id>")
 @login_required
 def stop_trade(_id):
     print(f"The entered trade id is {_id}")
