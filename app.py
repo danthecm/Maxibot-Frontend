@@ -270,7 +270,7 @@ def new_trade():
 @login_required
 def stop_trade(_id):
     print(f"The entered trade id is {_id}")
-    req = requests.patch(f"{maxi_backend}stop_trade", params={'_id': _id},)
+    req = requests.patch(f"{maxi_backend}stop_trade", data=str(_id),)
     response = req.content
     print(f"The trade responsed with {response}")
     if req.status_code == 200 and response == "Success":
