@@ -210,12 +210,14 @@ def new_trade():
     except Exception as e:
         current_price = 3489.34343
     if strategy == "AC":
+        status = "NEW"
         first_grid = 0
         grid_int = 0
         average_m = float(request.form["average_m"])
         current_m = float(request.form["current_m"])
         trades = int(request.form["trades"])
     else:
+        status = "RUNNING"
         average_m = 0
         current_m = 0
         trades = 0
@@ -224,7 +226,6 @@ def new_trade():
     amount = float(request.form["amount"])
     sell_m = float(request.form["sell_m"])
     renew = 0
-    status = "NEW"
     time = t.time()
     my_form = {
         "user_id": user_id,
