@@ -39,6 +39,11 @@
                         <a href="{{ url_for('stop_trade', _id = trade['id']) }}" class="btn btn-sm btn-danger">STOP</a>
                     </div>
                 </td>
+                <td class="text-right">
+                    <div class="col-lg-6 col-5 text-right">
+                        <a href="{{ url_for('update_trade', _id = trade['id']) }}" class="btn btn-sm btn-primary">UPDATE</a>
+                    </div>
+                </td>
                 {% endif %}
             </tr>
             {% endfor %}
