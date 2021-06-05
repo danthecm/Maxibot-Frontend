@@ -33,7 +33,7 @@
                 <td>
                     {{ trade["status"] }}
                     {% if trade["status"] == "BUY" or trade["status"] == "NEW" or trade["status"] == "RUNNING" %}
-                    <span class="ml-5">
+                    <span class="ml-7">
                         <a href="{{ url_for('stop_trade', _id = trade['id']) }}" class="btn btn-sm btn-danger">STOP</a>
                         <a href="{{ url_for('update_trade', _id = trade['id'])}}" class="btn btn-sm btn-primary">UPDATE</a>
                     </span>
