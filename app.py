@@ -107,7 +107,7 @@ def login():
         # GET FORM DATA
         email = form.email.data
         password_candidate = form.password.data
-
+        # print(email)
         # DATABASE QUERY
         req = requests.get(f"{maxi_backend}login", data=email)
         response = req.content
@@ -171,7 +171,7 @@ def dashboard(page_num=1):
     ############ GET USER DETAILS ###############
     #############################################
     try:
-        user_req = requests.get(f"{maxi_backend}user", data = str(session["user_id"]))
+        user_req = requests.get(f"{maxi_backend}user/{session['user_id']}")
         user = user_req.content
         user = user.decode("UTF-8")
         user = json.loads(user)
@@ -190,7 +190,7 @@ def dashboard(page_num=1):
         flash("There is an error in the application just give us some time to fix it", "danger")
         redirect(url_for("login"))
     else:
-        return render_template("index.html",this_user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
+        return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
 
 @app.route("/new_trade", methods=["POST"])
 @login_required
@@ -278,6 +278,15 @@ def stop_trade(_id):
         flash("There was an error stopping this trade", "danger")
     return redirect(url_for("dashboard"))
 
+@app.route("/update_trade/<int:_id>")
+def update_trade(_id):
+    req = requests.get(f"{maxi_backend}trade/{_id}")
+    res = req.content
+    trade = json.loads(res)
+    user_req = requests.get(f"{maxi_backend}user/{session['user_id']}")
+    user = user_req.content
+    user = json.loads(user)
+    return render_template("update.html", trade=trade, user= user,balance=get_asset_balance)
 
 if __name__ == "__main__":
     app.run(debug=True)
