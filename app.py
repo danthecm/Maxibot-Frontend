@@ -308,7 +308,8 @@ def update_trade(_id):
         res = req.content
         res = res.decode("UTF-8")
         if res == "Success":
-            flash("Trade successfully updated", "success")
+            flash(f"Trade with id {_id} successfully updated", "success")
+            return redirect(url_for("dashboard"))
         else:
             flash("Error updating trade", "danger")
     return render_template("update.html", trade=trade, user= user,balance=get_asset_balance)
