@@ -278,7 +278,7 @@ def stop_trade(_id):
         flash("There was an error stopping this trade", "danger")
     return redirect(url_for("dashboard"))
 
-@app.route("/update_trade/<int:_id>")
+@app.route("/update_trade/<int:_id>",  methods=["POST", "GET"])
 def update_trade(_id):
     req = requests.get(f"{maxi_backend}trade/{_id}")
     res = req.content
@@ -286,6 +286,31 @@ def update_trade(_id):
     user_req = requests.get(f"{maxi_backend}user/{session['user_id']}")
     user = user_req.content
     user = json.loads(user)
+
+    if request.method == "POST":
+        user_id = request.form["user_id"]
+        trade_id = _id
+        strategy = request.form["strategy"]
+        amount = request.form["amount"]
+        sell_m = request.form["sell_m"]
+        time = t.time()
+        if strategy == "Grid":
+            first_grid = request.form["first_grid"]
+            grid_int = request.form["grid_int"]
+            my_data = {"user_id": user_id, "trade_id": trade_id, "first_grid": first_grid, "grid_int": grid_int, "amount": amount, "sell_margin": sell_m, "time": time}
+        else:
+            average_m = request.form["average_m"]
+            current_m = request.form["current_m"]
+            trades = request.form["trades"]
+            my_data = {"user_id": user_id, "trade_id": trade_id, "average_margin": average_m, "current_margin": current_m, "trades": trades, "amount": amount, "sell_margin": sell_m, "time": time}
+            my_data = json.dumps(my_data)
+        req = requests.patch(f"{maxibot_backend}update_trade/{_id}", data=my_data)
+        res = req.content
+        print(res)
+        if res == "Success":
+            flash("Trade successfully updated", "success")
+        else:
+            flash("Error updating trade", "danger")
     return render_template("update.html", trade=trade, user= user,balance=get_asset_balance)
 
 if __name__ == "__main__":
