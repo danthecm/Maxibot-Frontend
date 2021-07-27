@@ -306,7 +306,7 @@ def update_trade(_id):
             my_data = json.dumps(my_data)
         req = requests.patch(f"{maxi_backend}update_trade/{_id}", data=my_data)
         res = req.content
-        print(res)
+        res = res.decode("UTF-8")
         if res == "Success":
             flash("Trade successfully updated", "success")
         else:
