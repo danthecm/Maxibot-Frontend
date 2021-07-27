@@ -136,7 +136,7 @@
         <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0 text-center">UPDATE BOT DETAILS</h3>
         </div>
-        <form class="form px-lg-5 py-lg-5" role="form" method="POST" action="/update_trade">
+        <form class="form px-lg-5 py-lg-5" role="form" method="POST" action="/update_trade/{{trade['id']}}">
           <input type="hidden" value="{{trade['user_id']}}" name="user_id">
           <input type="hidden" value="{{trade['strategy']}}" name="strategy">
           {% if trade["strategy"] == "Grid" %}
