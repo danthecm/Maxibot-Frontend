@@ -304,7 +304,7 @@ def update_trade(_id):
             trades = request.form["trades"]
             my_data = {"user_id": user_id, "trade_id": trade_id, "average_margin": average_m, "current_margin": current_m, "trades": trades, "amount": amount, "sell_margin": sell_m, "time": time}
             my_data = json.dumps(my_data)
-        req = requests.patch(f"{maxibot_backend}update_trade/{_id}", data=my_data)
+        req = requests.patch(f"{maxi_backend}update_trade/{_id}", data=my_data)
         res = req.content
         print(res)
         if res == "Success":
