@@ -4,6 +4,7 @@ import time as t
 import os
 import json
 import requests
+from requests.exceptions import ConnectionError
 from multiprocessing import Process
 from passlib.hash import sha256_crypt
 from auth import RegisterForm, LoginForm
@@ -81,7 +82,7 @@ def register():
             elif response == "API Error":
                 flash("Your API key already exist kindly use another one", "danger")
             return render_template("register.html", form=form)
-        except ConnectionRefusedError as e:
+        except ConnectionError as e:
             print(e)
             flash("There is an issue with the server try lager", "warning")
             return render_template("register.html", form=form)
@@ -115,7 +116,7 @@ def login():
         # DATABASE QUERY
         try:
             req = requests.get(f"{maxi_backend}login", data=email)
-        except ConnectionRefusedError as e:
+        except ConnectionError as e:
             print("There was an error connecting to the server")
             flash("There is an issue with the server try again")
         else:
