@@ -81,6 +81,10 @@ def register():
             elif response == "API Error":
                 flash("Your API key already exist kindly use another one", "danger")
             return render_template("register.html", form=form)
+        except ConnectionError as e:
+            print(e)
+            flash("There is an issue with the server try lager", "warning")
+            return render_template("register.html", form=form)
         except Exception as e:
             print(e)
             flash("Email address or Api key already exist", "warning")
@@ -109,25 +113,30 @@ def login():
         password_candidate = form.password.data
         # print(email)
         # DATABASE QUERY
-        req = requests.get(f"{maxi_backend}login", data=email)
-        response = req.content
-        response = response.decode("UTF-8")
-        print(req.status_code)
-        if req.status_code == 200 and response != "No Email":
-            user = response
-            user = json.loads(user)
-            password = user['password']
-            if sha256_crypt.verify(password_candidate, password):
-                session["logged_in"] = True
-                user_id = user["id"]
-                session["user_id"] = user_id
-                print(f"Weclome User with id of {user_id}")
-                return redirect(url_for("dashboard"))
-            else:
-                flash("Password is incorrect", "danger")
-                return render_template("login.html", form=form)
-        elif response == "No Email":
-            flash("No user found with this email kindly register", "warning")
+        try:
+            req = requests.get(f"{maxi_backend}login", data=email)
+        except ConnectionError as e:
+            print("There was an error connecting to the server")
+            flash("There is an issue with the server try again")
+        else:
+            response = req.content
+            response = response.decode("UTF-8")
+            print(req.status_code)
+            if req.status_code == 200 and response != "No Email":
+                user = response
+                user = json.loads(user)
+                password = user['password']
+                if sha256_crypt.verify(password_candidate, password):
+                    session["logged_in"] = True
+                    user_id = user["id"]
+                    session["user_id"] = user_id
+                    print(f"Weclome User with id of {user_id}")
+                    return redirect(url_for("dashboard"))
+                else:
+                    flash("Password is incorrect", "danger")
+                    return render_template("login.html", form=form)
+            elif response == "No Email":
+                flash("No user found with this email kindly register", "warning")
             return render_template("login.html", form=form)
         # if user != None and user != "Connection Error":
         #     password = user["password"]
