@@ -81,7 +81,7 @@ def register():
             elif response == "API Error":
                 flash("Your API key already exist kindly use another one", "danger")
             return render_template("register.html", form=form)
-        except ConnectionError as e:
+        except ConnectionRefusedError as e:
             print(e)
             flash("There is an issue with the server try lager", "warning")
             return render_template("register.html", form=form)
@@ -115,7 +115,7 @@ def login():
         # DATABASE QUERY
         try:
             req = requests.get(f"{maxi_backend}login", data=email)
-        except ConnectionError as e:
+        except ConnectionRefusedError as e:
             print("There was an error connecting to the server")
             flash("There is an issue with the server try again")
         else:
