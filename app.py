@@ -84,7 +84,7 @@ def register():
             return render_template("register.html", form=form)
         except ConnectionError as e:
             print(e)
-            flash("There is an issue with the server try lager", "warning")
+            flash("There is an issue with the server try later", "warning")
             return render_template("register.html", form=form)
         except Exception as e:
             print(e)
@@ -118,7 +118,7 @@ def login():
             req = requests.get(f"{maxi_backend}login", data=email)
         except ConnectionError as e:
             print("There was an error connecting to the server")
-            flash("There is an issue with the server try again")
+            flash("There is an issue with the server try again", "warning")
         else:
             response = req.content
             response = response.decode("UTF-8")
