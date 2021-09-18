@@ -204,7 +204,7 @@ def dashboard(page_num=1):
         sym_req = sym_req.decode("UTF-8")
         response = json.loads(sym_req)
         symbols = response["symbols"]
-        symbols = list(filter(lambda x: "GBP" or "USDT" or "EUR" in x["symbol"], symbols))
+        symbols = list(filter(lambda x: "GBP" in x["symbol"], symbols))
 
 
     except Exception as e:
