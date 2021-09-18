@@ -221,10 +221,7 @@ def new_trade():
     pairs = request.form["pairs"]
     strategy = request.form["strategy"]
     print(user_id, pairs, strategy)
-    my_pair = pairs.split("/")
-    first_symbol = my_pair[0]
-    second_symbol = my_pair[1]
-    my_pair = f"{first_symbol}{second_symbol}"
+    my_pair = pairs
     try:
         client = Client()
         current_price = client.get_symbol_ticker(symbol=my_pair)
