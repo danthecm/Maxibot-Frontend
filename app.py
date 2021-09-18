@@ -206,7 +206,7 @@ def dashboard(page_num=1):
         symbols = response["symbols"]
         symbols = [x["symbol"] for x in symbols]
         symbols = list(filter(lambda x: "GBP" in x or "USDT" in x or "EUR" in x, symbols))
-        print(symbols)
+        symbols.sort()
 
 
     except Exception as e:
