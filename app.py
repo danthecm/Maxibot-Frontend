@@ -204,7 +204,8 @@ def dashboard(page_num=1):
         sym_req = sym_req.decode("UTF-8")
         response = json.loads(sym_req)
         symbols = response["symbols"]
-        symbols = list(filter(lambda x: "GBP" in x["symbol"] or "USDT" in x["symbol"] or "EUR" in x["symbol"], symbols))
+        symbols = [x["symbol"] for x in symbols]
+        symbols = list(filter(lambda x: "GBP" in x or "USDT" in x or "EUR" in x, symbols))
         print(symbols)
 
 

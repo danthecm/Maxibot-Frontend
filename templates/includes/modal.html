@@ -19,7 +19,7 @@
                                         <select id="pairs" class="form-control" name="pairs" required>
                                             <option value="none" selected disabled hidden>Select Pairs</option>
                                             {% for pairs in symbols %}
-                                                <option value="{{pairs['symbol']}}">{{pairs["symbol"]}}</option>
+                                                <option value="{{pairs}}">{{pairs}}</option>
                                             {%endfor%}
                                         </select>
                                     </div>
