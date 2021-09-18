@@ -18,25 +18,9 @@
                                         </div>
                                         <select id="pairs" class="form-control" name="pairs" required>
                                             <option value="none" selected disabled hidden>Select Pairs</option>
-                                            <option value="BNB/GBP">BNB/GBP</option>
-                                            <option value="BTC/USDT">BTC/USDT</option>
-                                            <option value="BTC/GBP">BTC/GBP</option>
-                                            <option value="DOGE/GBP">DOGE/GBP</option>
-                                            <option value="ETH/GBP">ETH/GBP</option>
-                                            <option value="LINK/GBP">LINK/GBP</option>
-                                            <option value="SXP/GBP">SXP/GBP</option>
-                                            <option value="XRP/GBP">XRP/GBP</option>
-                                            <option value="ADA/GBP">ADA/GBP</option>
-                                            <option value="DOT/GBP">DOT/GBP</option>
-                                            <option value="CHZ/GBP">CHZ/GBP</option>
-                                            <option value="LTC/GBP">LTC/GBP</option>
-                                            <option value="ENJ/GBP">ENJ/GBP</option>
-                                            <option value="VET/GBP">VET/GBP</option>
-                                            <option value="CAKE/GBP">CAKE/GBP</option>
-                                            <option value="MATIC/GBP">MATIC/GBP</option>
-                                            <option value="SOL/GBP">SOL/GBP</option>
-                                            <option value="ETC/GBP">ETC/GBP</option>
-                                            <option value="RUNE/GBP">RUNE/GBP</option>
+                                            {% for pairs in symbols %}
+                                                <option value="{{pairs['symbol']}}">{{pairs["symbol"]}}</option>
+                                            {%endfor%}
                                         </select>
                                     </div>
                                 </div>

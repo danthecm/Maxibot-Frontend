@@ -195,12 +195,24 @@ def dashboard(page_num=1):
         data = json.loads(trades_res)
         trades = data[0]
         page_iter = data[1]
+
+        #####################################################
+        ############ GET ALL COINS FROM BINANCE #############
+        #####################################################
+        sym_req = requests.get("https://api.binance.com/api/v1/exchangeInfo")
+        sym_req = sym_req.content
+        sym_req = sym_req.decode("UTF-8")
+        response = json.loads(sym_req)
+        symbols = response["symbols"]
+        symbols = list(filter(lambda x: "GBP" or "USDT" or "EUR" in x["symbol"], symbols))
+
+
     except Exception as e:
         print(f"There was an error {e}")
         flash("There is an error in the application just give us some time to fix it", "danger")
         redirect(url_for("login"))
     else:
-        return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance)
+        return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance, symbols=symbols)
 
 @app.route("/new_trade", methods=["POST"])
 @login_required
