@@ -11,6 +11,8 @@ from auth import RegisterForm, LoginForm
 from functools import wraps
 from functions import get_asset_balance, get_order
 from binance.client import Client
+from flask_paginate import Pagination, get_page_parameter
+
 app = Flask(__name__)
 
 # Access the CLODUAMQP_URL environment variable and parse it (fallback to localhost)
@@ -34,7 +36,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 # app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "https://maxibot-backend.herokuapp.com/api/v1/")
+    "MAXIBOT_BACKEND", "http://132.226.211.117:5000/api/v1/")
 
 # app.config["CELERYBEAT_SCHEDULE"] = {
 #     'add-every-30-seconds': {
@@ -180,21 +182,42 @@ def dashboard(page_num=1):
     #############################################
     ############ GET USER DETAILS ###############
     #############################################
+    search = False
+    q = request.args.get('q')
+    if q:
+        search = True
+
+    
+
+    trades = [{"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},
+    {"pairs": "ETH/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"},{"pairs": "CHZ/GBP","strategy": "Grid","current_price": 0.2167,"amount": 10.5,"sell_margin": 20,"status": "STOPPED"}]
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    
     try:
         user_req = requests.get(f"{maxi_backend}user/{session['user_id']}")
         user = user_req.content
         user = user.decode("UTF-8")
         user = json.loads(user)
         print(user_req.status_code)
-        data = [session["user_id"],page_num]
+        data = [session["user_id"],page]
         data = json.dumps(data)
         trade_req = requests.get(f"{maxi_backend}my_trades", data=data)
         print(f"the trade request return a status of {trade_req.status_code}")
         trades_res = trade_req.content
         trades_res = trades_res.decode("UTF-8")
-        data = json.loads(trades_res)
-        trades = data[0]
-        page_iter = data[1]
+        response = json.loads(trades_res)
+        trades = response["pages"]
+        total = response["total"]
+        pagination = Pagination(page=page, per_page=5, total=total, search=search, record_name='trades')
+        pagination.active = response["active"]
+        print(pagination.pages)
 
         #####################################################
         ############ GET ALL COINS FROM BINANCE #############
@@ -214,7 +237,8 @@ def dashboard(page_num=1):
         flash("There is an error in the application just give us some time to fix it", "danger")
         redirect(url_for("login"))
     else:
-        return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance, symbols=symbols)
+    # return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance, symbols=symbols, pagination=pagination)
+        return render_template("index.html",user=user, balance= get_asset_balance, trades=trades,round=round, float=float, pagination=pagination)
 
 @app.route("/new_trade", methods=["POST"])
 @login_required
