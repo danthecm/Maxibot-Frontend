@@ -238,7 +238,7 @@ def dashboard(page_num=1):
         redirect(url_for("login"))
     else:
     # return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance, symbols=symbols, pagination=pagination)
-        return render_template("index.html",user=user, balance= get_asset_balance, trades=trades,round=round, float=float, pagination=pagination)
+        return render_template("index.html",user=user, balance= get_asset_balance, trades=trades,round=round, float=float, pagination=pagination, symbols=symbols)
 
 @app.route("/new_trade", methods=["POST"])
 @login_required
