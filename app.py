@@ -19,6 +19,7 @@ app = Flask(__name__)
 app.secret_key = 'maxitest'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.jinja_env.add_extension('jinja2.ext.do')
+login_manager.init_app(app)
 # app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 # app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
@@ -163,8 +164,6 @@ def edit_trade(_id):
         else:
             flash("Error updating trade", "danger")
     return render_template("update.html", trade=trade, user= user,balance=get_asset_balance)
-
-login_manager.init_app(app)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
