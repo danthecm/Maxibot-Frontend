@@ -143,6 +143,21 @@
             <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
           </div>
         </li>
+        <li>
+          <div class="col-lg-6 col-5 text-right dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-sync-alt"></i> Platforms</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {% for plat in current_user.platforms %}
+                {% if plat["name"] != platform["name"] %}
+                  <a class="dropdown-item" href="{{url_for('platforms.switch', name=plat['name'])}}">{{plat["name"]}}</a>
+                {% endif %}
+              {% endfor %}
+              {% if current_user.platforms|length == 1 %}
+              <a class="dropdown-item text-primary text-center" href="{{url_for('platforms.add')}}"><i class="fa fa-plus"></i> Add New</a>
+              {% endif %}
+            </div>
+          </div>
+        </li>
         <!-- <li class="nav-item dropdown">
           <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="ni ni-ungroup"></i>
@@ -198,7 +213,7 @@
               </span>
               <div class="media-body  ml-2  d-none d-lg-block">
                 <span class="mb-0 text-sm  font-weight-bold">
-                  {{user['name'] }}
+                  {{current_user.name }}
                 </span>
               </div>
             </div>

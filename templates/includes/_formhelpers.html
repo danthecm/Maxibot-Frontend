@@ -1,5 +1,5 @@
-{% macro render_field(field, icon) %}
-<div class="form-group">
+{% macro render_field(field, icon, my_id) %}
+<div class="form-group" id="{{my_id}}">
     <label for="name" class="cols-sm-2 control-label">{{ field.label }}:</label>
     <div class="input-group-prepend">
       <span class="input-group-text"> <i class="fa fa-{{icon}} fa-lg"></i></span>

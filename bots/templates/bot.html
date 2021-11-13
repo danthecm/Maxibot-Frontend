@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Bot {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% set platform = session["platform"] %}
+
+{% block content %}
+
+{% include "includes/_messages.html" %}
+<div class="header pb-3 d-flex align-items-center" 
+     style="min-height: 400px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-default opacity-8"></span>
+
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Hello {{ current_user.name }}</h1>
+        <p class="text-white mt-0 mb-5">This is your bot on <strong>{{bot["pairs"]}}</strong>.The bot is <strong>{{bot["status"]}}</strong>. You can see all the orders made by this bot and also <strong>Delete, Pause/Resume or Edit</strong> the bot with the respective icons below</p>
+        <a href="{{url_for('bots.delete', id=bot['id'])}}" class="btn btn-danger"><i class="fa fa-trash-alt fa-2x"></i></a>
+        {% if bot["status"] == "RUNNING" %}
+        <a href="{{url_for('bots.pause', id=bot['id'])}}" class="btn btn-success"><i class="fa fa-pause-circle fa-2x"></i></a>
+        {% elif bot["status"] == "PAUSED" %}
+        <a href="{{url_for('bots.play', id=bot['id'])}}" class="btn btn-success"><i class="fa fa-play-circle fa-2x"></i></a>
+        {%endif%}
+        {% include "_editbot.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+{% include "orders.html" %}
+
+  {% include "includes/footer.html" %}
+  <!-- <script src="/static/js/script.js"></script> -->
+  <!-- <script src="../../static/js/script.js"></script> -->
+  <!-- <script src="../../static/js/jquery.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+<script src="../../static/js/all.js"></script> -->
+  {% endblock content %}
+
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}
+
+  {% endblock javascripts %}

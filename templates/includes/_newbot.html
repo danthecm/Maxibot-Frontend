@@ -1,0 +1,131 @@
+<button type="button" class="btn btn-md btn-neutral" data-toggle="modal" data-target="#modal-form">New Bot</button>
+<div class="col-md-4">
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card bg-gradient-primary border-0 mb-0">
+                        <div class="card-header bg-transparent pb-2">
+                            <div class="text-white font-weight-bolder text-center mt-2 mb-0">Create New Bot
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-4 py-lg-4">
+                            <form role="form" method="POST" action="{{url_for('bots.add')}}">
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-money-coins"></i></span>
+                                        </div>
+                                        <select id="pairs" class="form-control" name="pairs" required>
+                                            <option value="none" selected disabled hidden>Select Pairs</option>
+                                            {% for pairs in symbols %}
+                                                <option value="{{pairs}}">{{pairs}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-brain"></i></span>
+                                        </div>
+                                        <select id="strategy" class="form-control" name="strategy" required>
+                                            <option value="none" selected disabled hidden>Select Strategy</option>
+                                            <option value="Grid">Grid Strategy</option>
+                                            <option value="AC">Average/Current Strategy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="{{platform['id']}}" name="platform_id" >
+                                <div class="form-group mb-2 d-none grid_st">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="first_grid"
+                                            placeholder="First Grid">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 d-none grid_st">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="grid_int"
+                                            placeholder="Other Grid Percents">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 d-none ac">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="average_margin"
+                                            placeholder="Enter Average Margin Percent">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 d-none ac">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" class="form-control" name="current_margin"
+                                            placeholder="Enter Current Margin Percent">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 d-none ac">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-sort-amount-down"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" name="trades" placeholder="Enter Number of Trades ">
+                                    </div>
+                                </div>
+                                {% if session["platform"]["name"] == "Binance"%}
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-pound-sign"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" min="10.5" class="form-control" name="amount"
+                                            placeholder="Enter Amount" required>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-pound-sign"></i></span>
+                                        </div>
+                                        <input type="number" step="0.01" min="0.001" class="form-control" name="quantity"
+                                            placeholder="Enter Quantity" required>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <div class="input-group input-group-merge input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
+                                        </div>
+                                        <input type="number" min="0.01" max="100" step="0.01" class="form-control" name="sell_margin" placeholder="Enter Sell Margin Percent" required>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success my-4">Start</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/script.js"></script>
+<!-- <script src="../../static/js/script.js"></script>
+<script src="../../static/js/jquery.js"></script>
+<script src="../../static/js/bootstrap.js"></script>
+<script src="../../static/js/all.js"></script> -->

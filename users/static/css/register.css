@@ -1,0 +1,34 @@
+body {
+    background: url("../img/algo4.png") center/cover no-repeat;
+    background-size: cover;
+  }
+
+.card {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #ffff;
+}
+
+label {
+  font-weight: 600;
+}
+.heading {
+  font-weight: bolder;
+}
+*[role="form"] {
+    max-width: 530px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+    background-color: rgba(225, 225, 225, 0.9);
+  }
+
+*[role="form"] h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    color: #000000;
+    margin-top: 5%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }

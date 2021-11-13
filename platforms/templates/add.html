@@ -1,0 +1,67 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="static/css/all.css">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css">
+  <link rel="stylesheet" href="static/css/register.css">
+  <meta name="viewport" content="width=device-width">
+  <title>PLATFORMS</title>
+
+</head>
+
+<body>
+  <div class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card row">
+          <div class="card-header heading">
+            Hi {{current_user.name}} Register a new Platform
+          </div>
+          {% include "includes/_messages.html" %}
+          {% from "includes/_formhelpers.html" import render_field %}
+          <div class="card-body">
+            <form class="form-horizontal" method="post" action="{{url_for('platforms.add')}}">
+              {{render_field(form.name, "brain", my_id="platform", class="form-control", placeholder="Select platform")}}
+              {{render_field(form.api_key, "lock", class="form-control", placeholder="Enter your API KEY")}}
+              {{render_field(form.secret_key, "lock", class="form-control", placeholder="Enter your SECRET KEY")}}
+              {{render_field(form.passphrase, "lock", my_id="passphrase", class="form-control", placeholder="Enter your SECRET KEY")}}
+              <!-- <div class="form-group mb-2 d-none" id="passphrase">
+                <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="text" class="form-control" name="passphrase" placeholder="Enter your PASSPHRASE">
+                </div>
+              </div> -->
+              <div class="form-group ">
+                <button id="submit" type="submit"
+                  class="btn btn-success btn-lg btn-block login-button">CREATE</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/js/all.min.js"></script>
+  <script>
+    platformBtn = document.querySelector("#platform")
+    passphrase = document.querySelector("#passphrase")
+
+    togglePass = () => {
+      if (platformBtn.value == "Binance"){
+        passphrase.classList.add("d-none")
+        passphrase.classList.remove("d-block")
+      }
+      else if (platformBtn.value == "Coinbase Pro") {
+        passphrase.classList.remove("d-none")
+        passphrase.classList.add("d-block")
+      }
+    }
+
+    platformBtn.addEventListener("change", togglePass)
+  </script>
+</body>
+
+</html>

@@ -6,6 +6,7 @@ remove_element = (array) => {
     array.forEach(element => {
         element.classList.remove("d-block")
         element.classList.add("d-none")
+        element.firstElementChild.lastElementChild.value = 0
     })
 }
 
@@ -13,6 +14,7 @@ add_element = (array) => {
     array.forEach(element => {
         element.classList.remove("d-none")
         element.classList.add("d-block")
+        element.firstElementChild.lastElementChild.value = ""
     })
 }
 
