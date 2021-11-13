@@ -12,7 +12,7 @@ from requests.exceptions import ConnectionError
 
 
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://127.0.0.1:5000")
+    "MAXIBOT_BACKEND", "http://132.226.211.117")
 bots_blueprint = Blueprint("bots", __name__, template_folder="templates")
 
 

@@ -1,7 +1,9 @@
 from flask import session
 from flask_login import UserMixin
-import requests
+import requests, os
 
+maxi_backend = os.environ.get(
+    "MAXIBOT_BACKEND", "http://132.226.211.117")
 class User(UserMixin):
     def __init__(self, id, name, email, phone, status, platforms, access_token=None, refresh_token=None):
         self.id = id
@@ -16,7 +18,7 @@ class User(UserMixin):
     @classmethod
     def get(cls, user_id):
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
-        req = requests.get(f"http://127.0.0.1:5000/user/{user_id}", headers=headers)
+        req = requests.get(f"{maxi_backend}/user/{user_id}", headers=headers)
         if req.status_code == 200:
             response = req.json()
             user = cls(**response)

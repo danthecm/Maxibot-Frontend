@@ -23,7 +23,7 @@ login_manager.init_app(app)
 # app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 # app.config['CELERY_BROKER_URL'] = broker_url
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://127.0.0.1:5000/")
+    "MAXIBOT_BACKEND", "http://132.226.211.117")
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(platform_blueprint, url_prefix="/platform")

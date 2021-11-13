@@ -23,7 +23,7 @@ def load_user(user_id):
     return User.get(user_id)
 
 maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://127.0.0.1:5000")
+    "MAXIBOT_BACKEND", "http://132.226.211.117")
 
 @users_blueprint.route("/register", methods=["POST", "GET"])
 def register():
