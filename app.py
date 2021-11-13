@@ -164,6 +164,7 @@ def edit_trade(_id):
             flash("Error updating trade", "danger")
     return render_template("update.html", trade=trade, user= user,balance=get_asset_balance)
 
+login_manager.init_app(app)
+
 if __name__ == "__main__":
-    login_manager.init_app(app)
     app.run(debug=True, port=8080)
