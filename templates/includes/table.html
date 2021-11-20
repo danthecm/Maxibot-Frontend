@@ -13,7 +13,11 @@
                 <th scope="col" class="sort" data-sort="name display-2">Strategy</th>
                 <th scope="col" class="sort" data-sort="budget">Pairs</th>
                 <th scope="col" class="sort" data-sort="budget">C Price</th>
+                {% if current_user.active_platform["name"] == "Coinbase Pro" %}
+                <th scope="col" class="sort" data-sort="budget">Quantity</th>
+                {% else %}
                 <th scope="col" class="sort" data-sort="budget">Amount</th>
+                {% endif %}
                 <th scope="col" class="sort" data-sort="status">Sell P</th>
                 <th scope="col" class="sort" data-sort="completion">Status</th>
                 <th scope="col"></th>
