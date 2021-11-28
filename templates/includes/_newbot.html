@@ -37,26 +37,6 @@
                                     </div>
                                 </div>
                                 <input type="hidden" value="{{platform['id']}}" name="platform_id" >
-                                {% if session["platform"]["name"] == "Binance%}
-                                <div class="form-group mb-2 d-none grid_st">
-                                    <div class="input-group input-group-merge input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                                        </div>
-                                        <input type="number" step="0.01" class="form-control" name="first_grid"
-                                            placeholder="First Grid">
-                                    </div>
-                                </div>
-                                <div class="form-group mb-2 d-none grid_st">
-                                    <div class="input-group input-group-merge input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-percent"></i></span>
-                                        </div>
-                                        <input type="number" step="0.01" class="form-control" name="grid_int"
-                                            placeholder="Other Grid Percents">
-                                    </div>
-                                </div>
-                                {% else %}
                                 <div class="form-group mb-2 d-none grid_st">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend">
@@ -71,17 +51,16 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-percent"></i></span>
                                         </div>
-                                        <input type="number" step="0.0001" class="form-control" name="grid_int"
+                                        <input type="number" step="0.00001" class="form-control" name="grid_int"
                                             placeholder="Other Grid Percents">
                                     </div>
                                 </div>
-                                {%endif%}
                                 <div class="form-group mb-2 d-none ac">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-percent"></i></span>
                                         </div>
-                                        <input type="number" step="0.01" class="form-control" name="average_margin"
+                                        <input type="number" step="0.00001" class="form-control" name="average_margin"
                                             placeholder="Enter Average Margin Percent">
                                     </div>
                                 </div>
@@ -90,7 +69,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-percent"></i></span>
                                         </div>
-                                        <input type="number" step="0.01" class="form-control" name="current_margin"
+                                        <input type="number" step="0.00001" class="form-control" name="current_margin"
                                             placeholder="Enter Current Margin Percent">
                                     </div>
                                 </div>
