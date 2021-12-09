@@ -19,6 +19,8 @@
                 <th scope="col" class="sort" data-sort="budget">Amount</th>
                 {% endif %}
                 <th scope="col" class="sort" data-sort="status">Sell P</th>
+                <th scope="col" class="sort" data-sort="status">First Grid</th>
+                <th scope="col" class="sort" data-sort="status">Grid Interval</th>
                 <th scope="col" class="sort" data-sort="completion">Status</th>
                 <th scope="col"></th>
             </tr>
@@ -50,6 +52,12 @@
                 {% endif %}
                 <td width="10%">
                     {{ bot["sell_margin"] }}
+                </td>
+                <td width="10%">
+                    {{ bot["first_grid"] }}
+                </td>
+                <td width="10%">
+                    {{ bot["grid_int"] }}
                 </td>
                 <td width="10%">
                     {{ bot["status"] }}
