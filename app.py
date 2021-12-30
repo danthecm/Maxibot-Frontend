@@ -8,6 +8,9 @@ import requests
 
 from functions import get_asset_balance, get_order
 from binance.client import Client
+from dotenv import load_dotenv
+load_dotenv()
+
 
 
 from users.views import users_blueprint
@@ -22,8 +25,7 @@ app.jinja_env.add_extension('jinja2.ext.do')
 login_manager.init_app(app)
 # app.config['CELERY_RESULT_BACKEND'] = 'db+mysql://admin:maxitest@maxitest.cepigw2nhp7p.us-east-2.rds.amazonaws.com/MaxiBot'
 # app.config['CELERY_BROKER_URL'] = broker_url
-maxi_backend = os.environ.get(
-    "MAXIBOT_BACKEND", "http://132.226.211.117")
+maxi_backend = os.getenv("MAXIBOT_BACKEND")
 
 app.register_blueprint(users_blueprint)
 app.register_blueprint(platform_blueprint, url_prefix="/platform")
