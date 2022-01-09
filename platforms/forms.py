@@ -4,7 +4,7 @@ from wtforms import validators as v
 class PlatformForm(Form):
     name = SelectField(
         'PLATFORM',
-        choices=[("Binance", "Binance"), ("Coinbase Pro", "Coinbase Pro")],
+        choices=[("Binance", "Binance"), ("Coinbase Pro", "Coinbase Pro"), ("Kraken", "Kraken")],
         validators=[v.input_required()]
         )
     api_key = PasswordField(

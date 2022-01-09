@@ -6,11 +6,10 @@ from flask_login import login_required, current_user
 
 from requests.exceptions import ConnectionError
 from platforms.forms import PlatformForm
-from binance.client import Client
-from binance.exceptions import BinanceAPIException
 
 
-maxi_backend = os.environ.get(
+
+maxi_backend =os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
 platform_blueprint = Blueprint("platforms", __name__, template_folder="templates", static_folder="static")
 
@@ -26,7 +25,14 @@ def add():
         passphrase = request.form["passphrase"]
         print(name, api_key, secret_key, passphrase)
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
+        all_names = [x["name"] for x in current_user.platforms]
+        if name in all_names:
+            flash(f"You've already registered for this platform {name}", "warning")
+            return redirect(url_for("users.dashboard"))
+
         if name == "Binance":
+            from binance.client import Client
+            from binance.exceptions import BinanceAPIException
             try:
                 client = Client(api_key, secret_key)
                 info = client.get_account()
@@ -52,9 +58,21 @@ def add():
             if message["message"] == "Invalid API Key":
                 flash(f"Invalid credentials for {name}", "danger")
                 return redirect(url_for("platforms.add"))
+        elif name == "Kraken":
+            from krakenex import API
+            try:
+                client = API(api_key, secret_key)
+                query = client.query_private("OpenOrders")
+                print(query)
+                if query.get("error"):
+                    flash(f"Invalid credentials for {name}", "danger")
+                    return redirect(url_for("platforms.add"))
+            except Exception as e:
+                flash(f"There was an error in your code {e}", "warning")
+                return redirect(url_for("platforms.add"))
         new_platform = {"user_id": session["user_id"], "name": name, "api_key": api_key, "secret_key": secret_key, "passphrase": passphrase}
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
-        # new_platform = json.dump(new_platform)
+        new_platform = json.dump(new_platform)
         req = requests.post(f"{maxi_backend}/new_platform", json=new_platform, headers=headers)
         if req.status_code == 201:
             flash("Platform successfully registered")

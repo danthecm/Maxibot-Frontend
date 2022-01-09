@@ -11,7 +11,7 @@ from flask_login import login_required, current_user
 from requests.exceptions import ConnectionError
 
 
-maxi_backend = os.environ.get(
+maxi_backend = os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
 bots_blueprint = Blueprint("bots", __name__, template_folder="templates")
 

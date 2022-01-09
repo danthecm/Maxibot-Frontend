@@ -152,7 +152,7 @@
                   <a class="dropdown-item" href="{{url_for('platforms.switch', name=plat['name'])}}">{{plat["name"]}}</a>
                 {% endif %}
               {% endfor %}
-              {% if current_user.platforms|length == 1 %}
+              {% if current_user.platforms|length < 3 %}
               <a class="dropdown-item text-primary text-center" href="{{url_for('platforms.add')}}"><i class="fa fa-plus"></i> Add New</a>
               {% endif %}
             </div>

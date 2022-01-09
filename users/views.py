@@ -22,7 +22,7 @@ users_blueprint = Blueprint("users", __name__, template_folder="templates")
 def load_user(user_id):
     return User.get(user_id)
 
-maxi_backend = os.environ.get(
+maxi_backend = os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
 
 @users_blueprint.route("/register", methods=["POST", "GET"])

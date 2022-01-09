@@ -2,7 +2,7 @@ from flask import session
 from flask_login import UserMixin
 import requests, os
 
-maxi_backend = os.environ.get(
+maxi_backend = os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
 class User(UserMixin):
     def __init__(self, id, name, email, phone, status, platforms, access_token=None, refresh_token=None):
