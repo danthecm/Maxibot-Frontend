@@ -6,10 +6,11 @@ from requests import api
 from werkzeug.datastructures import Authorization
 from login import login_manager
 
-from functions import is_safe_url, get_asset_balance, get_balance_coinbase
+from functions import is_safe_url, get_asset_balance, get_balance_coinbase, get_kraken_balance
 import requests, os
 from cbpro import AuthenticatedClient
 from binance import Client
+from krakenex import API
 
 from requests.exceptions import ConnectionError
 from requests.auth import AuthBase
@@ -171,20 +172,28 @@ def dashboard(num=1):
             client = AuthenticatedClient(api_key, secret_key, passphrase)
             all_products = client.get_products()
             symbols = [product['id'] for product in all_products]
-            symbols = list(filter(lambda x: "GBP" in x or "USDT" in x or "EUR" in x, symbols))
+            symbols = list(filter(lambda x: "GBP" in x or "USD" in x or "EUR" in x, symbols))
             symbols.sort()
             # print(symbols)
         elif platform["name"] == "Binance":
             #####################################################
             ############ GET ALL COINS FROM BINANCE #############
             #####################################################
-            client = Client(platform["api_key"], platform["secret_key"])
+            client = Client(platform.get("api_key"), platform.get("secret_key"))
             sym_req = requests.get("https://api.binance.com/api/v1/exchangeInfo")
             response = sym_req.json()
             symbols = response["symbols"]
             symbols = [x["symbol"] for x in symbols]
             symbols = list(filter(lambda x: "GBP" in x or "USDT" in x or "EUR" in x, symbols))
             symbols.sort()
+        
+        elif platform["name"] == "Kraken":
+            client = API(platform.get("api_key"), platform.get("secret_key"))
+            symbols = client.query_public("AssetPairs")
+            symbols = list(symbols.get("result").keys())
+            symbols = list(filter(lambda x: "GBP" in x or "USD" in x or "EUR" in x, symbols))
+            symbols.sort()
+
         else:
             symbols = []
 
@@ -194,6 +203,6 @@ def dashboard(num=1):
         # flash("There is an error in the application just give us some time to fix it", "danger")
         return abort(500)
     else:
-        return render_template("index.html",client=client,coinbase_balance=get_balance_coinbase, binance_balance=get_asset_balance, symbols=symbols, pagination=pagination, my_bots=my_bots)
+        return render_template("index.html", client=client, coinbase_balance=get_balance_coinbase, binance_balance=get_asset_balance, kraken_balance=get_kraken_balance, symbols=symbols, pagination=pagination, my_bots=my_bots)
     # return render_template("index.html",user= user, trades=trades, page_iter = page_iter, round=round, float=float, balance=get_asset_balance, symbols=symbols, pagination=pagination)
         # return render_template("index.html", balance= get_asset_balance, trades=trades,round=round, float=float, pagination=pagination, symbols=symbols)

@@ -72,7 +72,6 @@ def add():
                 return redirect(url_for("platforms.add"))
         new_platform = {"user_id": session["user_id"], "name": name, "api_key": api_key, "secret_key": secret_key, "passphrase": passphrase}
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
-        new_platform = json.dump(new_platform)
         req = requests.post(f"{maxi_backend}/new_platform", json=new_platform, headers=headers)
         if req.status_code == 201:
             flash("Platform successfully registered")
