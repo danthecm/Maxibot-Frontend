@@ -167,7 +167,6 @@ def dashboard(num=1):
             symbols = [product['id'] for product in all_products]
             symbols = list(filter(lambda x: "GBP" in x or "USD" in x or "EUR" in x, symbols))
             symbols.sort()
-            # print(symbols)
         elif platform["name"] == "Binance":
             #####################################################
             ############ GET ALL COINS FROM BINANCE #############
