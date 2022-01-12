@@ -37,11 +37,7 @@ def register():
         try:
             req = requests.post(
                 f"{maxi_backend}/register", json=my_form, headers={"Content-Type": "application/json"})
-            print(req.status_code)
             response = req.json()
-            print(response)
-            # response = response.decode("UTF-8")
-            # response = json.loads(response)
             if req.status_code == 201:
                 flash("You were successfully registered kindly login", "success")
                 return redirect(url_for("users.login"))
@@ -79,7 +75,6 @@ def login():
         try:
             req = requests.post(f"{maxi_backend}/login", json={"email": email, "password": password_candidate}, headers={"Content-Type": "application/json"})
         except ConnectionError as e:
-            print("There was an error connecting to the server")
             flash("There is an issue with the server try again", "warning")
         else:
             response = req.json()
@@ -158,7 +153,6 @@ def dashboard(num=1):
                 for item in list:
                     name.append(item)
         append_list(my_bots,[active_bot,paused_bot,stopped_bots, error_bots])
-        print(len(my_bots[pagination.per_page * (num - 1):(pagination.per_page * num)]))
         my_bots = my_bots[(pagination.per_page * (num - 1)):(pagination.per_page * num)]
         pagination.active = len(active_bot)
         pagination.paused = len(paused_bot)
