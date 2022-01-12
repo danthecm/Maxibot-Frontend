@@ -23,11 +23,9 @@ def add():
         api_key = request.form["api_key"]
         secret_key = request.form["secret_key"]
         passphrase = request.form["passphrase"]
-        print(name, api_key, secret_key, passphrase)
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
         all_names = [x["name"] for x in current_user.platforms]
         if name in all_names:
-            # print(f"The name entered is {name}")
             flash(f"You've already registered for this platform {name}", "warning")
             return redirect(url_for("users.dashboard"))
 
@@ -64,7 +62,6 @@ def add():
             try:
                 client = API(api_key, secret_key)
                 query = client.query_private("OpenOrders")
-                print(query)
                 if query.get("error"):
                     flash(f"Invalid credentials for {name}", "danger")
                     return redirect(url_for("platforms.add"))
@@ -94,26 +91,4 @@ def switch(name):
     for platform in all_platforms:
         if platform["name"] == name:
             session["platform"] = platform
-            print(platform)
-    print(name)
     return redirect(url_for("users.dashboard"))
-
-@platform_blueprint.route("/test")
-@login_required
-def test():
-    
-    url = "https://api.exchange.coinbase.com/accounts"
-
-    headers = {
-                "Accept": "application/json",
-                "cb-access-key": current_user.access_token,
-                "cb-access-passphrase": current_user.passphrase,
-                "cb-access-sign": current_user.secret_key,
-                "cb-access-timestamp": t.time()
-            }
-
-    response = requests.get(url, headers=headers)
-    print(response.text)
-    print(response.json())
-
-    print(response.text)

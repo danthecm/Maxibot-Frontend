@@ -24,21 +24,10 @@ def get_kraken_balance(client, currency):
     result = client.query_private("Balance")["result"]
     return float(result.get(currency, 0))
 
-def get_order(api_key, secret_key, pairs, order_id):
-    try:
-        client = Client(api_key, secret_key)
-        order = client.get_order(
-            symbol=pairs,
-            orderId=order_id)
-        return order
-    except Exception as e:
-        print(e)
-
 def get_all_order(api_key, secret_key):
     try:
         client = Client(api_key, secret_key)
         order = client.get_all_orders(symbol="CHZGBP")
-        print(order)
         return order
     except Exception as e:
         print(e)

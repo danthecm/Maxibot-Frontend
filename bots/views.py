@@ -45,7 +45,6 @@ def add():
         else:
             flash(f"{bot_req.text}", "warning")
     except Exception as e:
-        print(e)
         flash("There was an error creating a new bot", "danger")
     return redirect(url_for("users.dashboard"))
 
@@ -63,10 +62,8 @@ def view(id):
 def edit(id):
     data = request.form
     json_data = {**data}
-    print(json_data)
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     edit_req = requests.put(f"{maxi_backend}/bot/{id}", headers=headers, json=json_data)
-    print(edit_req.status_code)
     flash("Successfully updated the bot info", "success")
     return redirect(url_for("bots.view", id=id))
 
