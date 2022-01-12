@@ -8,8 +8,6 @@ from login import login_manager
 
 from functions import is_safe_url, get_asset_balance, get_balance_coinbase, get_kraken_balance
 import requests, os
-from cbpro import AuthenticatedClient
-from binance import Client
 from krakenex import API
 
 from requests.exceptions import ConnectionError
@@ -166,6 +164,7 @@ def dashboard(num=1):
         pagination.paused = len(paused_bot)
         # print(platform["bots"])
         if platform["name"] == "Coinbase Pro":
+            from cbpro import AuthenticatedClient
             api_key = platform.get("api_key")
             secret_key = platform.get("secret_key")
             passphrase = platform.get("passphrase")
@@ -179,6 +178,7 @@ def dashboard(num=1):
             #####################################################
             ############ GET ALL COINS FROM BINANCE #############
             #####################################################
+            from binance import Client
             client = Client(platform.get("api_key"), platform.get("secret_key"))
             sym_req = requests.get("https://api.binance.com/api/v1/exchangeInfo")
             response = sym_req.json()

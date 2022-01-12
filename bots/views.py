@@ -3,9 +3,6 @@ from flask import Blueprint, redirect, url_for, render_template, request, flash,
 import requests, os
 import time as t
 
-from binance import Client
-from cbpro import PublicClient
-
 from flask_login import login_required, current_user
 
 from requests.exceptions import ConnectionError
@@ -24,13 +21,22 @@ def add():
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     try:
         if session["platform"]["name"] == "Binance":
+            from binance import Client
             client = Client()
             current_price = client.get_symbol_ticker(symbol=my_json["pairs"])
+            current_price = float(current_price["price"])
         elif session["platform"]["name"] == "Coinbase Pro":
+            from cbpro import PublicClient
             client = PublicClient()
             current_price = client.get_product_ticker(my_json["pairs"])
-        current_price = float(current_price["price"])
-        print(current_price)
+            current_price = float(current_price["price"])
+        elif session["platform"]["name"] == "Kraken":
+            from krakenex import API
+            client = API()
+            pairs = my_json.get("pairs")
+            current_price_query = client.query_public("Ticker", {"pair": pairs})
+            current_price_query = current_price_query.get("result")
+            current_price = float(current_price_query.get(pairs).get("c")[0])
         my_json["current_price"] = current_price
         my_json["status"] = "RUNNING"
         bot_req = requests.post(f"{maxi_backend}/new_bot", json=my_json, headers=headers)

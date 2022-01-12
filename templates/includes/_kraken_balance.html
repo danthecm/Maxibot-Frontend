@@ -32,7 +32,7 @@
             <div class="col">
               <h5 class="card-title text-uppercase text-muted mb-0">ETH BALANCE</h5>
               <span class="h2 font-weight-bold mb-0">
-                {{coinbase_balance(client, "ETH")}}
+                {{kraken_balance(client, "ETH")}}
               </span>
             </div>
             <div class="col-auto">
@@ -56,7 +56,7 @@
             <div class="col">
               <h5 class="card-title text-uppercase text-muted mb-0">CHZ BALANCE</h5>
               <span class="h2 font-weight-bold mb-0">
-                {{coinbase_balance(client, "CHZ")}}
+                {{kraken_balance(client, "CHZ")}}
               </span>
             </div>
             <div class="col-auto">
@@ -80,7 +80,7 @@
             <div class="col">
               <h5 class="card-title text-uppercase text-muted mb-0">BTC BALANCE</h5>
               <span class="h2 font-weight-bold mb-0">
-                {{coinbase_balance(client, "BTC")| float | round(4)}}
+                {{kraken_balance(client, "BTC")| float | round(4)}}
               </span>
             </div>
             <div class="col-auto">

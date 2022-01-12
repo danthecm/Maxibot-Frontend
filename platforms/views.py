@@ -27,6 +27,7 @@ def add():
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
         all_names = [x["name"] for x in current_user.platforms]
         if name in all_names:
+            # print(f"The name entered is {name}")
             flash(f"You've already registered for this platform {name}", "warning")
             return redirect(url_for("users.dashboard"))
 
@@ -74,7 +75,7 @@ def add():
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session['access_token']}"}
         req = requests.post(f"{maxi_backend}/new_platform", json=new_platform, headers=headers)
         if req.status_code == 201:
-            flash("Platform successfully registered")
+            flash("Platform successfully registered", "success")
             session["platform"] = current_user.platforms[0]
             return redirect(url_for("users.dashboard"))
         else:

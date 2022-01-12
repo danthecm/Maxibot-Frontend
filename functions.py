@@ -22,7 +22,7 @@ def get_balance_coinbase(client, currency):
 
 def get_kraken_balance(client, currency):
     result = client.query_private("Balance")["result"]
-    return round(float(result.get(currency, 0), 6))
+    return float(result.get(currency, 0))
 
 def get_order(api_key, secret_key, pairs, order_id):
     try:
