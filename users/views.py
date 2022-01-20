@@ -181,7 +181,7 @@ def dashboard(num=1):
             symbols.sort()
         
         elif platform["name"] == "Kraken":
-            client = API(platform.get("api_key"), platform.get("secret_key"))
+            client = API()
             symbols = client.query_public("AssetPairs")
             symbols = list(symbols.get("result").keys())
             symbols = list(filter(lambda x: "GBP" in x or "USD" in x or "EUR" in x, symbols))

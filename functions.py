@@ -21,8 +21,9 @@ def get_balance_coinbase(client, currency):
     return balance[currency]["available"]
 
 def get_kraken_balance(client, currency):
-    result = client.query_private("Balance")["result"]
-    return float(result.get(currency, 0))
+    # result = client.query_private("Balance")["result"]
+    # return float(result.get(currency, 0))
+    return "not found"
 
 def get_all_order(api_key, secret_key):
     try:
