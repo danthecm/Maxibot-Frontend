@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, url_for, render_template, request, flash, session, abort
 
-from flask_paginate import Pagination, get_page_parameter
+from flask_paginate import Pagination
 from flask_login import login_required, login_user, logout_user, current_user
 from requests import api
 from werkzeug.datastructures import Authorization

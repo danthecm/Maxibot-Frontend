@@ -4,6 +4,7 @@ import requests, os
 import time as t
 
 from flask_login import login_required, current_user
+from flask_paginate import Pagination
 
 from requests.exceptions import ConnectionError
 
@@ -49,13 +50,19 @@ def add():
     return redirect(url_for("users.dashboard"))
 
 @bots_blueprint.route("/<int:id>")
+@bots_blueprint.route("/<int:id>/<int:page>")
 @login_required
-def view(id):
-    id = id
+def view(id, page=1):
     bot_req = requests.get(f"{maxi_backend}/bot/{id}")
     if bot_req.status_code == 200:
         bot = bot_req.json()
-        return render_template("bot.html", bot=bot)
+        orders = []
+        orders.append(list(filter(lambda x:x["status"] == "OPEN", bot.get("orders"))))
+        orders.append(list(filter(lambda x:x["status"] == "CLOSED", bot.get("orders"))))
+        orders.append(list(filter(lambda x: x["status"] == "FILLED", bot.get("orders"))))
+        pagination = Pagination(page=page, per_page=5, total=len(my_orders), record_name='orders')
+        my_orders = orders[(pagination.per_page * (page - 1)):(pagination.per_page * page)]
+        return render_template("bot.html", bot=bot, order=my_orders, pagination=pagination)
 
 @bots_blueprint.route("/edit/<int:id>", methods=["POST"])
 @login_required
