@@ -57,9 +57,9 @@ def view(id, page=1):
     if bot_req.status_code == 200:
         bot = bot_req.json()
         orders = []
-        orders.append(list(filter(lambda x:x["status"] == "OPEN", bot.get("orders"))))
-        orders.append(list(filter(lambda x:x["status"] == "CLOSED", bot.get("orders"))))
-        orders.append(list(filter(lambda x: x["status"] == "FILLED", bot.get("orders"))))
+        empty = [orders.append(x) for x in list(filter(lambda x:x["status"] == "open", bot.get("orders")))]
+        empty = [orders.append(x) for x in list(filter(lambda x:x["status"] == "close", bot.get("orders")))]
+        empty = [orders.append(x) for x in list(filter(lambda x: x["status"] == "filled", bot.get("orders")))]
         pagination = Pagination(page=page, per_page=5, total=len(orders), record_name='orders')
         my_orders = orders[(pagination.per_page * (page - 1)):(pagination.per_page * page)]
         return render_template("bot.html", bot=bot, order=my_orders, pagination=pagination)
