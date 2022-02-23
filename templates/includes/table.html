@@ -13,8 +13,9 @@
                 <th scope="col" class="sort" data-sort="name display-2">Logic</th>
                 <th scope="col" class="sort" data-sort="budget">Pairs</th>
                 <th scope="col" class="sort" data-sort="budget">C Price</th>
-                {% if current_user.active_platform["name"] == "Coinbase Pro" %}
+                {% if current_user.active_platform["name"] == "Coinbase Pro"%}
                 <th scope="col" class="sort" data-sort="budget">Quantity</th>
+                <th scope="col" class="sort" data-sort="budget">Amount</th>
                 {% else %}
                 <th scope="col" class="sort" data-sort="budget">Amount</th>
                 {% endif %}
@@ -44,6 +45,9 @@
                 {% if current_user.active_platform["name"] == "Coinbase Pro" %}
                 <td width="10%">
                     {{ bot["quantity"] }}
+                </td>
+                <td width="10%">
+                    {{ bot["amount"] }}
                 </td>
                 {% else %}
                 <td width="10%">
