@@ -25,8 +25,9 @@
         {% if bot["status"] == "RUNNING" %}
         <a href="{{url_for('bots.pause', id=bot['id'])}}" class="btn btn-success"><i class="fa fa-pause-circle fa-2x"></i></a>
         {% elif bot["status"] == "PAUSED" %}
-        <a href="{{url_for('bots.play', id=bot['id'])}}" class="btn btn-success"><i class="fa fa-play-circle fa-2x"></i></a>
+        <a href="{{url_for('bots.play', id=bot['id'])}}" class="btn btn-primary"><i class="fa fa-play-circle fa-2x"></i></a>
         {%endif%}
+        <a href="{{url_for('bots.reset', id=bot['id'])}}" class="btn btn-warning"><i class="fa fa-refresh fa-2x"></i></a>
         {% include "_editbot.html" %}
       </div>
     </div>
