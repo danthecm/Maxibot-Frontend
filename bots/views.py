@@ -115,3 +115,9 @@ def delete(id):
         return redirect(url_for("bots.view", id=id))
     flash("Bot successfully deleted", "success")
     return redirect(url_for("users.dashboard"))
+
+
+@bots_blueprint.route("/reset/<int:id>")
+@login_required
+def reset(id):
+    pass
