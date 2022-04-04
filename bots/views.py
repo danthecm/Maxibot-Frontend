@@ -120,4 +120,5 @@ def delete(id):
 @bots_blueprint.route("/reset/<int:id>")
 @login_required
 def reset(id):
-    pass
+    _id = id
+    return _id
