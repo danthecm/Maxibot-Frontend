@@ -1,3 +1,5 @@
+from difflib import restore
+from email import header
 from sys import platform
 from flask import Blueprint, redirect, url_for, render_template, request, flash, session, abort
 import requests, os
@@ -11,6 +13,8 @@ from requests.exceptions import ConnectionError
 
 maxi_backend = os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
+
+headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
 bots_blueprint = Blueprint("bots", __name__, template_folder="templates")
 
 
@@ -19,7 +23,6 @@ bots_blueprint = Blueprint("bots", __name__, template_folder="templates")
 def add():
     form = request.form
     my_json = {**form}
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     try:
         if session["platform"]["name"] == "Binance":
             from binance import Client
@@ -74,7 +77,6 @@ def view(id, page=1):
 def edit(id):
     data = request.form
     json_data = {**data}
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     edit_req = requests.put(f"{maxi_backend}/bot/{id}", headers=headers, json=json_data)
     flash("Successfully updated the bot info", "success")
     return redirect(url_for("bots.view", id=id))
@@ -83,7 +85,6 @@ def edit(id):
 @bots_blueprint.route("/pause/<int:id>")
 @login_required
 def pause(id):
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     json = {"status": "PAUSED"}
     pause_req = requests.patch(f"{maxi_backend}/bot/{id}", headers=headers, json=json)
     if pause_req.status_code > 200:
@@ -95,7 +96,6 @@ def pause(id):
 @bots_blueprint.route("/play/<int:id>")
 @login_required
 def play(id):
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     json = {"status": "RUNNING"}
     pause_req = requests.patch(f"{maxi_backend}/bot/{id}", headers=headers, json=json)
     if pause_req.status_code > 200:
@@ -108,7 +108,6 @@ def play(id):
 @bots_blueprint.route("/delete/<int:id>")
 @login_required
 def delete(id):
-    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
     delete_req = requests.delete(f"{maxi_backend}/bot/{id}", headers=headers)
     if delete_req.status_code > 200:
         flash("There was an error deleting this bot", "danger")
@@ -120,5 +119,13 @@ def delete(id):
 @bots_blueprint.route("/reset/<int:id>")
 @login_required
 def reset(id):
-    _id = id
-    return _id
+    json = {"status": "RESET"}
+    reset_req = request.patch(f"{maxi_backend}/bot/{id}", header=headers, json=json)
+    if reset_req.status_code > 200 and id == 0:
+        flash("Error reseting all the bots")
+        return redirect(url_for("users.dashboard"))
+    elif reset_req > 200 and id != 0:
+        flash("Error reseting this bot")
+        return redirect(url_for("bots.view", id=id))
+    flash("Bot successfully reseted")
+    return redirect(url_for("users.dashboard" if id == 0 else "bots.view", id=id))
