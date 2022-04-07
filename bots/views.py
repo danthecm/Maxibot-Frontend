@@ -14,7 +14,7 @@ from requests.exceptions import ConnectionError
 maxi_backend = os.getenv(
     "MAXIBOT_BACKEND", "http://132.226.211.117")
 
-headers = {"Content-Type": "application/json", "Authorization": f"Bearer {current_user.access_token}"}
+headers = {"Content-Type": "application/json", "Authorization": f"Bearer {session["access_token"]}"}
 bots_blueprint = Blueprint("bots", __name__, template_folder="templates")
 
 
@@ -114,7 +114,6 @@ def delete(id):
         return redirect(url_for("bots.view", id=id))
     flash("Bot successfully deleted", "success")
     return redirect(url_for("users.dashboard"))
-
 
 @bots_blueprint.route("/reset/<int:id>")
 @login_required
