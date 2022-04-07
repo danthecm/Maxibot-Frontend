@@ -123,7 +123,7 @@ def reset(id):
     if reset_req.status_code > 200 and id == 0:
         flash("Error reseting all the bots", "error")
         return redirect(url_for("users.dashboard"))
-    elif reset_req > 200 and id != 0:
+    elif reset_req.status_code > 200 and id != 0:
         flash("Error reseting this bot", "error")
         return redirect(url_for("bots.view", id=id))
     flash("Bot successfully reseted", "success")
