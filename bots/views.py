@@ -119,7 +119,7 @@ def delete(id):
 @login_required
 def reset(id):
     json = {"status": "RESET"}
-    reset_req = request.patch(f"{maxi_backend}/bot/{id}", header=headers, json=json)
+    reset_req = requests.patch(f"{maxi_backend}/bot/{id}", header=headers, json=json)
     if reset_req.status_code > 200 and id == 0:
         flash("Error reseting all the bots")
         return redirect(url_for("users.dashboard"))
