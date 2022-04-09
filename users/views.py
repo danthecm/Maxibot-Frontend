@@ -85,9 +85,9 @@ def login():
                 session["logged_in"] = True
                 session["user_id"] = user_id
                 session["access_token"] = access_token
-                os.environ["access_token"] = access_token
                 session["refresh_token"] = refresh_token
                 headers = {"Content-Type": "application/json", "Authorization": f"Bearer {access_token}"}
+                session["headers"] = headers
                 user_req = requests.get(f"{maxi_backend}/user/{user_id}", headers=headers)
                 response = user_req.json()
                 user = User(**response)
