@@ -116,13 +116,13 @@ def delete(id):
 @bots_blueprint.route("/reset/<int:id>")
 @login_required
 def reset(id):
-    json = {"status": "RESET"}
-    reset_req = requests.patch(f"{maxi_backend}/bot/{id}", headers=session["headers"], json=json)
-    if reset_req.status_code > 200 and id == 0:
-        flash("Error reseting all the bots", "danger")
-        return redirect(url_for("users.dashboard"))
-    elif reset_req.status_code > 200 and id != 0:
-        flash("Error reseting this bot", "danger")
-        return redirect(url_for("bots.view", id=id))
-    flash("Bot successfully reseted", "success")
+    # json = {"status": "RESET"}
+    # reset_req = requests.patch(f"{maxi_backend}/bot/{id}", headers=session["headers"], json=json)
+    # if reset_req.status_code > 200 and id == 0:
+    #     flash("Error reseting all the bots", "danger")
+    #     return redirect(url_for("users.dashboard"))
+    # elif reset_req.status_code > 200 and id != 0:
+    #     flash("Error reseting this bot", "danger")
+    #     return redirect(url_for("bots.view", id=id))
+    flash("Bot reset feature is still in progress", "success")
     return redirect(url_for("users.dashboard" if id == 0 else "bots.view", id=id))
